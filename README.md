@@ -3,11 +3,11 @@
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/Ankit628792/TheNeuronClub.git
+   git clone https://github.com/TheNeuronClub/TheNeuron.git
    ```
 2. change directory to TheNeuronClub 
    ```sh
-   cd TheNeuronClub
+   cd TheNeuron
    ```   
 3. Install NPM packages
    ```sh
@@ -20,4 +20,3 @@
    
 Preview on Local system : http://localhost:3000/
 <br />
-Live Preview: https://neuron-club.vercel.app/
