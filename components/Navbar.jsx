@@ -8,7 +8,15 @@ function Navbar() {
     const router = useRouter();
     const [scrolled, setScrolled] = useState(false)
     const [isActive, setIsActive] = useState(false)
-        
+
+    const logout = async () => {
+        window.localStorage.setItem('token', '');
+        const res = await fetch(`/api/account/logout`);
+        if (res.status === 200) {
+            location.reload();
+        }
+    }
+
     const checkScrollTop = () => {
         if (window.pageYOffset > 75) {
             setScrolled(true)
@@ -28,15 +36,13 @@ function Navbar() {
         <>
             <div className={`flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 lg:px-14 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
                 <Link href="/">
-                    {/* <h1 className="text-3xl lg:text-4xl font-bold cursor-pointer">LOGO.</h1> */}
-                    <div className="relative h-12 w-48 cursor-pointer">
+                    <div className="relative h-12 w-48">
                         <Image src="/images/logo.png" layout="fill" objectFit="contain" className="drop-shadow-md overflow-hidden" />
                     </div>
                 </Link>
                 <div className="flex items-center">
                     <ul className="flex hidden md:block space-x-5 pr-6 font-medium text-lg">
                         <Link href="/">Topics</Link>
-                        <Link href="/signup">My Portfolio</Link>
                         <Link href="/how_it_works">How it Works</Link>
                         <Link href="/faq">FAQs</Link>
                         <Link href="/contact">Contact Us</Link>
@@ -55,11 +61,11 @@ function Navbar() {
                         <Link href="/">
                             <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Home</h1>
                         </Link>
-                        <Link href="/">
-                            <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Topics</h1>
-                        </Link>
                         <Link href="/how_it_works">
                             <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >How it Works</h1>
+                        </Link>
+                        <Link href="/privacy_policy">
+                            <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Privacy Policy</h1>
                         </Link>
                         <Link href="/contact">
                             <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Contact us</h1>
