@@ -11,7 +11,8 @@
     }
     body{
       /* background: #e7fdfd; */
-      background: #e6faff;
+      /* background: #e6faff; */
+      background: #f4f9fc;
     }
     .line-clamp-1{
         display: -webkit-box;
@@ -84,7 +85,7 @@
     }
   
     .shape-fill {
-        fill: #e7fdfd;
+        fill: #f4f9fc;
     }
     .policy h1{
       @apply text-2xl mt-10 font-semibold text-gray-700 my-2
@@ -109,12 +110,9 @@
     .footer ul a{
       margin-right: 12px;
     }
-    .footer ul a:nth-child(3){
-      display: inline-block
-    }
 
     .btn{
-        @apply bg-white text-blue-600 py-2 px-4 rounded font-semibold active:scale-95 transition duration-100 ease-in-out
+        @apply bg-white text-blue-600 py-2 px-4 rounded-xl font-semibold active:scale-95 transition duration-100 ease-in-out
     }
     .transition-sm{
       @apply transition-all duration-100 ease-in-out
@@ -132,5 +130,12 @@
     .custom-shape-divider-top-1630316193 svg {
       height: 20px;
     }
+    }
+
+    @media(min-width: 1660px){
+      .question__group{
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        max-width: 92rem;
+      }
     }
 }

@@ -26,7 +26,8 @@ function contact() {
       body: JSON.stringify(data)
     })
 
-    if (res.status === 201) {
+    const response = await res.json();
+    if (response) {
       setIsSent(true)
       setData({
         name: '',
@@ -39,8 +40,7 @@ function contact() {
   return (
     <>
       <div className="relative pt-16">
-        {/* <img loading="lazy" src="https://images.pexels.com/photos/3228766/pexels-photo-3228766.jpeg?auto=compress&amp;cs=tinysrgb&amp;dpr=2&amp;h=750&amp;w=1260" className="absolute inset-0 object-cover w-full h-full" alt="" /> */}
-        <div className="relative bg-opacity-75">
+        <div className="relative">
           <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
             <div className="flex flex-col items-center justify-between lg:flex-row">
               <div className="w-full text-center max-w-xl mb-6 xl:mb-0 xl:pr-16 xl:w-7/12">
@@ -53,10 +53,7 @@ function contact() {
 
               </div>
               <div className="w-full max-w-xl xl:px-8 xl:w-5/12">
-                <div className="bg-white rounded gradient-shadow p-7 sm:p-10">
-                  {/* <h3 className="mb-4 text-xl font-bold sm:text-center sm:mb-6 sm:text-3xl">
-                    Contact Us
-                  </h3> */}
+                <div className="bg-white rounded gradient-shadow p-7 sm:p-10 m-2">
                   <form onSubmit={handleSubmit}>
                     <div className="mb-1 sm:mb-2">
                       <label htmlFor="Name" className="inline-block mb-1 font-medium">Name</label>
