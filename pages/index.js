@@ -10,8 +10,8 @@ export default function Home({ questions }) {
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <Header />
-        <QuestionGroup questions={questions.slice(0, 7)} category={"Trending Topics"} />
-        <QuestionGroup questions={questions.slice(8, 16)} category={"New Topics`"} />
+        <QuestionGroup questions={questions.slice(0, 8)} category={"Trending Topics"} />
+        <QuestionGroup questions={questions.slice(9, 16)} category={"New Topics`"} />
       </div>
     </>
   )
