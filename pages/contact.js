@@ -27,6 +27,7 @@ function contact() {
     })
 
     const response = await res.json();
+    console.log(res.status)
     if (response) {
       setIsSent(true)
       setData({
@@ -104,7 +105,7 @@ function contact() {
           </div>
         </div>
       </div>
-  {isSent && <Modal state={isSent} />}
+      {isSent && <Modal state={isSent} />}
     </>
   )
 }
