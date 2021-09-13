@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Accordion from "../components/Accordion";
 
 function faq() {
@@ -27,6 +28,9 @@ function faq() {
     ];
     return (
         <div>
+            <Head>
+                <title>The Neuron | FAQs</title>
+            </Head>
             <div className="py-20">
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-700 text-center mt-10">Frequently Asked Questions</h1>
                 <div className="h-1 w-48 mx-auto my-3 md:my-5 bg-gray-500"></div>

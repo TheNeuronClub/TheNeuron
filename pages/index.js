@@ -7,7 +7,6 @@ export default function Home({ questions }) {
       <div className="min-h-screen w-full flex flex-col justify-between pb-10">
         <Head>
           <title>The Neuron</title>
-          <link rel="icon" href="/favicon.png" />
         </Head>
         <Header />
         <QuestionGroup questions={questions.slice(0, 8)} category={"Trending Topics"} />

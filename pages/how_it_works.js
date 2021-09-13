@@ -1,3 +1,4 @@
+import Head from 'next/head'
 import Steps from "../components/Steps";
 
 function how_it_works() {
@@ -23,6 +24,9 @@ function how_it_works() {
     ]
     return (
         <>
+        <Head>
+          <title>The Neuron | How it Works</title>
+        </Head>
         <div className="py-10 pt-20">
             <h1 className="mt-20 text-5xl font-bold text-center text-gray-800">How to get Started?</h1>
             <div className="h-1 w-48 mx-auto my-4 bg-gray-600"></div>
