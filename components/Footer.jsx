@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 
 function Footer() {
     const [isCopied, setIsCopied] = useState(false)
+const [displayCopy, setDisplayCopy] = useState(true)
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText("contact@theneuron.club")
@@ -11,7 +12,7 @@ function Footer() {
     }
 
     useEffect(() => {
-        const timer = setTimeout(() => setIsCopied(false), 2000);
+        const timer = setTimeout(() => {setIsCopied(false);setDisplayCopy(false)}, 2000);
           return () => clearTimeout(timer);
     }, [isCopied])
 
@@ -55,7 +56,7 @@ function Footer() {
                         </div>
                     </Link>
                         <div className="footer__social relative" onClick={() => copyToClipboard()}>
-                            {isCopied ? <span>Email Copied</span> : <span className="copy__email">Copy Email</span>}
+                            {isCopied ? <span>Email Copied</span> : <span className={`copy__email ${!displayCopy && 'hidden'}`}>Copy Email</span>}
                             <svg className="" viewBox="0 0 24 24" aria-hidden="true" tabIndex="-1" title="Mail"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
                         </div>
                 </ul>
