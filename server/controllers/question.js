@@ -24,7 +24,7 @@ const getQuestions = async (req, res) => {
 const ques = async (req, res) => {
     try {
         const trending = await Question.find({qstatus: 'verified'}).sort({ Volume: -1 }).limit(8);
-        const newest = await Question.find({qstatus: 'verified'}).sort({ id: -1 }).limit(8);
+        const newest = await Question.find({qstatus: 'verified'}).sort({ _id: -1 }).limit(8);
         res.status(200).send({ trending, newest })
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
