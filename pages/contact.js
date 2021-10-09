@@ -41,7 +41,7 @@ function contact() {
   }
   return (
     <>
-    <Head>
+      <Head>
         <title>The Neuron | Contact</title>
       </Head>
       <div className="relative pt-16">
@@ -61,7 +61,7 @@ function contact() {
                 <div className="bg-white rounded gradient-shadow p-7 sm:p-10 m-2">
                   <form onSubmit={handleSubmit}>
                     <div className="mb-1 sm:mb-2">
-                      <label htmlFor="Name" className="inline-block mb-1 font-medium">Name</label>
+                      <label htmlFor="Name" className="inline-block mb-1 font-medium">Name<span className="mx-1 text-red-500">*</span></label>
                       <input
                         placeholder="John Doe"
                         required
@@ -74,7 +74,7 @@ function contact() {
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">
-                      <label htmlFor="email" className="inline-block mb-1 font-medium">E-mail</label>
+                      <label htmlFor="email" className="inline-block mb-1 font-medium">E-mail<span className="mx-1 text-red-500">*</span></label>
                       <input
                         placeholder="john.doe@example.com"
                         required
@@ -87,7 +87,7 @@ function contact() {
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">
-                      <label htmlFor="message" className="inline-block mb-1 font-medium">Your Message</label>
+                      <label htmlFor="message" className="inline-block mb-1 font-medium">Your Message<span className="mx-1 text-red-500">*</span></label>
                       <textarea
                         placeholder="Type Your Message Here ..."
                         required
@@ -109,7 +109,7 @@ function contact() {
           </div>
         </div>
       </div>
-      {isSent && <Modal state={isSent} />}
+      {isSent && <div onClick={() => setIsSent(false)}><Modal state={isSent} text="Thanks for contacting us. We’ll respond as soon as possible." /> </div>}
     </>
   )
 }

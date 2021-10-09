@@ -1,6 +1,6 @@
 module.exports = {
     images: {
-        domains: ['sample-api-data.vercel.app', 'images.unsplash.com']
+        domains: ['sample-api-data.vercel.app', 'images.unsplash.com', 'res.cloudinary.com']
     },
     env: {
         mongodbURI: process.env.MONGODB_URI,
@@ -8,7 +8,7 @@ module.exports = {
         mail_user: process.env.MAIL_USER,
         mail_pass: process.env.MAIL_PASS,
         mail_to: process.env.MAIL_TO,
-        host:process.env.HOST,
+        host: process.env.HOST,
         NEXT_PUBLIC_GOOGLE_ANALYTICS: process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS
     }
 }
