@@ -12,8 +12,8 @@ const question = async (req, res) => {
         const transactionRegistered = await createTransaction.save();
         if (transactionRegistered) {
             const getTransaction = await Transaction.find({ username: username }).countDocuments();
-            const thirdTransaction = getTransaction % 3 === 0;
-            const reductionAmount = thirdTransaction ? bid - 100 : bid;
+            const thirdTransaction = getTransaction % 3 === 0 || getTransaction === 0;
+            const reductionAmount = thirdTransaction ? bid - 200 : bid;
             const updatedUser = await User.findOneAndUpdate({ username: username }, { $inc: { balance: -reductionAmount } }, { new: true },);
             if (updatedUser) {
                 const updatedq = odd == 'Favour' ? await Question.updateOne({ _id: _id }, { $inc: { Volume: bid, Favour: bid } }, { new: true }) : await Question.updateOne({ _id: _id }, { $inc: { Volume: bid, Against: bid } }, { new: true });

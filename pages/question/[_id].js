@@ -72,7 +72,7 @@ function QuestionDetail({ questionData }) {
                         Against: response?._doc?.Against
                     })
                     if (res.status === 203) {
-                        toast("You've won 100 Neuron coins for this transaction! 🥳", {
+                        toast("You've won 200 Neuron coins for this transaction! 🥳", {
                             position: "top-center",
                             autoClose: 20000,
                             hideProgressBar: false,
@@ -149,7 +149,7 @@ function QuestionDetail({ questionData }) {
                                 <div className="w-12 h-12 absolute top-5 right-6 sm:top-0 sm:right-0 sm:relative pt-1 grid place-items-center">
                                     {!isShare ?
                                         <ShareIcon title="Share this Question" className="w-8 h-8 sm:w-10 sm:h-10 text-gray-700 cursor-pointer" onClick={() => setIsShare(true)} />
-                                        : <div className="w-12 h-auto flex flex-col items-center justify-center space-y-2 z-50">
+                                        : <div className="w-12 h-auto flex flex-col items-center justify-center space-y-2 z-20">
                                             <XIcon className="w-10 h-10 bg-white cursor-pointer rounded-full text-gray-700" onClick={() => setIsShare(false)} />
                                             <a href={`https://www.facebook.com/sharer/sharer.php?u=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
                                                 <FacebookIcon size={40} round={true} />
@@ -176,7 +176,7 @@ function QuestionDetail({ questionData }) {
                                     }
                                 </div>
                             </div>
-                            <div className="max-w-5xl gradient-shadow mx-auto rounded-lg p-5 lg:p-10">
+                            <div className="max-w-5xl gradient-shadow mx-auto rounded-lg p-5 lg:p-10 z-10">
                                 <div className="flex flex-col-reverse md:flex-row w-full bet text-lg justify-around">
                                     <div className="bet__container">
                                         <div>
