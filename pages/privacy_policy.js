@@ -1,11 +1,12 @@
 import Head from 'next/head'
+
 function privacy_policy() {
     return (
         <>
             <Head>
                 <title>The Neuron | Privacy Policy</title>
             </Head>
-            <div className="policy max-w-4xl bg-white mx-auto p-10 mb-10 pt-28 gradient-shadow">
+            <div className="policy max-w-4xl bg-white mx-auto p-10 mb-10 pt-28">
                 <h2 className="mt-10"> We take the protection of personal information seriously and are committed to handling personal data in accordance with the applicable privacy regulations.
                     ‍</h2>
 

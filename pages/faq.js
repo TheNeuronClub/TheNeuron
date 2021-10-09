@@ -1,4 +1,4 @@
-import Head from 'next/head'
+import Head from "next/head";
 import Accordion from "../components/Accordion";
 
 function faq() {
@@ -23,11 +23,11 @@ function faq() {
         {
             title: `How is Neuron different from a stock trading platform?`,
             content: `Our vision for TheNeruon.club is to develop it along the lines of a stock trading platform and offer users similar functionalities. The Neuron platform allows users to trade on the outcome of events beyond the business domain, thus offering a much wider scope of services`
-        },       
-        
+        },
+
     ];
     return (
-        <div>
+        <>
             <Head>
                 <title>The Neuron | FAQs</title>
             </Head>
@@ -40,7 +40,7 @@ function faq() {
                     ))}
                 </div>
             </div>
-        </div>
+        </>
     )
 }
 
