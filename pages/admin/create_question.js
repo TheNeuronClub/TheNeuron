@@ -1,12 +1,15 @@
 import Head from "next/head"
-import CreateQ from "../components/CreateQ"
-import { userSession } from "../lib/user-session"
-import {useEffect} from 'react'
+import CreateQ from "../../components/CreateQ"
+import { userSession } from "../../lib/user-session"
+import { useEffect } from 'react'
 import Router from 'next/router'
 function create_question() {
     const session = userSession();
     useEffect(() => {
-        if(!session){
+        if (!session) {
+            Router.push('/account/login')
+        }
+        else if (!session?.admin) {
             Router.push('/account/login')
         }
     }, [session])
