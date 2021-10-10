@@ -1,5 +1,4 @@
-import jwt from 'jsonwebtoken'
-import Cookies from 'cookies'
+import moment from 'moment'
 
 import User from '../db/models/user'
 import Question from '../db/models/question'
@@ -14,7 +13,10 @@ const question = async (req, res) => {
             const getTransaction = await Transaction.find({ username: username }).countDocuments();
             const thirdTransaction = getTransaction % 3 === 0 || getTransaction === 0;
             const reductionAmount = thirdTransaction ? bid - 200 : bid;
-            const updatedUser = await User.findOneAndUpdate({ username: username }, { $inc: { balance: -reductionAmount } }, { new: true },);
+            const updatedUser = await User.findOneAndUpdate({ username: username }, { $inc: { balance: -reductionAmount }, $push: { notification: `You've spent, ${bid} coins on ${moment(transactionRegistered?.createdAt).format('ll')}` }  }, { new: true });
+            if(thirdTransaction){
+                const updateUserNotification = await User.findOneAndUpdate({ username: username }, { $push: { notification: `You've won 200 coins on ${moment(transactionRegistered?.createdAt).format('ll')} for making the golden transaction 🥳` }  }, { new: true });
+            }
             if (updatedUser) {
                 const updatedq = odd == 'Favour' ? await Question.updateOne({ _id: _id }, { $inc: { Volume: bid, Favour: bid } }, { new: true }) : await Question.updateOne({ _id: _id }, { $inc: { Volume: bid, Against: bid } }, { new: true });
                 if (updatedq) {

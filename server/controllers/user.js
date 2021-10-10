@@ -8,9 +8,9 @@ const userData = async (req, res) => {
         res.status(400).send('Problem in getting user');
     }
     else {
-        const questions = await Transaction.find({username: userFound.username}).sort({_id: -1})
+        const questions = await Transaction.find({ username: userFound.username }).sort({ _id: -1 })
         let { Tokens, password, ...other } = userFound._doc;
-        other = {...other, questions}
+        other = { ...other, questions }
         res.status(200).send(other)
     }
 }
@@ -26,21 +26,19 @@ const update_user = async (req, res) => {
 }
 
 const dailyVisit = async (req, res) => {
-    const {_id, currentDate} = req.body;
-    const userFound = await User.findById({ _id:_id });
-    if(userFound){
-        if(userFound.lastVisit !== currentDate){
-            userFound.balance += 100;
-            userFound.lastVisit = currentDate;
-            await userFound.save();
-            res.status(200).send({balance: userFound.balance ,msg: "new day visit"});
+    const { _id, currentDate } = req.body;
+    const userFound = await User.findById({ _id: _id });
+    if (userFound) {
+        if (userFound.lastVisit !== currentDate) {
+            const updatedUser = await User.findByIdAndUpdate({ _id: _id }, { $inc: { balance: 100 }, lastVisit: currentDate, $push: { notification: `You've won, 100 coins on ${moment(currentDate).format('ll')} for daily visit 😀` } }, { new: true });
+            res.status(200).send({ balance: userFound.balance, msg: "new day visit" });
         }
-        else{
-            res.status(202).send({msg: "same day visit"});
+        else {
+            res.status(202).send({ msg: "same day visit" });
         }
     }
-    else{
-        res.status(400).send({msg: "user not found"})
+    else {
+        res.status(400).send({ msg: "user not found" })
     }
 }
 

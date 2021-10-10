@@ -14,7 +14,7 @@ const createQuestion = async (req, res) => {
 
 const getQuestions = async (req, res) => {
     try {
-        const getQuestions = await Question.find({qstatus: 'verified'}).sort({ _id: -1 });
+        const getQuestions = await Question.find().sort({ _id: -1 });
         res.status(200).send(getQuestions)
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })

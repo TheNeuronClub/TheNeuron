@@ -41,6 +41,10 @@ const userSchema = new mongoose.Schema({
     admin: {
         type: Boolean
     },
+    notification: {
+        type: Array,
+        default: ["🦄 Wow, You've won 1000 Neuron coins! 🥳"]
+    },
     Tokens: [{
         token: {
             type: String,
