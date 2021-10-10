@@ -2,7 +2,7 @@ import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import { MinusIcon, PencilIcon, PlusIcon, ShareIcon, XIcon } from '@heroicons/react/solid'
 import Loader from '../../components/Loader'
-import { toast } from 'react-toastify';
+import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
 import { userSession } from '../../lib/user-session'
@@ -139,6 +139,7 @@ function QuestionDetail({ questionData }) {
             <Head>
                 <title>Question: {que?.question}</title>
             </Head>
+            <ToastContainer />
             <div className="pt-28 pb-10">
                 {
                     que && que?.category ?
