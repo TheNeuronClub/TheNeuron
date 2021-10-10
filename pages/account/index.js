@@ -51,24 +51,24 @@ function index() {
             <Head> <title>The Neuron | Portfolio</title> </Head>
             {userData ?
                 <>
-                    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-4 mx-auto text-right">
+                    <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 mx-auto text-right">
                         <div className="max-w-xs gradient-shadow rounded-xl p-6 m-2 space-y-2 border-b-4 invest__border">
                             <h1 className="font-semibold text-2xl text-gray-700">Investment</h1>
                             <h2 className="text-xl text-gray-600 inline-flex items-center"><Coin width="5" height="5" />{investment?.total}</h2>
                         </div>
                         <div className="max-w-xs gradient-shadow rounded-xl p-6 m-2 space-y-2 border-b-4 win__border">
-                            <h1 className="font-semibold text-2xl text-gray-700">Winning</h1>
-                            <h2 className="text-xl text-gray-600 inline-flex items-center"><Coin width="5" height="5" />{investment?.win}</h2>
+                            <h1 className="font-semibold text-2xl text-gray-700">Net Returns</h1>
+                            <h2 className="text-xl text-gray-600 inline-flex items-center"><Coin width="5" height="5" />{investment?.win - investment?.lose}</h2>
                         </div>
-                        <div className="max-w-xs gradient-shadow rounded-xl p-6 m-2 space-y-2 border-b-4 lose__border">
+                        {/* <div className="max-w-xs gradient-shadow rounded-xl p-6 m-2 space-y-2 border-b-4 lose__border">
                             <h1 className="font-semibold text-2xl text-gray-700">Loses</h1>
                             <h2 className="text-xl text-gray-600 inline-flex items-center"><Coin width="5" height="5" />{investment?.lose}</h2>
-                        </div>
+                        </div> */}
                         <div className="max-w-xs gradient-shadow rounded-xl p-6 m-2 space-y-2 border-b-4 balance__border">
                             <h1 className="font-semibold text-2xl text-gray-700">Balance</h1>
                             <h2 className="text-xl text-gray-600 inline-flex items-center"><Coin width="5" height="5" />{userData?.balance}</h2>
                         </div>
-                        <div className="col-span-2 md:col-span-1 m-2">
+                        <div className="hidden xl:inline-block col-span-2 md:col-span-1 m-2">
                             <div className="max-w-[300px] mx-auto gradient-shadow rounded-xl p-6 space-x-4 flex items-center border-b-4 info__border">
 
                                 <div className="w-16 h-16 mx-auto border-8 pb-1 border-white shadow-md hover:shadow-lg rounded-full gradient-bg font-bold text-4xl grid place-items-center text-white">
@@ -82,7 +82,7 @@ function index() {
                         </div>
                     </div>
                     <QuestionGroup questions={userData?.questions} category={"Question Transaction"} user={true} />
-                    <Notification bids={userData?.questions} />
+                    <Notification notifications={userData?.notification} />
                 </>
                 :
                 <Loader />
