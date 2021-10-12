@@ -66,6 +66,7 @@ function CreateQ({ session }) {
             formData.append("settlementClosing", data.settlementClosing);
             formData.append("options", data.options);
             formData.append("qstatus", data.qstatus);
+            formData.append("goLive", data.goLive);
             formData.append("desc", desc);
             formData.append("link", link);
             const res = await fetch(`/api/question/create_question`, {
