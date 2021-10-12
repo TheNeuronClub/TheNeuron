@@ -1,4 +1,5 @@
 import Question from '../db/models/question'
+import { CronJob } from 'cron'
 import Transaction from '../db/models/transaction';
 
 const createQuestion = async (req, res) => {
@@ -11,10 +12,22 @@ const createQuestion = async (req, res) => {
         res.status(201).send(questionCreated)
     }
 }
+const verifyQuestion = async (req, res) => {
+    const { _id, qstatus, goLive } = req.body
+    console.log('Before job instantiation');
+    let date = new Date(goLive);
+    const job = new CronJob(date, async function () {
+        const d = new Date();
+        console.log('Specific date:', date, ', onTick at:', d);
+        const veifiedQue = await Question.findByIdAndUpdate({ _id: _id }, { qstatus }, { new: true });
+    });
+    console.log('After job instantiation');
+    job.start();
+}
 
 const getQuestions = async (req, res) => {
     try {
-        const getQuestions = await Question.find().sort({ _id: -1 });
+        const getQuestions = await Question.find({qstatus: 'verified'}).sort({ _id: -1 });
         res.status(200).send(getQuestions)
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
@@ -23,8 +36,8 @@ const getQuestions = async (req, res) => {
 
 const ques = async (req, res) => {
     try {
-        const trending = await Question.find({qstatus: 'verified'}).sort({ Volume: -1 }).limit(8);
-        const newest = await Question.find({qstatus: 'verified'}).sort({ _id: -1 }).limit(8);
+        const trending = await Question.find({ qstatus: 'verified' }).sort({ Volume: -1 }).limit(8);
+        const newest = await Question.find({ qstatus: 'verified' }).sort({ _id: -1 }).limit(8);
         res.status(200).send({ trending, newest })
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
@@ -43,9 +56,10 @@ const queDetail = async (req, res) => {
 }
 
 
+
 const update_que = async (req, res) => {
-    const { _id, bidClosing, settlementClosing, desc, qstatus } = req.body
-    const updatedq = await Question.findByIdAndUpdate({ _id: _id }, { bidClosing, settlementClosing, desc, qstatus }, { new: true });
+    const { _id, bidClosing, settlementClosing, desc, qstatus, question } = req.body
+    const updatedq = await Question.findByIdAndUpdate({ _id: _id }, { bidClosing, settlementClosing, desc, qstatus, question }, { new: true });
     if (updatedq) {
         const updatetq = await Transaction.updateMany({ questionId: _id }, { qstatus }, { new: true });
         res.status(200).send(updatedq)
@@ -81,4 +95,4 @@ const filter = async (req, res) => {
 }
 
 
-export { createQuestion, ques, getQuestions, filter, queDetail, update_que }
+export { createQuestion, ques, getQuestions, filter, queDetail, update_que, verifyQuestion }

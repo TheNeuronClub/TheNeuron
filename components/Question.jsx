@@ -23,7 +23,7 @@ function Question({ question, user }) {
                     :
                     <div className="text-sm">
                         <h1 className="text-gray-400">Category</h1>
-                        <h2>{question?.category}</h2>
+                        <h2 className="capitalize">{question?.category}</h2>
                     </div>
                 }
                 <div className="text-right flex flex-col items-end text-sm">

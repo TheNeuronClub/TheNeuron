@@ -68,7 +68,7 @@ function login() {
                         </Link>
                         <div className="max-w-sm lg:max-w-md text-white">
                             <h1 className="text-3xl md:text-5xl mb-3 font-semibold">Start Betting Now</h1>
-                            <p className="text-lg md:text-xl">Join TheNeuron.club to bet directly on the outcome of events. We've built a next gen betting platform for you to bet on your opinion.</p>
+                            <p className="text-lg md:text-xl">Join TheNeuron.club to bet directly on the outcome of events. Use your know-how to predict global events across categories and win rewards</p>
                         </div>
                     </div>
                     <div className="flex flex-col items-center w-full justify-center p-10 px-5">

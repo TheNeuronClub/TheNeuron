@@ -33,8 +33,9 @@ function influencers() {
                 <title>The Neuron | Influencers</title>
             </Head>
             <div className="py-20 relative">
-                <h1 className="mt-20 text-5xl font-bold text-center text-gray-800">Get Started with Influencers</h1>
-                <div className="h-1 w-60 mx-auto my-4 bg-gray-600"></div>
+                <h1 className="mt-20 text-4xl md:text-5xl font-bold text-center text-gray-800">TheNeuron.Club for Influencers</h1>
+                <h1 className="text-lg mx-auto md:text-xl max-w-6xl px-8 my-2 mb-8 text-center text-gray-600"> Join TheNueron.Club platform to run prediction contests amongst your followers and win rewards. Please contact us to signup on the platform as an influencer</h1>
+                {/* <div className="h-1 w-60 mx-auto my-4 bg-gray-600"></div> */}
                 <div className="min-h-screen gradient-shadow relative max-w-max mx-auto rounded-lg">
                     {steps.map(item => (<Steps key={item.no} step={item} type={"bid"} />))}
                 </div>
