@@ -37,8 +37,8 @@ function QuestionDetail({ questionData }) {
     const [isShare, setIsShare] = useState(false)
     const [isSending, setIsSending] = useState(false)
     const [que, setQue] = useState(questionData);
-    const [isDescEdit, setIsDescEdit] = useState(false)
-    const [isDateEdit, setIsDateEdit] = useState(false)
+    const [updateQue, setUpdateQue] = useState(questionData);
+    const [isQueEdit, setIsQueEdit] = useState(false)
     const [desc, setDesc] = useState(que?.desc)
     const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
 
@@ -101,35 +101,30 @@ function QuestionDetail({ questionData }) {
     }
 
     const handleChange = (e) => {
-        setQue({ ...que, [e.target.name]: e.target.value });
+        setUpdateQue({ ...que, [e.target.name]: e.target.value });
     }
 
     const setQuestionStatus = () => {
-        setQue({ ...que, qstatus: (que.qstatus === 'verified') ? 'closed' : 'verified' });
+        setUpdateQue({ ...que, qstatus: (que.qstatus === 'verified') ? 'closed' : 'verified' });
     }
 
     const updateQuestion = async () => {
-        const { _id, bidClosing, settlementClosing, qstatus } = que;
+        const { _id, bidClosing, settlementClosing, qstatus, question } = updateQue;
         const res = await fetch(`/api/question/update_que`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ _id, bidClosing, settlementClosing, desc, qstatus })
+            body: JSON.stringify({ _id, bidClosing, settlementClosing, desc, qstatus, question })
         })
         console.log(res.status)
         const response = await res.json();
         if (res.status == 200) {
-            setIsDescEdit(false);
-            setIsDateEdit(false);
+            setIsQueEdit(false);
             setQue(response)
         }
     }
 
-    const cancelUpdate = () => {
-        setIsDescEdit(false);
-        setIsDateEdit(false);
-    }
 
     function DESC() {
         return { __html: que?.desc };
@@ -146,7 +141,15 @@ function QuestionDetail({ questionData }) {
                         <>
                             <div className="w-full max-w-5xl gradient-shadow mx-auto rounded-lg lg:p-10 text-xl md:text-2xl font-medium mb-2 sm:mb-4 p-5 px-10 sm:flex sm:space-x-4 items-center text-gray-700 relative">
                                 <img src={que?.image_url || `/images/que/${que?.category?.toLowerCase()}.jfif`} alt="" className="w-12 h-12 shadow-lg hover:scale-105 transition-md object-cover rounded-full" />
-                                <h1 className="my-3 sm:my-0 flex-1"> {que?.question} </h1>
+                                {isQueEdit ? <input
+                                    placeholder="Question"
+                                    type="text"
+                                    name="question"
+                                    required
+                                    value={updateQue?.question}
+                                    onChange={handleChange}
+                                    className="w-full flex-1 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
+                                /> : <h1 className="my-3 sm:my-0 flex-1"> {que?.question} </h1>}
                                 <div className="w-12 h-12 absolute top-5 right-6 sm:top-0 sm:right-0 sm:relative pt-1 grid place-items-center">
                                     {!isShare ?
                                         <ShareIcon title="Share this Question" className="w-8 h-8 sm:w-10 sm:h-10 text-gray-700 cursor-pointer" onClick={() => setIsShare(true)} />
@@ -229,7 +232,7 @@ function QuestionDetail({ questionData }) {
                                     </div>
 
                                     <div className="bet__container">
-                                        {session?.admin && <span className="flex space-x-1 items-center text-gray-600 hover:text-gray-800 cursor-pointer text-base font-medium absolute top-5 right-5" onClick={() => setIsDateEdit(true)}><PencilIcon className="w-5 h-5" /> Edit </span>}
+                                        {/* {session?.admin && <span className="flex space-x-1 items-center text-gray-600 hover:text-gray-800 cursor-pointer text-base font-medium absolute top-5 right-5" onClick={() => setIsDateEdit(true)}><PencilIcon className="w-5 h-5" /> Edit </span>} */}
                                         <table className="min-h-[250px]">
                                             <tbody>
                                                 <tr>
@@ -244,7 +247,7 @@ function QuestionDetail({ questionData }) {
                                                     <td>Open Date &amp; Time</td>
                                                     <td>{moment(que?.createdAt).format('lll')}</td>
                                                 </tr>
-                                                {isDateEdit ?
+                                                {isQueEdit ?
                                                     <>
                                                         <tr><td>
                                                             <label htmlFor="bidClosing" className="inline-block mb-1 font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
@@ -254,7 +257,7 @@ function QuestionDetail({ questionData }) {
                                                             name="bidClosing"
                                                             required
                                                             min={currentDate}
-                                                            value={que?.bidClosing}
+                                                            value={updateQue?.bidClosing}
                                                             onChange={handleChange}
                                                             className=" w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
                                                         />
@@ -269,7 +272,7 @@ function QuestionDetail({ questionData }) {
                                                                 name="settlementClosing"
                                                                 required
                                                                 min={currentDate}
-                                                                value={que?.settlementClosing}
+                                                                value={updateQue?.settlementClosing}
                                                                 onChange={handleChange}
                                                                 className=" w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
                                                             />
@@ -292,7 +295,7 @@ function QuestionDetail({ questionData }) {
                                                     <td>Creator</td>
                                                     <td>{que?.userId}</td>
                                                 </tr>
-                                                {isDateEdit && <tr>
+                                                {isQueEdit && <tr>
                                                     <td></td>
                                                     <td>
                                                         <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose gradient-bg text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={setQuestionStatus}>{que.qstatus === 'closed' ? 'Active' : 'Close'}&nbsp;this Question</button>
@@ -307,14 +310,16 @@ function QuestionDetail({ questionData }) {
 
                                 <div className="p-5">
                                     {
-                                        isDescEdit ?
+                                        isQueEdit ?
                                             <>
                                                 <h1 className="text-2xl font-semibold my-2">Question Description </h1>
                                                 <QuillNoSSRWrapper modules={modules} placeholder='Add description here ...' value={desc} onChange={setDesc} formats={formats} theme="snow" />
                                             </>
                                             :
                                             <>
-                                                <h1 className="text-2xl font-semibold my-2">About the question{session?.admin && <span className="inline-flex ml-2 text-gray-600 hover:text-gray-800 cursor-pointer space-x-1 items-center text-base font-medium" onClick={() => setIsDescEdit(true)}><PencilIcon className="w-5 h-5" /> Edit </span>} </h1>
+                                                <h1 className="text-2xl font-semibold my-2">About the question
+                                                    {/* {session?.admin && <span className="inline-flex ml-2 text-gray-600 hover:text-gray-800 cursor-pointer space-x-1 items-center text-base font-medium" onClick={() => setIsDescEdit(true)}><PencilIcon className="w-5 h-5" /> Edit </span>}  */}
+                                                </h1>
                                                 <div className="sm:text-lg que__desc" dangerouslySetInnerHTML={DESC()}>
                                                 </div>
                                             </>
@@ -324,10 +329,16 @@ function QuestionDetail({ questionData }) {
                                     <h1 className="text-2xl font-semibold my-2">Source of Settlement</h1>
                                     <a href={que?.reference} className="my-2 text-blue-500 block text-lg" target="_blank" noreferer="true">{que?.reference}</a>
                                 </div>}
-                                {(isDescEdit || isDateEdit) && <div className="px-5 pb-10">
+                                {(isQueEdit) ? <div className="px-5 pb-10">
+                                    <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={updateQuestion}>Update</button>
+                                    <button className={`px-4 py-2 leading-loose text-gray-800 hover:text-white hover:bg-gray-800 hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 cursor-pointer`} onClick={() => setIsQueEdit(false)}>Cancel</button>
+                                </div> :
+                                    <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={() => setIsQueEdit(true)}>Edit Question</button>
+                                }
+                                {/* {(isDescEdit || isDateEdit) && <div className="px-5 pb-10">
                                     <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={updateQuestion}>Update</button>
                                     <button className={`px-4 py-2 leading-loose text-gray-800 hover:text-white hover:bg-gray-800 hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 cursor-pointer`} onClick={cancelUpdate}>Cancel</button>
-                                </div>}
+                                </div>} */}
                             </div>
                         </>
                         :

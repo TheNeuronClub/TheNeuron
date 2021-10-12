@@ -25,9 +25,10 @@ function CreateQ({ session }) {
         userId: session?.username || 'Ankit628792',
         category: '',
         bidClosing: '',
+        goLive: '',
         options: ['Yes', 'No'],
         settlementClosing: '',
-        qstatus: 'verified',
+        qstatus: 'created',
     })
     const [desc, setDesc] = useState('')
 
@@ -73,19 +74,29 @@ function CreateQ({ session }) {
             })
 
             console.log(res.status)
+            const response = await res.json(); 
             if (res.status === 201) {
+                const cron = {_id: response?._id, qstatus: 'verified', goLive: data?.goLive}
                 setIsSent(true)
-                setData({
+                
+                setData({...data,
                     question: '',
-                    userId: session?.username || 'unKnown',
                     category: '',
                     bidClosing: '',
-                    options: ['Yes', 'No'],
+                    goLive: '',
                     settlementClosing: '',
-                    qstatus: 'verified',
                 })
+                setQImage(null);
                 setLink('');
                 setDesc('');
+                setIsSending(false)
+                fetch(`/api/question/verifyQue`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(cron)
+                });
             }
             setIsSending(false)
         }
@@ -142,6 +153,19 @@ function CreateQ({ session }) {
                                 <option value="arts">Arts</option>
                                 <option value="technology">Technology</option>
                             </select>
+                        </div>
+                        <div className="mb-1 sm:mb-2">
+                            <label htmlFor="goLive" className="inline-block mb-1 font-medium">Go Live Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
+                            <input
+                                placeholder="Question go live "
+                                type="datetime-local"
+                                name="goLive"
+                                required
+                                min={`${currentDate}`}
+                                value={data.goLive}
+                                onChange={handleChange}
+                                className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
+                            />
                         </div>
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="bidClosing" className="inline-block mb-1 font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
