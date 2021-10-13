@@ -9,7 +9,7 @@ import sendEMail from '../../lib/Mail/sendMail'
 const host = process.env.HOST
 
 const register = async (req, res) => {
-    const { username, email, password, country } = req.body;
+    const { username, email, password, country, name, referral_code } = req.body;
     try {
         const userEmail = await User.findOne({ email: email });
         if (userEmail) {
@@ -19,9 +19,11 @@ const register = async (req, res) => {
         if (userUsername) {
             return res.status(422).json({ error: "Username already exist" })
         } else {
-            const user = new User({ username, email, password, country });
+            const user = new User({ username, email, password, name, country });
             try {
                 user.isVerified = false;
+                const referred = await User.findOne({ referral_code: referral_code });
+                if (referred) { user.balance = 1500; }
                 const userRegistered = await user.save();
                 if (userRegistered) {
                     const token = await userRegistered.generateAuthToken();
@@ -109,6 +111,7 @@ const login = async (req, res) => {
                     res.status(203).send({ msg: 'User unverified' })
                 } else {
                     const newUser = userLogin.isNewUser
+                    userLogin.referral_code = userLogin._id?.slice(userLogin._id.length - 6, userLogin._id.length)?.toUpperCase();
                     userLogin.isNewUser = false;
                     await userLogin.save();
                     res.status(200).send({ token, newUser });
@@ -126,9 +129,9 @@ const login = async (req, res) => {
 
 const logout = async (req, res) => {
     try {
-        const cookies = new Cookies(req, res)    
+        const cookies = new Cookies(req, res)
         // Get a cookie
-        const userFound = await User.findById({_id: req.body._id});
+        const userFound = await User.findById({ _id: req.body._id });
         if (!userFound) {
             res.status(400).send('Problem in Logout');
         }
@@ -139,7 +142,7 @@ const logout = async (req, res) => {
             res.status(200).send({ msg: 'Logout successfully' })
         }
     } catch (error) {
-            res.status(400).send('Logout');
+        res.status(400).send('Logout');
     }
 }
 
