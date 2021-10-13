@@ -1,22 +1,23 @@
-import { GlobeAltIcon, LockClosedIcon, MailIcon, UserIcon } from '@heroicons/react/solid'
+import { ArrowLeftIcon, ArrowRightIcon, GlobeAltIcon, LockClosedIcon, MailIcon, UserGroupIcon, UserIcon, UsersIcon } from '@heroicons/react/solid'
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
 import { countries } from '../../util'
 import { userSession } from '../../lib/user-session'
-import Router from 'next/router'
+import { useRouter } from 'next/router'
 
 function register() {
     const session = userSession();
+    const router = useRouter();
     useEffect(() => {
         if (session) {
-            Router.push('/')
+            router.push('/')
         }
     }, [session])
 
-
     const [isSending, setIsSending] = useState(false)
+    const [step, setStep] = useState('one')
     const [isForm, setIsForm] = useState(true);
     const [isEmail, setIsEmail] = useState(false)
     const [isUsername, setIsUsername] = useState(false)
@@ -24,7 +25,9 @@ function register() {
         username: '',
         email: '',
         password: '',
-        country: 'Sweden'
+        name: '',
+        country: 'Sweden',
+        referral_code: router?.query?.referral_code || ''
     })
 
     const handleChange = (e) => {
@@ -80,46 +83,58 @@ function register() {
                     <div className="flex flex-col items-center w-full justify-center p-10 px-5">
                         {
                             isForm ?
-                                <form className="max-w-lg p-10 min-w-[350px] bg-white gradient-shadow" onSubmit={handleSubmit}>
-                                    <div className="flex border-b border-gray-700 py-2">
-                                        <UserIcon className="h-6" />
-                                        <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="username" value={data.username} required placeholder="User Name " />
-                                    </div>
-                                    {isUsername && <p className="text-xs text-red-400">Username already exist</p>}
-                                    <div className="flex border-b border-gray-700 py-2 mt-6">
-                                        <MailIcon className="h-6" />
-                                        <input onChange={handleChange} className="outline-none flex-grow px-2" type="email" name="email" value={data.email} required placeholder="Your Mail Id " />
-                                    </div>
-                                    {isEmail && <p className="text-xs text-red-400">Email already exist</p>}
-                                    <div className="flex border-b border-gray-700 py-2 my-6">
-                                        <LockClosedIcon className="h-6" />
-                                        <input onChange={handleChange} className="outline-none flex-grow px-2" type="password" name="password" minLength="6" value={data.password} required placeholder="Password " />
-                                    </div>
-                                    <div className="flex border-b border-gray-700 py-2 my-6">
-                                        <GlobeAltIcon className="h-6" />
-                                        <select onChange={handleChange} className="outline-none flex-grow px-2" type="country" name="country" value={data.country} required placeholder="Country ">
-                                            {countries.map((country, i) => <option key={i} value={country.country} >{country.country}</option>)}
-                                        </select>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <input required className="w-4 h-4" type="checkbox" />
-                                        <h1>I accept terms & conditions</h1>
-                                    </div>
-                                    <div className="flex items-center space-x-2">
-                                        <input required className="w-4 h-4" type="checkbox" />
-                                        <h1>I am 18+ or more</h1>
-                                    </div>
+                                <form className="max-w-lg p-10 min-w-[380px] bg-white gradient-shadow" onSubmit={handleSubmit}>
+                                    {isUsername && <p className="text-sm text-red-400 text-center">Username already exist</p>}
+                                    {isEmail && <p className="text-sm text-red-400 text-center">Email already exist</p>}
+                                    {step === 'one' && <>
+                                        <div className="flex border-b border-gray-700 py-2">
+                                            <UserIcon className="h-6" />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="username" minLength="5" value={data.username} required placeholder="User Name " />
+                                        </div>
+                                        {/* {isUsername && <p className="text-xs text-red-400">Username already exist</p>} */}
+                                        <div className="flex border-b border-gray-700 py-2 mt-6">
+                                            <MailIcon className="h-6" />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="email" name="email" value={data.email} required placeholder="Your Mail Id " />
+                                        </div>
+                                        {/* {isEmail && <p className="text-xs text-red-400">Email already exist</p>} */}
+                                        <div className="flex border-b border-gray-700 py-2 my-4">
+                                            <LockClosedIcon className="h-6" />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="password" name="password" minLength="6" value={data.password} required placeholder="Password " />
+                                        </div>
+                                        <div className="flex items-center justify-end cursor-pointer mb-2" onClick={() => setStep('two')}>
+                                            <button className="text-lg text-blue-500 font-semibold rounded-md my-4 bg-white active:scale-95 transition-sm flex items-center" onClick={() => setStep('one')}>Next<ArrowRightIcon className="h-4 ml-2" /></button>
+                                        </div>
+                                    </>}
 
-                                    <button type="submit" className="w-full px-6 py-3 text-lg text-white font-semibold rounded-md my-4 gradient-bg active:scale-95 transition-sm">{isSending ? 'Validating' : 'Register'}</button>
+                                    {step === 'two' && <>
+                                        <div className="flex border-b border-gray-700 py-2">
+                                            <UserIcon className="h-6" />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="name" minLength="5" value={data.name} required placeholder="Your Name " />
+                                        </div>
+                                        <div className="flex border-b border-gray-700 py-2 my-4">
+                                            <GlobeAltIcon className="h-6" />
+                                            <select onChange={handleChange} className="outline-none flex-grow px-2" type="country" name="country" value={data.country} required placeholder="Country ">
+                                                {countries.map((country, i) => <option key={i} value={country.country} >{country.country}</option>)}
+                                            </select>
+                                        </div>
+                                        <div className="flex border-b border-gray-700 py-2 mb-6">
+                                            <UsersIcon className="h-6" />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="referral_code" minLength="6" maxLength="6" value={data.referral_code} placeholder="Referral Code (If Any) " />
+                                        </div>
+                                        <div className="flex items-center space-x-2">
+                                            <input required className="w-4 h-4 cursor-pointer" type="checkbox" />
+                                            <h1>I accept terms & conditions</h1>
+                                        </div>
+                                        <div className="flex items-center space-x-2">
+                                            <input required className="w-4 h-4 cursor-pointer" type="checkbox" />
+                                            <h1>I am 18+ or more</h1>
+                                        </div>
+                                        <div className="flex items-center justify-between">
+                                            <button className="py-2 text-lg text-blue-500 font-semibold rounded-md my-4 bg-white active:scale-95 transition-sm flex items-center" onClick={() => setStep('one')}><ArrowLeftIcon className="h-4 mr-2" /> Previous</button>
+                                            <button type="submit" className="px-6 py-2 text-lg text-white font-semibold rounded-md my-4 gradient-bg active:scale-95 transition-sm">{isSending ? 'Validating' : 'Register'}</button>
+                                        </div>
+                                    </>}
                                     <h1 className="text-center">Already have an account ? <a href="/account/login" className="text-blue-500 font-medium">Login</a></h1>
-                                    {/* <div className="flex space-x-6 sm:px-5 mt-5">
-                                        <div className="px-4 py-2 border border-gray-700 text-gray-700 font-semibold cursor-pointer hover:bg-gray-800 hover:text-white rounded-full transition duration-100 ease-linear">
-                                            Google G+
-                                        </div>
-                                        <div className="px-4 py-2 border border-gray-700 text-gray-700 font-semibold cursor-pointer hover:bg-gray-800 hover:text-white rounded-full transition duration-100 ease-linear">
-                                            Facebook F+
-                                        </div>
-                                    </div> */}
                                 </form>
                                 :
                                 <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">Verification link is sent to your Email</h1>

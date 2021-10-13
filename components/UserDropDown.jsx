@@ -1,8 +1,6 @@
 import { useState, useEffect } from 'react'
-import Link from 'next/link'
-import { BellIcon, BriefcaseIcon, CashIcon, ChevronDownIcon, ChevronUpIcon, LogoutIcon, ShareIcon, UserIcon, XIcon } from "@heroicons/react/solid"
+import { CashIcon, ChevronDownIcon, ChevronUpIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, XIcon } from "@heroicons/react/solid"
 import Router from 'next/router'
-import { FacebookShareButton, LinkedinShareButton, RedditShareButton, TelegramShareButton, TwitterShareButton, WhatsappShareButton } from "react-share";
 import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon, WhatsappIcon } from "react-share";
 import { useDispatch } from 'react-redux'
 import { updateBalance } from '../slices/userBalance';
@@ -18,7 +16,7 @@ function UserDropDown({ session }) {
     const [isLoader, setIsLoader] = useState(false)
     const dispatch = useDispatch();
     const amount = useSelector(balance)
-    const urlSrc = `https://neuron-club.vercel.app/account/register`
+    const urlSrc = `${process.env.HOST}/account/register?referral_code=${session?.referral_code}`
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -67,13 +65,17 @@ function UserDropDown({ session }) {
             {amount && <span className="inline-flex mr-2 items-center font-medium text-lg cursor-pointer" onClick={() => Router.push('/account/')}><Coin width="4" height="4" />{amount}</span>}
             <div className="relative font-medium">
                 <div className="flex items-center p-1 bg-white rounded-full cursor-pointer text-blue-400" onClick={() => setIsActive(!isActive)}>
-                    <div className="MuiAvatar-root MuiAvatar-circle gradient-bg text-white capitalize">{session?.username?.[0]}</div>
+                    <div className="MuiAvatar-root MuiAvatar-circle gradient-bg text-white capitalize">{session?.name?.[0]}</div>
                     {isActive ? <ChevronUpIcon className="w-5 h-5" /> : <ChevronDownIcon className="w-5 h-5" />}
                 </div>
                 {isActive && <div className="bg-white gradient-shadow-md absolute min-w-max rounded-md p-3 top-[130%] left-1/2 transform -translate-x-1/2">
                     <ul className="space-y-4 text-lg text-gray-500">
                         <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/account/')}><UserIcon className="w-6 h-6 mr-1 text-gray-700" />Portfolio</li>
+                        {/* <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center"><BellIcon className="w-6 h-6 mr-1 text-gray-700" />Notifications</li> */}
                         <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => setIsShare(true)}><ShareIcon className="w-6 h-6 mr-1 text-gray-700" />Invite a Friend</li>
+                        {session?.referral_code &&
+                            <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => setIsShare(true)}><UsersIcon className="w-6 h-6 mr-1 text-gray-700" />Refer a Friend : {session?.referral_code}</li>
+                        }
                         <li onClick={logout} className="hover:text-gray-900 cursor-pointer transition-sm flex items-center"><LogoutIcon className="w-6 h-6 mr-1 text-gray-700" />Logout </li>
                     </ul>
                     <div className="bg-white absolute -top-2 left-1/2 transform -translate-x-1/2 w-10 h-5 clip-path-sm"></div>
@@ -87,7 +89,7 @@ function UserDropDown({ session }) {
                     <FacebookIcon size={40} round={true} />
                 </a>
                 <a href={`https://twitter.com/share?text=${'Join The Neuron Club Now'}&url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
-                    <TelegramIcon size={40} round={true} />
+                    <TwitterIcon size={40} round={true} />
                 </a>
                 <a href={`https://web.whatsapp.com/send?text=${'Join The Neuron Club Now'}%20${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
                     <WhatsappIcon size={40} round={true} />

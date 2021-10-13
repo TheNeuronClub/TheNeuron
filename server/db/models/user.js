@@ -35,11 +35,15 @@ const userSchema = new mongoose.Schema({
     country: {
         type: String,
     },
+    referral_code: {
+        type: String,
+    },
     lastVisit: {
         type: String,
     },
-    admin: {
-        type: Boolean
+    type: {
+        type: String,
+        default: 'user'
     },
     notification: {
         type: Array,
@@ -63,7 +67,7 @@ userSchema.pre('save', async function (next) {
 
 userSchema.methods.generateAuthToken = async function () {
     try {
-        let token = jwt.sign({ _id: this._id, username: this.username, name: this.name, email: this.email, isVerified: this.isVerified, country: this.country, admin: this.admin }, process.env.secret_key)
+        let token = jwt.sign({ _id: this._id, username: this.username, name: this.name, email: this.email, isVerified: this.isVerified, country: this.country, name: this.name, type: this.type, referral_code: this.referral_code }, process.env.secret_key)
         this.Tokens = this.Tokens.concat({ token: token })
         await this.save();
         return token;

@@ -245,7 +245,7 @@ function QuestionDetail({ questionData }) {
                                                 </tr>
                                                 <tr>
                                                     <td>Open Date &amp; Time</td>
-                                                    <td>{moment(que?.createdAt).format('lll')}</td>
+                                                    <td>{que?.goLive ? moment(que?.goLive).format('lll') : moment(que?.createdAt).format('lll')}</td>
                                                 </tr>
                                                 {isQueEdit ?
                                                     <>
@@ -329,11 +329,14 @@ function QuestionDetail({ questionData }) {
                                     <h1 className="text-2xl font-semibold my-2">Source of Settlement</h1>
                                     <a href={que?.reference} className="my-2 text-blue-500 block text-lg" target="_blank" noreferer="true">{que?.reference}</a>
                                 </div>}
-                                {(isQueEdit) ? <div className="px-5 pb-10">
-                                    <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={updateQuestion}>Update</button>
-                                    <button className={`px-4 py-2 leading-loose text-gray-800 hover:text-white hover:bg-gray-800 hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 cursor-pointer`} onClick={() => setIsQueEdit(false)}>Cancel</button>
-                                </div> :
-                                    <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={() => setIsQueEdit(true)}>Edit Question</button>
+                                {session?.type === 'admin' &&
+                                    <> {(isQueEdit) ? <div className="px-5 pb-10">
+                                        <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={updateQuestion}>Update</button>
+                                        <button className={`px-4 py-2 leading-loose text-gray-800 hover:text-white hover:bg-gray-800 hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 cursor-pointer`} onClick={() => setIsQueEdit(false)}>Cancel</button>
+                                    </div> :
+                                        <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={() => setIsQueEdit(true)}>Edit Question</button>
+                                    }
+                                    </>
                                 }
                                 {/* {(isDescEdit || isDateEdit) && <div className="px-5 pb-10">
                                     <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={updateQuestion}>Update</button>
