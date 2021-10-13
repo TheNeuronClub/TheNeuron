@@ -19,12 +19,16 @@ const register = async (req, res) => {
         if (userUsername) {
             return res.status(422).json({ error: "Username already exist" })
         } else {
-            const user = new User({ username, email, password, name, country });
             try {
-                user.isVerified = false;
-                const referred = await User.findOne({ referral_code: referral_code });
-                if (referred) { user.balance = 1500; }
+                const user = new User({ username, email, password, name, country });
                 const userRegistered = await user.save();
+
+                const referred = await User.findOne({ referral_code: referral_code });
+                if (referred) {
+                    referred.balance = 1500;
+                    await referred.save()
+                }
+
                 if (userRegistered) {
                     const token = await userRegistered.generateAuthToken();
                     const link = `${host}/account/verify?token=${token}`;
@@ -88,6 +92,9 @@ const resetPassword = async (req, res) => {
     }
 }
 
+function shuffle(array) {
+    array.sort(() => Math.random() - 0.5);
+}
 
 const login = async (req, res) => {
     const { email, password } = req.body;
@@ -96,14 +103,6 @@ const login = async (req, res) => {
         if (userLogin) {
             const isMatch = await bcrypt.compare(password, userLogin.password)
 
-            const token = await userLogin.generateAuthToken();
-            const cookies = new Cookies(req, res)
-
-            // Set a cookie
-            cookies.set('neuron', token, {
-                expires: new Date(Date.now() + 1000 * 60 * 10 * 6 * 24),
-                httpOnly: true // true by default
-            })
             if (!isMatch) {
                 res.status(400).json({ error: 'Invalid Credentials' })
             } else {
@@ -111,9 +110,18 @@ const login = async (req, res) => {
                     res.status(203).send({ msg: 'User unverified' })
                 } else {
                     const newUser = userLogin.isNewUser
-                    userLogin.referral_code = userLogin._id?.slice(userLogin._id.length - 6, userLogin._id.length)?.toUpperCase();
+                    userLogin.referral_code = Math.random().toString(36).slice(-6).toUpperCase();
                     userLogin.isNewUser = false;
                     await userLogin.save();
+
+                    const token = await userLogin.generateAuthToken();
+                    const cookies = new Cookies(req, res)
+
+                    // Set a cookie
+                    cookies.set('neuron', token, {
+                        expires: new Date(Date.now() + 1000 * 60 * 10 * 6 * 24),
+                        httpOnly: true // true by default
+                    })
                     res.status(200).send({ token, newUser });
                 }
             }

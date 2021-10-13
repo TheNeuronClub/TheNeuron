@@ -9,6 +9,7 @@ import Carousel from '../components/Carousel'
 
 export default function Home({ questions }) {
   const [isNewUser, setIsNewUser] = useState(false)
+  const [carousel, setCarousel] = useState(false)
 
   useEffect(() => {
     const data = JSON.parse(window.localStorage.getItem('neuron-newUser'));
@@ -23,13 +24,18 @@ export default function Home({ questions }) {
         progress: undefined,
       });
       setIsNewUser(true);
+      setCarousel(true);
     }
     window.localStorage.setItem('neuron-newUser', false)
   }, [])
 
-  return (
+    const closeOnboard = () => {
+        setCarousel(false);
+    }
+
+    return (
     <>
-      {isNewUser && <Carousel />}
+      {carousel && <Carousel onSelect={closeOnboard} />}
       <div className="w-full flex flex-col pb-10">
         <Head>
           <title>The Neuron</title>
@@ -39,7 +45,7 @@ export default function Home({ questions }) {
         <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
         <QuestionGroup questions={questions?.newest} category={"New Topics"} />
       </div>
-      <ToastContainer style={{ textAlign: 'center' }} onClick={() => Router.push('/account/')} />
+      <ToastContainer style={{ textAlign: 'center' }} />
     </>
   )
 }

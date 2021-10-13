@@ -109,7 +109,7 @@ function register() {
                                     {step === 'two' && <>
                                         <div className="flex border-b border-gray-700 py-2">
                                             <UserIcon className="h-6" />
-                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="name" minLength="5" value={data.name} required placeholder="Your Name " />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="name" value={data.name} required placeholder="Your Name " />
                                         </div>
                                         <div className="flex border-b border-gray-700 py-2 my-4">
                                             <GlobeAltIcon className="h-6" />
