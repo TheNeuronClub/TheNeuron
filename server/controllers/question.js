@@ -1,33 +1,26 @@
+import sendEMail from '../../lib/Mail/sendMail';
 import Question from '../db/models/question'
-import { CronJob } from 'cron'
 import Transaction from '../db/models/transaction';
 
-const createQuestion = async (req, res) => {
-    const questionCreated = new Question(req.body);
-    const saveQuestion = await questionCreated.save();
-    if (!saveQuestion) {
-        res.status(400).send('Error');
-    }
-    else {
-        res.status(201).send(questionCreated)
-    }
-}
 const verifyQuestion = async (req, res) => {
-    const { _id, qstatus, goLive } = req.body
-    console.log('Before job instantiation');
-    let date = new Date(goLive);
-    const job = new CronJob(date, async function () {
-        const d = new Date();
-        console.log('Specific date:', date, ', onTick at:', d);
-        const veifiedQue = await Question.findByIdAndUpdate({ _id: _id }, { qstatus }, { new: true });
-    });
-    console.log('After job instantiation');
-    job.start();
+    const { _id, qstatus, goLive } = req.body;
+    try {
+        const data = await Question.findByIdAndUpdate({ _id: _id }, { qstatus, goLive }, { new: true });
+        if (data) {
+            res.status(200).send({ msg: 'question verified' })
+        }
+        else {
+            res.status(300).send({ msg: 'unable to very question' })
+        }
+    } catch (error) {
+        console.log(error);
+        res.status(403).send(error)
+    }
 }
 
 const getQuestions = async (req, res) => {
     try {
-        const getQuestions = await Question.find({qstatus: 'verified'}).sort({ _id: -1 });
+        const getQuestions = await Question.find().sort({ _id: -1 });
         res.status(200).send(getQuestions)
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
@@ -95,4 +88,4 @@ const filter = async (req, res) => {
 }
 
 
-export { createQuestion, ques, getQuestions, filter, queDetail, update_que, verifyQuestion }
+export { ques, getQuestions, filter, queDetail, update_que, verifyQuestion }
