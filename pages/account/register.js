@@ -7,7 +7,7 @@ import { countries } from '../../util'
 import { userSession } from '../../lib/user-session'
 import { useRouter } from 'next/router'
 
-function register() {
+function register({referral_code}) {
     const session = userSession();
     const router = useRouter();
     useEffect(() => {
@@ -27,7 +27,7 @@ function register() {
         password: '',
         name: '',
         country: 'Sweden',
-        referral_code: router?.query?.referral_code || ''
+        referral_code: referral_code || ''
     })
 
     const handleChange = (e) => {
@@ -147,3 +147,12 @@ function register() {
 }
 
 export default register
+
+export function getServerSideProps(context) {
+    const { referral_code } = context.query;
+    return {
+        props: {
+            referral_code
+        }
+    }
+}
