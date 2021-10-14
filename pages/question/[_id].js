@@ -155,27 +155,57 @@ function QuestionDetail({ questionData }) {
                                         <ShareIcon title="Share this Question" className="w-8 h-8 sm:w-10 sm:h-10 text-gray-700 cursor-pointer" onClick={() => setIsShare(true)} />
                                         : <div className="w-12 h-auto flex flex-col items-center justify-center space-y-2 z-20">
                                             <XIcon className="w-10 h-10 bg-white cursor-pointer rounded-full text-gray-700" onClick={() => setIsShare(false)} />
-                                            <a href={`https://www.facebook.com/sharer/sharer.php?u=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
-                                                <FacebookIcon size={40} round={true} />
-                                            </a>
-                                            <a href={`https://twitter.com/share?text=${que?.question}&url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
-                                                <TelegramIcon size={40} round={true} />
-                                            </a>
-                                            <a href={`https://web.whatsapp.com/send?text=${que?.question}%20${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
-                                                <WhatsappIcon size={40} round={true} />
-                                            </a>
-                                            <a href={`https://www.pinterest.com/pin/create/button/?url=${urlSrc}&description=${que?.question}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
-                                                <PinterestIcon size={40} round={true} />
-                                            </a>
-                                            <a href={`https://telegram.me/share/url?url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
-                                                <TelegramIcon size={40} round={true} />
-                                            </a>
-                                            <a href={`https://www.reddit.com/submit?url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
-                                                <RedditIcon size={40} round={true} />
-                                            </a>
-                                            <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
-                                                <LinkedinIcon size={40} round={true} />
-                                            </a>
+                                            <>
+                                                {window.innerWidth > 769 ?
+                                                    <>
+                                                        <a href={`https://www.facebook.com/sharer/sharer.php?u=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
+                                                            <FacebookIcon size={40} round={true} />
+                                                        </a>
+                                                        <a href={`https://twitter.com/share?text=${que?.question}&url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
+                                                            <TelegramIcon size={40} round={true} />
+                                                        </a>
+                                                        <a href={`https://web.whatsapp.com/send?text=${que?.question}%20${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
+                                                            <WhatsappIcon size={40} round={true} />
+                                                        </a>
+                                                        <a href={`https://www.pinterest.com/pin/create/button/?url=${urlSrc}&description=${que?.question}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
+                                                            <PinterestIcon size={40} round={true} />
+                                                        </a>
+                                                        <a href={`https://telegram.me/share/url?url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
+                                                            <TelegramIcon size={40} round={true} />
+                                                        </a>
+                                                        <a href={`https://www.reddit.com/submit?url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
+                                                            <RedditIcon size={40} round={true} />
+                                                        </a>
+                                                        <a href={`https://www.linkedin.com/sharing/share-offsite/?url=${urlSrc}`} target="_blank" noreferer="true" className="w-10 h-10 shadow-md rounded-full">
+                                                            <LinkedinIcon size={40} round={true} />
+                                                        </a>
+                                                    </>
+                                                    :
+                                                    <>
+                                                        <FacebookShareButton url={urlSrc} quote={que?.question}>
+                                                            <FacebookIcon size={40} round={true} />
+                                                        </FacebookShareButton>
+                                                        <TwitterShareButton url={urlSrc} title={que?.question} >
+                                                            <TwitterIcon size={40} round={true} />
+                                                        </TwitterShareButton>
+                                                        <WhatsappShareButton url={urlSrc} separator=" " >
+                                                            <WhatsappIcon size={40} round={true} />
+                                                        </WhatsappShareButton>
+                                                        <PinterestShareButton url={urlSrc} description={que?.question} media={que?.image_url || `https://neuron-club.vercel.app/images/que/${que?.category?.toLowerCase()}.jfif`} >
+                                                            <PinterestIcon size={40} round={true} />
+                                                        </PinterestShareButton>
+                                                        <TelegramShareButton url={urlSrc} title={que?.question} >
+                                                            <TelegramIcon size={40} round={true} />
+                                                        </TelegramShareButton>
+                                                        <RedditShareButton url={urlSrc} title={que?.question} >
+                                                            <RedditIcon size={40} round={true} />
+                                                        </RedditShareButton>
+                                                        <LinkedinShareButton url={urlSrc} title={que?.question} source={urlSrc} >
+                                                            <LinkedinIcon size={40} round={true} />
+                                                        </LinkedinShareButton>
+                                                    </>
+                                                }
+                                            </>
                                         </div>
                                     }
                                 </div>
