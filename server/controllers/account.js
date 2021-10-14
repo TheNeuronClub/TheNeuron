@@ -25,7 +25,7 @@ const register = async (req, res) => {
 
                 const referred = await User.findOne({ referral_code: referral_code });
                 if (referred) {
-                    referred.balance = 1500;
+                    referred.balance = referred.balance + 500;
                     await referred.save()
                 }
 
@@ -82,7 +82,7 @@ const resetPassword = async (req, res) => {
     const userFound = await User.findOne({ _id: _id }) && await User.findOne({ username: username })
     if (userFound) {
         password = await bcrypt.hash(password, 12)
-        const updateUser = await User.findByIdAndUpdate(_id, { password }, { new: true });
+        const updateUser = await User.findByIdAndUpdate({_id: _id}, { password: password }, { new: true });
         updateUser.Tokens = []
         await updateUser.save();
         res.status(200).send({ msg: 'Password updated' })
