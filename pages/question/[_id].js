@@ -298,7 +298,7 @@ function QuestionDetail({ questionData }) {
                                                 {isQueEdit && <tr>
                                                     <td></td>
                                                     <td>
-                                                        <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose gradient-bg text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={setQuestionStatus}>{que.qstatus === 'closed' ? 'Active' : 'Close'}&nbsp;this Question</button>
+                                                        <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose gradient-bg text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={setQuestionStatus}>{updateQue.qstatus === 'closed' ? 'Active' : 'Close'}&nbsp;this Question</button>
                                                     </td>
                                                 </tr>
                                                 }
