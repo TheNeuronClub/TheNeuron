@@ -16,7 +16,7 @@ function UserDropDown({ session }) {
     const [isLoader, setIsLoader] = useState(false)
     const dispatch = useDispatch();
     const amount = useSelector(balance)
-    const urlSrc = `${process.env.HOST}/account/register?referral_code=${session?.referral_code}`
+    const urlSrc = `https://www.theneuron.club/account/register?referral_code=${session?.referral_code}`
 
     useEffect(() => {
         const timer = setTimeout(() => {

@@ -20,7 +20,7 @@ const register = async (req, res) => {
             return res.status(422).json({ error: "Username already exist" })
         } else {
             try {
-                const user = new User({ username, email, password, name, country });
+                const user = new User({ username, email, password, name, country, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
                 const userRegistered = await user.save();
 
                 const referred = await User.findOne({ referral_code: referral_code });
@@ -110,7 +110,6 @@ const login = async (req, res) => {
                     res.status(203).send({ msg: 'User unverified' })
                 } else {
                     const newUser = userLogin.isNewUser
-                    userLogin.referral_code = Math.random().toString(36).slice(-6).toUpperCase();
                     userLogin.isNewUser = false;
                     await userLogin.save();
 
