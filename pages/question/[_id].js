@@ -101,11 +101,11 @@ function QuestionDetail({ questionData }) {
     }
 
     const handleChange = (e) => {
-        setUpdateQue({ ...que, [e.target.name]: e.target.value });
+        setUpdateQue({ ...updateQue, [e.target.name]: e.target.value });
     }
 
     const setQuestionStatus = () => {
-        setUpdateQue({ ...que, qstatus: (que.qstatus === 'verified') ? 'closed' : 'verified' });
+        setUpdateQue({ ...updateQue, qstatus: (updateQue.qstatus === 'verified') ? 'closed' : 'verified' });
     }
 
     const updateQuestion = async () => {
