@@ -131,13 +131,13 @@ function register({referral_code}) {
                                         </div>
                                         <div className="flex items-center justify-between">
                                             <button className="py-2 text-lg text-blue-500 font-semibold rounded-md my-4 bg-white active:scale-95 transition-sm flex items-center" onClick={() => setStep('one')}><ArrowLeftIcon className="h-4 mr-2" /> Previous</button>
-                                            <button type="submit" className="px-6 py-2 text-lg text-white font-semibold rounded-md my-4 gradient-bg active:scale-95 transition-sm">{isSending ? 'Validating' : 'Register'}</button>
+                                            <button type="submit" className="px-6 py-2 text-lg text-white font-semibold rounded-md my-4 gradient-bg active:scale-95 transition-sm">{isSending ? 'Wait...' : 'Register'}</button>
                                         </div>
                                     </>}
                                     <h1 className="text-center">Already have an account ? <a href="/account/login" className="text-blue-500 font-medium">Login</a></h1>
                                 </form>
                                 :
-                                <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">Verification link is sent to your Email</h1>
+                                <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">You've successfully registered to TheNeuron.Club. To continue, please verify your Email Adress</h1>
                         }
                     </div>
                 </div>

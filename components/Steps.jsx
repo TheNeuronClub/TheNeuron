@@ -11,7 +11,7 @@ function Steps({ step, type }) {
                 <p className="text-lg">{step?.desc}</p>
                 {step?.sub_desc && <ul>
                     {step?.sub_desc?.map((item, i) => (
-                        <li key={i}><p><b>Tip: </b>{item}</p></li>
+                        <li key={i} className="mt-2"><p className="text-gray-700 leading-normal"><b>Tip: </b> <i> {item} </i></p></li>
                     ))}
                     </ul>}
                 {step?.other && <ul className="mt-2">

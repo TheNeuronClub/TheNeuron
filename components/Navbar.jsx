@@ -8,6 +8,7 @@ import { updateBalance } from '../slices/userBalance'
 import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Loader from './Loader'
 
 function Navbar() {
     const router = useRouter();
@@ -16,18 +17,21 @@ function Navbar() {
     const [scrolled, setScrolled] = useState(false)
     const [isActive, setIsActive] = useState(false)
 
+    const [isLoader, setIsLoader] = useState(false)
     const logout = async () => {
+        setIsLoader(true)
         window.localStorage.setItem('neuron-token', '');
         const res = await fetch(`/api/account/logout`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(session._id)
+            body: JSON.stringify({ _id: session?._id })
         });
         if (res.status === 200) {
             location.reload();
         }
+        setIsLoader(false)
     }
 
     const checkDailyVisit = async () => {
@@ -140,6 +144,10 @@ function Navbar() {
                     </ul>
                 </div>
             }
+            <ToastContainer style={{ textAlign: "center", zIndex: '49' }} />
+            {isLoader && <div className=" w-full h-full bg-white bg-opacity-80 grid place-items-center fixed top-0 right-0">
+                <Loader />
+            </div>}
         </>
     )
 }
