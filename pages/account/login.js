@@ -89,11 +89,11 @@ function login() {
                                     <input className="w-4 h-4" type="checkbox" />
                                     <h1>Remember me</h1>
                                 </div>
-                                <button type="submit" className="w-full px-6 py-3 text-lg text-white font-semibold rounded-md my-4 gradient-bg focus:border-none focus:outline-none active:scale-95 transition-sm">{isSending ? 'Validating' : 'Login'}</button>
+                                <button type="submit" className="w-full px-6 py-3 text-lg text-white font-semibold rounded-md my-4 gradient-bg focus:border-none focus:outline-none active:scale-95 transition-sm">{isSending ? 'Wait...' : 'Login'}</button>
                                 <h1>Don't have an account ? <a href="/account/register" className="text-blue-500 font-medium">Register</a></h1>
                             </form>
                             :
-                            <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">User aleady registered, Verify your account to continue</h1>
+                            <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">User aleady registered, Verify your email to continue</h1>
                         }
                     </div>
                 </div>
@@ -104,20 +104,3 @@ function login() {
 
 export default login
 
-
-// export function getServerSideProps() {
-//     const session = userSession();
-//     if (session) {
-//         return {
-//             redirect: {
-//                 destination: '/',
-//                 parmanent: false
-//             }
-//         }
-//     }
-//     return {
-//         props: {
-//             session: null
-//         }
-//     }
-// }

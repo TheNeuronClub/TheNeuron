@@ -63,7 +63,7 @@ function reset_password({ _id, username }) {
 
                     {verify ?
                         <>
-                            <h1 className="text-3xl font-bold text-blue-500">Your Password is Reset</h1>
+                            <h1 className="text-3xl font-bold text-blue-500">Your Password is Reset Successfully</h1>
                             <button onClick={() => router.push('/account/login')} className="inline-block px-6 py-2 text-lg text-white font-semibold rounded-md my-4 gradient-bg active:scale-95 transition-sm">Login</button>
                         </>
                         :
