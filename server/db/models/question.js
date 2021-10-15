@@ -12,13 +12,13 @@ const questionSchema = new mongoose.Schema({
         type: String,
     },
     bidClosing: {
-        type: String,
+        type: Date,
     },
     settlementClosing: {
-        type: String,
+        type: Date,
     },
     goLive: {
-        type: String,
+        type: Date,
     },
     result: {
         type: String,
