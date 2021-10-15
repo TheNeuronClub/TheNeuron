@@ -1,4 +1,3 @@
-import sendEMail from '../../lib/Mail/sendMail';
 import Question from '../db/models/question'
 import Transaction from '../db/models/transaction';
 
@@ -10,7 +9,7 @@ const verifyQuestion = async (req, res) => {
             res.status(200).send({ msg: 'question verified' })
         }
         else {
-            res.status(300).send({ msg: 'unable to very question' })
+            res.status(300).send({ msg: 'unable to verify question' })
         }
     } catch (error) {
         console.log(error);
@@ -20,7 +19,8 @@ const verifyQuestion = async (req, res) => {
 
 const getQuestions = async (req, res) => {
     try {
-        const getQuestions = await Question.find().sort({ _id: -1 });
+        const filter = { goLive: { $lte: newDate(new Date().toISOString()) } }
+        const getQuestions = await Question.find(filter).sort({ _id: -1 });
         res.status(200).send(getQuestions)
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
@@ -29,8 +29,8 @@ const getQuestions = async (req, res) => {
 
 const ques = async (req, res) => {
     try {
-        const trending = await Question.find({ qstatus: 'verified' }).sort({ Volume: -1 }).limit(8);
-        const newest = await Question.find({ qstatus: 'verified' }).sort({ _id: -1 }).limit(8);
+        const trending = await Question.find({ qstatus: 'verified', goLive: { $lte: newDate(new Date().toISOString()) } }).sort({ Volume: -1 }).limit(8);
+        const newest = await Question.find({ qstatus: 'verified', goLive: { $lte: newDate(new Date().toISOString()) } }).sort({ _id: -1 }).limit(8);
         res.status(200).send({ trending, newest })
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
@@ -66,7 +66,7 @@ const update_que = async (req, res) => {
 const filter = async (req, res) => {
     const { category, sort, qstatus } = req.body;
     let sorting, filter;
-    category && category.length > 2 ? (filter = { category, qstatus }) : (filter = { qstatus })
+    category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: newDate(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) } })
     if (sort === 'volume') {
         sorting = { Volume: -1 }
     }

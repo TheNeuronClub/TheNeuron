@@ -28,7 +28,7 @@ function CreateQ({ session }) {
         goLive: '',
         options: ['Yes', 'No'],
         settlementClosing: '',
-        qstatus: 'created',
+        qstatus: 'verified',
     })
     const [desc, setDesc] = useState('')
 
@@ -62,23 +62,20 @@ function CreateQ({ session }) {
             formData.append("question", data.question);
             formData.append("userId", data.userId);
             formData.append("category", data.category);
-            formData.append("bidClosing", data.bidClosing);
-            formData.append("settlementClosing", data.settlementClosing);
+            formData.append("bidClosing", new Date(data.bidClosing).toISOString());
+            formData.append("settlementClosing", new Date(data.settlementClosing).toISOString());
             formData.append("options", data.options);
             formData.append("qstatus", data.qstatus);
-            formData.append("goLive", data.goLive);
             formData.append("desc", desc);
             formData.append("link", link);
-            formData.append("goLive", data.goLive);
+            formData.append("goLive", new Date(data.goLive).toISOString());
             const res = await fetch(`/api/question/create_question`, {
                 method: 'POST',
                 body: formData
             })
 
             console.log(res.status)
-            const response = await res.json(); 
             if (res.status === 201) {
-                // const cron = {_id: response?._id, qstatus: 'verified', goLive: data?.goLive}
                 setIsSent(true)
                 
                 setData({...data,
@@ -92,13 +89,6 @@ function CreateQ({ session }) {
                 setLink('');
                 setDesc('');
                 setIsSending(false)
-                // fetch(`/api/question/verifyQue`, {
-                //     method: 'POST',
-                //     headers: {
-                //         'Content-Type': 'application/json'
-                //     },
-                //     body: JSON.stringify(cron)
-                // });
             }
             setIsSending(false)
         }
