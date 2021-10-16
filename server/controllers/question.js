@@ -19,7 +19,7 @@ const verifyQuestion = async (req, res) => {
 
 const getQuestions = async (req, res) => {
     try {
-        const filter = { goLive: { $lte: newDate(new Date().toISOString()) } }
+        const filter = { goLive: { $lte: new Date(new Date().toISOString()) } }
         const getQuestions = await Question.find(filter).sort({ _id: -1 });
         res.status(200).send(getQuestions)
     } catch (error) {
@@ -29,8 +29,8 @@ const getQuestions = async (req, res) => {
 
 const ques = async (req, res) => {
     try {
-        const trending = await Question.find({ qstatus: 'verified' }).sort({ Volume: -1 }).limit(8);
-        const newest = await Question.find({ qstatus: 'verified' }).sort({ _id: -1 }).limit(8);
+        const trending = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) } }).sort({ Volume: -1 }).limit(8);
+        const newest = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) } }).sort({ _id: -1 }).limit(8);
         res.status(200).send({ trending, newest })
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
@@ -66,7 +66,7 @@ const update_que = async (req, res) => {
 const filter = async (req, res) => {
     const { category, sort, qstatus } = req.body;
     let sorting, filter;
-    category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: newDate(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) } })
+    category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: new Date(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) } })
     if (sort === 'volume') {
         sorting = { Volume: -1 }
     }
