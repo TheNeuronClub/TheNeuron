@@ -1,4 +1,4 @@
-import { ArrowLeftIcon, ArrowRightIcon, GlobeAltIcon, LockClosedIcon, MailIcon, UserGroupIcon, UserIcon, UsersIcon } from '@heroicons/react/solid'
+import { ArrowLeftIcon, ArrowRightIcon, GlobeAltIcon, LockClosedIcon, MailIcon, UserIcon, UsersIcon } from '@heroicons/react/solid'
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -6,13 +6,21 @@ import { useState, useEffect } from 'react'
 import { countries } from '../../util'
 import { userSession } from '../../lib/user-session'
 import { useRouter } from 'next/router'
+import { useSession, signIn } from "next-auth/client"
 
-function register({referral_code}) {
-    const session = userSession();
+function register({ referral_code }) {
+    const user = userSession();
     const router = useRouter();
+    const [session] = useSession()
+
+    useEffect(() => {
+        if (user) {
+            router.push('/')
+        }
+    }, [user])
     useEffect(() => {
         if (session) {
-            router.push('/')
+            setData({ email: session?.user?.email, name: session?.user?.name, image_url: session?.user?.image, isVerified: true })
         }
     }, [session])
 
@@ -27,7 +35,9 @@ function register({referral_code}) {
         password: '',
         name: '',
         country: 'Sweden',
-        referral_code: referral_code || ''
+        referral_code: referral_code || null,
+        image_url: session?.user?.image || null,
+        isVerified: false
     })
 
     const handleChange = (e) => {
@@ -53,7 +63,12 @@ function register({referral_code}) {
             setIsUsername(true);
         }
         else if (res.status == 201) {
-            setIsForm(false);
+            if (data.image_url) {
+                router.push('/account/login')
+            }
+            else {
+                setIsForm(false);
+            }
         } else {
             console.log("Unable to register user")
         }
@@ -89,7 +104,8 @@ function register({referral_code}) {
                                     {step === 'one' && <>
                                         <div className="flex border-b border-gray-700 py-2">
                                             <UserIcon className="h-6" />
-                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="username" minLength="5" value={data.username} required placeholder="User Name " />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="name" minLength="5" value={data.name} required placeholder="Your Name " />
+
                                         </div>
                                         {/* {isUsername && <p className="text-xs text-red-400">Username already exist</p>} */}
                                         <div className="flex border-b border-gray-700 py-2 mt-6">
@@ -98,9 +114,13 @@ function register({referral_code}) {
                                         </div>
                                         {/* {isEmail && <p className="text-xs text-red-400">Email already exist</p>} */}
                                         <div className="flex border-b border-gray-700 py-2 my-4">
-                                            <LockClosedIcon className="h-6" />
-                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="password" name="password" minLength="6" value={data.password} required placeholder="Password " />
+                                            <GlobeAltIcon className="h-6" />
+                                            <select onChange={handleChange} className="outline-none flex-grow px-2" type="country" name="country" value={data.country} required placeholder="Country ">
+                                                <option disabled>Country </option>
+                                                {countries.map((country, i) => <option key={i} value={country.country} >{country.country}</option>)}
+                                            </select>
                                         </div>
+
                                         <div className="flex items-center justify-end cursor-pointer mb-2" onClick={() => setStep('two')}>
                                             <button className="text-lg text-blue-500 font-semibold rounded-md my-4 bg-white active:scale-95 transition-sm flex items-center" onClick={() => setStep('one')}>Next<ArrowRightIcon className="h-4 ml-2" /></button>
                                         </div>
@@ -109,13 +129,11 @@ function register({referral_code}) {
                                     {step === 'two' && <>
                                         <div className="flex border-b border-gray-700 py-2">
                                             <UserIcon className="h-6" />
-                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="name" value={data.name} required placeholder="Your Name " />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="username" minLength="5" value={data.username} required placeholder="User Name " />
                                         </div>
                                         <div className="flex border-b border-gray-700 py-2 my-4">
-                                            <GlobeAltIcon className="h-6" />
-                                            <select onChange={handleChange} className="outline-none flex-grow px-2" type="country" name="country" value={data.country} required placeholder="Country ">
-                                                {countries.map((country, i) => <option key={i} value={country.country} >{country.country}</option>)}
-                                            </select>
+                                            <LockClosedIcon className="h-6" />
+                                            <input onChange={handleChange} className="outline-none flex-grow px-2" type="password" name="password" minLength="6" value={data.password} required placeholder="Password " />
                                         </div>
                                         <div className="flex border-b border-gray-700 py-2 mb-6">
                                             <UsersIcon className="h-6" />
@@ -139,6 +157,13 @@ function register({referral_code}) {
                                 :
                                 <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">You've successfully registered to TheNeuron.Club. To continue, please verify your Email Adress</h1>
                         }
+                        <h1 className="text-xl font-medium mt-6 tracking-wide text-gray-700"> Or </h1>
+                        <div className="flex items-center">
+                            <button className="px-4 py-1 inline-flex items-center space-x-2 rounded-lg border font-medium text-lg text-gray-700 hover:text-white shadow-lg active:scale-[0.98] transition duration-100 ease-in-out focus:outline-none focus:border-none m-4 min-w-[250px] border-gray-500 hover:bg-gray-800" onClick={() => signIn("google")}>
+                                <img src="/images/google.svg" alt="" className="w-10 h-10" />
+                                <span>Continue With Google</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -147,12 +172,11 @@ function register({referral_code}) {
 }
 
 export default register
-
 export function getServerSideProps(context) {
     const { referral_code } = context.query;
     return {
         props: {
-            referral_code
+            referral_code: referral_code || null
         }
     }
 }

@@ -9,6 +9,7 @@ import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from './Loader'
+import { signOut } from 'next-auth/client'
 
 function Navbar() {
     const router = useRouter();
@@ -18,8 +19,11 @@ function Navbar() {
     const [isActive, setIsActive] = useState(false)
 
     const [isLoader, setIsLoader] = useState(false)
+
+    const userSignOut = () => signOut();
     const logout = async () => {
         setIsLoader(true)
+        userSignOut();
         window.localStorage.setItem('neuron-token', '');
         const res = await fetch(`/api/account/logout`, {
             method: 'POST',
@@ -81,7 +85,7 @@ function Navbar() {
 
     return (
         <>
-            <div className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-14 lg:px-14 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
+            <div style={{zIndex: 48}} className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-14 lg:px-14 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
                 <Link href="/">
                     <div className="relative cursor-pointer">
                         <picture>

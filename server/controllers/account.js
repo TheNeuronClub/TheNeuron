@@ -9,7 +9,7 @@ import sendEMail from '../../lib/Mail/sendMail'
 const host = process.env.HOST
 
 const register = async (req, res) => {
-    const { username, email, password, country, name, referral_code } = req.body;
+    const { username, email, password, country, name, referral_code, image_url, isVerified } = req.body;
     try {
         const userEmail = await User.findOne({ email: email });
         if (userEmail) {
@@ -20,7 +20,7 @@ const register = async (req, res) => {
             return res.status(422).json({ error: "Username already exist" })
         } else {
             try {
-                const user = new User({ username, email, password, name, country, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
+                const user = new User({ username, email, password, name, country, image_url, isVerified, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
                 const userRegistered = await user.save();
 
                 const referred = await User.findOne({ referral_code: referral_code });
@@ -33,8 +33,10 @@ const register = async (req, res) => {
                     const token = await userRegistered.generateAuthToken();
                     const link = `${host}/account/verify?token=${token}`;
                     const data = { subject: `Confirmation for TheNeuron.Club Account`, text: link, email: userRegistered.email, html: `Click <a href="${link}" target="_blank">Here</a>  to verify your account.` };
-                    const result = await sendEMail(data);
-                    console.log(result)
+                    if (!isVerified) {
+                        const result = await sendEMail(data);
+                        console.log(result);
+                    }
                     res.status(201).json({ message: "User registered successfully" });
                 }
 
@@ -82,7 +84,7 @@ const resetPassword = async (req, res) => {
     const userFound = await User.findOne({ _id: _id }) && await User.findOne({ username: username })
     if (userFound) {
         password = await bcrypt.hash(password, 12)
-        const updateUser = await User.findByIdAndUpdate({_id: _id}, { password: password }, { new: true });
+        const updateUser = await User.findByIdAndUpdate({ _id: _id }, { password: password }, { new: true });
         updateUser.Tokens = []
         await updateUser.save();
         res.status(200).send({ msg: 'Password updated' })
