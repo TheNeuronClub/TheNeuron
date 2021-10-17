@@ -296,6 +296,10 @@ body {
     }
 
 }
+.Toastify__toast-container.Toastify__toast-container--top-center{
+    text-align: center;
+    z-index: 49;
+}
 
 .que__desc a {
     @apply text-blue-500
@@ -310,7 +314,7 @@ body {
 }
 
 .signup__btn {
-    @apply px-4 py-1 inline-flex items-center space-x-2 rounded-lg border font-medium text-lg hover:text-white shadow-lg active:scale-[0.98] transition duration-100 ease-in-out focus:outline-none focus:border-none;
+    @apply px-4 py-1 inline-flex items-center space-x-2 rounded-lg border font-medium text-lg text-gray-800 hover:text-white shadow-lg active:scale-[0.98] transition duration-100 ease-in-out focus:outline-none focus:border-none;
     min-width: 150px;
     margin: 1rem;
 }

@@ -5,14 +5,22 @@ import Image from 'next/image'
 import Router from "next/router"
 import { useState, useEffect } from 'react'
 import { userSession } from '../../lib/user-session'
+import { useSession } from "next-auth/client"
 
 function login() {
-    const session = userSession();
+    const user = userSession();
+    const [session] = useSession();
     useEffect(() => {
-        if (session) {
+        if (user) {
             Router.push('/')
         }
-    }, [session])
+    }, [user])
+
+    useEffect(() => {
+        if (session) {
+            setData({ email: session?.user?.email})
+        }
+    }, [])
 
     const [isSending, setIsSending] = useState(false)
     const [isValid, setIsValid] = useState(true)
