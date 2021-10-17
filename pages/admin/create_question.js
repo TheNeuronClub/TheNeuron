@@ -25,20 +25,3 @@ function create_question() {
 
 export default create_question
 
-// export async function getServerSideProps(){
-//     const session = userSession();
-//     console.log(session)
-//     if(!session){
-//         return {
-//             redirect: {
-//                 destination: '/account/login',
-//                 parmanent: false
-//             }
-//         }
-//     }
-//     return {
-//         props: {
-//             session
-//         }
-//     }
-// }

@@ -72,11 +72,13 @@ function index() {
                             <div className="max-w-[300px] mx-auto gradient-shadow rounded-xl p-6 space-x-4 flex items-center border-b-4 info__border">
 
                                 <div className="w-16 h-16 mx-auto border-8 pb-1 border-white shadow-md hover:shadow-lg rounded-full gradient-bg font-bold text-4xl grid place-items-center text-white">
-                                    {userData?.name?.[0]}
+                                    {session?.image_url ?
+                                        <img className="w-full h-full object-cover rounded-full" src={session?.image_url} alt="" />
+                                        : session?.name?.[0]}
                                 </div>
                                 <div className="text-lg">
-                                    <h2>{userData?.name}</h2>
-                                    <h1 className="text-gray-500 text-base">{userData?.country}</h1>
+                                    <h2>{session?.name}</h2>
+                                    <h1 className="text-gray-500 text-base">{session?.country}</h1>
                                 </div>
                             </div>
                         </div>

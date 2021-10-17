@@ -2,6 +2,7 @@ import 'tailwindcss/tailwind.css'
 import '../styles/quill.snow.css'
 import '../styles/global.css'
 import { Provider } from 'react-redux'
+import { Provider as AuthProvider } from "next-auth/client"
 import Router, { useRouter } from 'next/router'
 import * as ga from '../lib/ga'
 import { useEffect } from 'react'
@@ -39,19 +40,21 @@ function MyApp({ Component, pageProps }) {
     }
   }, [router.events])
   return (
-    <Provider store={store}>
-      <Head>
-        <link rel="icon" href="/favicon.png" />
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-        <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-      </Head>
-      <div className="w-full relative min-h-screen flex flex-col justify-between max_w_3xl">
-      {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Navbar />}
-      <Component {...pageProps} />
-      {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Footer />}
-      </div>
-    </Provider>
+    <AuthProvider session={pageProps.session}>
+      <Provider store={store}>
+        <Head>
+          <link rel="icon" href="/favicon.png" />
+          <link rel="preconnect" href="https://fonts.googleapis.com" />
+          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+          <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+        </Head>
+        <div className="w-full relative min-h-screen flex flex-col justify-between max_w_3xl">
+          {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Navbar />}
+          <Component {...pageProps} />
+          {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Footer />}
+        </div>
+      </Provider>
+    </AuthProvider>
   )
 }
 

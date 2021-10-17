@@ -22,7 +22,7 @@ function CreateQ({ session }) {
     const [qImage, setQImage] = useState(null);
     const [data, setData] = useState({
         question: '',
-        userId: session?.username || 'Ankit628792',
+        userId: session?.username || 'Unknown',
         category: '',
         bidClosing: '',
         goLive: '',
