@@ -1,6 +1,5 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
-import Router from 'next/router'
 import Header from '../components/Header'
 import QuestionGroup from '../components/QuestionGroup'
 import { ToastContainer, toast } from 'react-toastify';
@@ -8,7 +7,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import Carousel from '../components/Carousel'
 
 export default function Home({ questions }) {
-  const [isNewUser, setIsNewUser] = useState(false)
   const [carousel, setCarousel] = useState(false)
 
   useEffect(() => {
@@ -23,7 +21,6 @@ export default function Home({ questions }) {
         draggable: true,
         progress: undefined,
       });
-      setIsNewUser(true);
       setCarousel(true);
     }
     window.localStorage.setItem('neuron-newUser', false)
@@ -45,7 +42,7 @@ export default function Home({ questions }) {
         <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
         <QuestionGroup questions={questions?.newest} category={"New Topics"} />
       </div>
-      <ToastContainer style={{ textAlign: 'center', zIndex: '49' }} />
+      <ToastContainer style={{ textAlign: 'center', zIndex: '49', opacity: '0' }} />
     </>
   )
 }
