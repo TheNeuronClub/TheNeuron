@@ -62,7 +62,6 @@ function index({ data }) {
         if (res.status === 200) {
             dispatch(updatedFilter(filter))
             setQuestions(response)
-
         }
         setIsLoader(false)
     }
