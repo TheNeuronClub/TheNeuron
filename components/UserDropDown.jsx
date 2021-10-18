@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { CashIcon, ChevronDownIcon, ChevronUpIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, XIcon } from "@heroicons/react/solid"
+import { ChevronDownIcon, ChevronUpIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, XIcon } from "@heroicons/react/solid"
 import Router from 'next/router'
 import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon, WhatsappIcon } from "react-share";
 import { useDispatch } from 'react-redux'
@@ -10,6 +10,8 @@ import Coin from './Coin';
 import Carousel from './Carousel';
 import Loader from './Loader';
 import { signOut } from 'next-auth/client'
+import { motion } from 'framer-motion';
+import { fadeOut, pageTransition, pageZoom } from '../util';
 
 function UserDropDown({ session }) {
     const [isActive, setIsActive] = useState(false)
@@ -74,7 +76,11 @@ function UserDropDown({ session }) {
                     </div>
                     {isActive ? <ChevronUpIcon className="w-5 h-5" /> : <ChevronDownIcon className="w-5 h-5" />}
                 </div>
-                {isActive && <div className="bg-white gradient-shadow-md absolute min-w-max rounded-md p-3 top-[130%] left-1/2 transform -translate-x-1/2">
+                {isActive && <motion.div initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={fadeOut}
+                    transition={pageTransition} className="bg-white gradient-shadow-md absolute min-w-max rounded-md p-3 top-[130%] left-1/2 transform -translate-x-1/2">
                     <ul className="space-y-4 text-lg text-gray-500">
                         <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/account/')}><UserIcon className="w-6 h-6 mr-1 text-gray-700" />Portfolio</li>
                         <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => setIsShare(true)}><ShareIcon className="w-6 h-6 mr-1 text-gray-700" />Invite a Friend</li>
@@ -84,14 +90,18 @@ function UserDropDown({ session }) {
                         <li onClick={logout} className="hover:text-gray-900 cursor-pointer transition-sm flex items-center"><LogoutIcon className="w-6 h-6 mr-1 text-gray-700" />Logout </li>
                     </ul>
                     <div className="bg-white absolute -top-2 left-1/2 transform -translate-x-1/2 w-10 h-5 clip-path-sm"></div>
-                </div>
+                </motion.div>
                 }
             </div>
 
             {isShare &&
                 <>
                     <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full grid place-items-center z-50 bg-black bg-opacity-80" onClick={() => setIsShare(false)} >
-                        <div className="relative max-w-sm md:max-w-md py-10 md:py-12 px-8 bg-white rounded-xl shadow-2xl m-4 flex items-center justify-center flex-wrap gap-4">
+                        <motion.div initial="initial"
+                            animate="in"
+                            exit="out"
+                            variants={pageZoom}
+                            transition={pageTransition} className="relative max-w-sm md:max-w-md py-10 md:py-12 px-8 bg-white rounded-xl shadow-2xl m-4 flex items-center justify-center flex-wrap gap-4">
                             <XIcon className="h-8 w-8 md:w-10 md:h-10 absolute top-4 right-4 cursor-pointer active:scale-95 transition-sm text-gray-800" onClick={() => setIsShare(false)} />
                             <h1 className="text-gray-800 block w-full text-xl font-semibold">Invite a Friend &amp; Earn 500 Coins </h1>
                             <>
@@ -145,7 +155,7 @@ function UserDropDown({ session }) {
                                     </>
                                 }
                             </>
-                        </div>
+                        </motion.div>
                     </div>
                 </>
             }

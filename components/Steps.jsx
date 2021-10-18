@@ -1,7 +1,14 @@
 import Image from "next/image"
+import { motion } from "framer-motion"
+import { pageSlide, pageTransition } from "../util"
+
 function Steps({ step, type }) {
     return (
-        <div className={`md:mx-5 sm:max-w-3xl lg:max-w-5xl md:flex items-center sm:mx-auto p-5 sm:py-10 ${step.no % 2 !== 0 ? type==='bid' ?'flex-row-reverse' : 'flex-row' : type==='coin' ? 'flex-row-reverse' : 'flex-row' }`}>
+        <motion.div initial="initial"
+            animate="in"
+            exit="out"
+            variants={pageSlide}
+            transition={pageTransition} className={`md:mx-5 sm:max-w-3xl lg:max-w-5xl md:flex items-center sm:mx-auto p-5 sm:py-10 ${step.no % 2 !== 0 ? type === 'bid' ? 'flex-row-reverse' : 'flex-row' : type === 'coin' ? 'flex-row-reverse' : 'flex-row'}`}>
             <div className="relative mx-auto w-80 sm:w-96 md:min-w-[350px] h-72">
                 <Image src={step.img} layout="fill" objectFit="fill" className="rounded-xl" />
             </div>
@@ -13,7 +20,7 @@ function Steps({ step, type }) {
                     {step?.sub_desc?.map((item, i) => (
                         <li key={i} className="mt-2"><p className="text-gray-700 leading-normal"><b>Tip: </b> <i> {item} </i></p></li>
                     ))}
-                    </ul>}
+                </ul>}
                 {step?.other && <ul className="mt-2">
                     {
                         step?.other?.map((item, i) => (
@@ -22,7 +29,7 @@ function Steps({ step, type }) {
                     }
                 </ul>}
             </div>
-        </div>
+        </motion.div>
     )
 }
 

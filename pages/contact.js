@@ -1,6 +1,8 @@
 import Head from 'next/head'
 import { useState } from 'react'
 import Modal from '../components/Modal'
+import { motion } from 'framer-motion'
+import { pageTransition, pageZoom } from '../util'
 
 function contact() {
   const [isSending, setIsSending] = useState(false)
@@ -58,7 +60,11 @@ function contact() {
 
               </div>
               <div className="w-full max-w-xl xl:px-8 xl:w-5/12">
-                <div className="bg-white rounded gradient-shadow p-7 sm:p-10 m-2">
+                <motion.div initial="initial"
+                  animate="in"
+                  exit="out"
+                  variants={pageZoom}
+                  transition={pageTransition} className="bg-white rounded gradient-shadow p-7 sm:p-10 m-2">
                   <form onSubmit={handleSubmit}>
                     <div className="mb-1 sm:mb-2">
                       <label htmlFor="Name" className="inline-block mb-1 font-medium">Name<span className="mx-1 text-red-500">*</span></label>
@@ -103,7 +109,7 @@ function contact() {
                       <button type="submit" className="px-5 py-2 gradient-bg text-lg text-white rounded-xl font-semibold active:scale-95 transition-sm">{isSending ? `Sending...` : `Send Message`}</button>
                     </div>
                   </form>
-                </div>
+                </motion.div>
               </div>
             </div>
           </div>

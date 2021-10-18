@@ -1,4 +1,6 @@
 import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { fadeOut, pageTransition } from '../util'
 
 function Accordion({ title, content, desc }) {
     const [isActive, setIsActive] = useState(false)
@@ -18,13 +20,17 @@ function Accordion({ title, content, desc }) {
                 }
             </div>
             {isActive &&
-                <> <p className="text-base text-gray-600 bg-white py-3 px-6 pb-4 text-justify">{content}
+                <> <motion.p initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={fadeOut}
+                    transition={pageTransition} className="text-base text-gray-600 bg-white py-3 px-6 pb-4 text-justify">{content}
                     {desc &&
                         <ul className="bg-white">
                             {desc.map((item) => <li className="text-sm list-disc ml-6 mt-2">{item} </li>)}
                         </ul>
                     }
-                    </p>
+                </motion.p>
                 </>}
         </div>
     )

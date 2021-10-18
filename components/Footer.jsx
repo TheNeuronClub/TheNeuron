@@ -1,10 +1,10 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { pageTransition, pageZoom } from '../util'
 
 function Footer() {
     const [isCopied, setIsCopied] = useState(false)
-const [displayCopy, setDisplayCopy] = useState(true)
 
     const copyToClipboard = () => {
         navigator.clipboard.writeText("contact@theneuron.club")
@@ -50,9 +50,12 @@ const [displayCopy, setDisplayCopy] = useState(true)
                             </div>
                         </Link>
                         <div className="footer__social relative" onClick={() => copyToClipboard()}>
-                            {isCopied && <span>Email Copied</span>}
+                            {isCopied && <motion.span initial="initial"
+                                animate="in"
+                                exit="out"
+                                variants={pageZoom}
+                                transition={pageTransition} >Email Copied</motion.span>}
                             <svg viewBox="0 0 24 24" aria-hidden="true" tabIndex="-1" title="Mail"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"></path></svg>
-                           
                         </div>
                     </ul>
                 </div>

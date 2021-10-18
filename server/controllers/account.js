@@ -23,13 +23,18 @@ const register = async (req, res) => {
                 const user = new User({ username, email, password, name, country, image_url, isVerified, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
                 const userRegistered = await user.save();
 
-                const referred = await User.findOne({ referral_code: referral_code });
-                if (referred) {
-                    referred.balance = referred.balance + 500;
-                    await referred.save()
-                }
-
                 if (userRegistered) {
+                    if (referral_code) {
+                        try {
+                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've won 500 neuron coins for refer user`, referred_user: userRegistered.username }, $inc: { balance: 500 } }, { new: true });
+                            if (refer) {
+                                const referredThrough = await User.findByIdAndUpdate({ _id: userRegistered._id }, { referred_through: `${referral_code}` }, { new: true });
+                            }
+                        } catch (error) {
+                            console.log('Wrong Referral Code')
+                        }
+                    }
+
                     const token = await userRegistered.generateAuthToken();
                     const link = `${host}/account/verify?token=${token}`;
                     const data = { subject: `Confirmation for TheNeuron.Club Account`, text: link, email: userRegistered.email, html: `Click <a href="${link}" target="_blank">Here</a>  to verify your account.` };
@@ -37,7 +42,7 @@ const register = async (req, res) => {
                         const result = await sendEMail(data);
                         console.log(result);
                     }
-                    res.status(201).json({ message: "User registered successfully" });
+                    res.status(201).send({ token: token });
                 }
 
             } catch (error) {
@@ -98,11 +103,27 @@ function shuffle(array) {
     array.sort(() => Math.random() - 0.5);
 }
 
+const loginSuccess = async (req, res, user) => {
+    const newUser = user.isNewUser
+    user.isNewUser = false;
+    await user.save();
+
+    const token = await user.generateAuthToken();
+    const cookies = new Cookies(req, res)
+
+    // Set a cookie
+    cookies.set('neuron', token, {
+        expires: new Date(Date.now() + 1000 * 60 * 10 * 6 * 24),
+        httpOnly: true // true by default
+    })
+    res.status(200).send({ token, newUser });
+}
 const login = async (req, res) => {
+    const { type } = req.query;
     const { email, password } = req.body;
     try {
         const userLogin = await User.findOne({ email: email }) || await User.findOne({ username: email })
-        if (userLogin) {
+        if (userLogin && type !== 'social') {
             const isMatch = await bcrypt.compare(password, userLogin.password)
 
             if (!isMatch) {
@@ -111,24 +132,27 @@ const login = async (req, res) => {
                 if (userLogin.isVerified === false) {
                     res.status(203).send({ msg: 'User unverified' })
                 } else {
-                    const newUser = userLogin.isNewUser
-                    userLogin.isNewUser = false;
-                    await userLogin.save();
-
-                    const token = await userLogin.generateAuthToken();
-                    const cookies = new Cookies(req, res)
-
-                    // Set a cookie
-                    cookies.set('neuron', token, {
-                        expires: new Date(Date.now() + 1000 * 60 * 10 * 6 * 24),
-                        httpOnly: true // true by default
-                    })
-                    res.status(200).send({ token, newUser });
+                    await loginSuccess(req, res, userLogin)
                 }
             }
         }
+        else if (userLogin && type === 'social') {
+            await loginSuccess(req, res, userLogin)
+        }
         else {
-            res.status(401).json({ error: "User doesn't exist" })
+            if (type === 'social') {
+                try {
+                    const user = new User({ name: req.body.name, email: req.body.email, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
+                    const userRegistered = await user.save();
+                    await loginSuccess(req, res, userRegistered);
+                } catch (error) {
+                    res.status(400).json({ error: 'Failed to Social Sigin' })
+                }
+            }
+            else {
+                res.status(401).json({ error: "User doesn't exist" })
+            }
+
         }
     } catch (error) {
         console.log(error)

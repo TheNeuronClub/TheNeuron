@@ -1,5 +1,7 @@
 import { ArrowUpIcon } from '@heroicons/react/solid';
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion';
+import { fadeOut, pageTransition } from '../util';
 
 function ScrollToTop() {
     const scrollTop = () => {
@@ -23,12 +25,16 @@ function ScrollToTop() {
     }, [scrolled])
     return (
         <>
-            <button className="btn__float gradient-bg gradient-shadow-lg p-3 fixed bottom-10 right-10 font-bold text-white rounded-full"
+            <motion.button initial="initial"
+                animate="in"
+                exit="out"
+                variants={fadeOut}
+                transition={pageTransition} className="btn__float gradient-bg gradient-shadow-lg p-3 fixed bottom-10 right-10 font-bold text-white rounded-full"
                 onClick={scrollTop}
                 style={{ display: scrolled ? 'flex' : 'none' }}
             >
                 <ArrowUpIcon className="w-8 h-8 text-white" />
-            </button>
+            </motion.button>
         </>
     )
 }

@@ -3,6 +3,8 @@ import { LockClosedIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 import { useState, useEffect } from 'react'
 import { userSession } from '../../lib/user-session';
+import { motion } from 'framer-motion';
+import { pageTransition, pageZoom } from '../../util';
 
 function reset_password({ _id, username }) {
     const router = useRouter();
@@ -59,12 +61,24 @@ function reset_password({ _id, username }) {
                 <link rel="icon" href="/favicon.png" />
             </Head>
             <div className="w-full min-h-[500px] pt-32 pb-10">
-                <div className="p-5 sm:px-10 sm:py-10 max-w-3xl text-center bg-white text-gray-700 mx-auto gradient-shadow">
+                <motion.div initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageZoom}
+                    transition={pageTransition} className="p-5 sm:px-10 sm:py-10 max-w-3xl text-center bg-white text-gray-700 mx-auto gradient-shadow">
 
                     {verify ?
                         <>
-                            <h1 className="text-3xl font-bold text-blue-500">Your Password is Reset Successfully</h1>
-                            <button onClick={() => router.push('/account/login')} className="inline-block px-6 py-2 text-lg text-white font-semibold rounded-md my-4 gradient-bg active:scale-95 transition-sm">Login</button>
+                            <motion.h1 initial="initial"
+                                animate="in"
+                                exit="out"
+                                variants={pageZoom}
+                                transition={pageTransition} className="text-3xl font-bold text-blue-500">Your Password is Reset Successfully</motion.h1>
+                            <motion.button onClick={() => router.push('/account/login')} initial="initial"
+                                animate="in"
+                                exit="out"
+                                variants={pageZoom}
+                                transition={pageTransition} className="inline-block px-6 py-2 text-lg text-white font-semibold rounded-md my-4 gradient-bg active:scale-95 transition-sm">Login</motion.button>
                         </>
                         :
                         <>
@@ -85,7 +99,7 @@ function reset_password({ _id, username }) {
                             </div>
                         </>
                     }
-                </div>
+                </motion.div>
             </div>
         </>
     )

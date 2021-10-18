@@ -2,6 +2,8 @@ import Head from 'next/head'
 import { useState } from 'react'
 import Modal from '../components/Modal'
 import { userSession } from '../lib/user-session/index'
+import { motion } from 'framer-motion'
+import { pageTransition, pageZoom } from '../util';
 function report_bug() {
     const session = userSession();
     const [isSending, setIsSending] = useState(false)
@@ -55,7 +57,11 @@ function report_bug() {
             <div className="relative pt-24 pb-10">
 
                 <div className="w-full max-w-xl xl:px-8 xl:w-5/12 mx-auto">
-                    <div className="bg-white rounded gradient-shadow p-7 sm:p-10 m-2">
+                    <motion.div initial="initial"
+                        animate="in"
+                        exit="out"
+                        variants={pageZoom}
+                        transition={pageTransition} className="bg-white rounded gradient-shadow p-7 sm:p-10 m-2">
                         <form onSubmit={handleSubmit}>
                             <div className="mb-1 sm:mb-2">
                                 <label htmlFor="email" className="inline-block mb-1 font-medium">Your E-mail<span className="mx-1 text-red-500">*</span> </label>
@@ -108,7 +114,7 @@ function report_bug() {
                                 <button type="submit" className="px-5 py-2 gradient-bg text-lg text-white rounded-xl font-semibold active:scale-95 transition-sm">{isSending ? `Sending...` : `Send Message`}</button>
                             </div>
                         </form>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
             {isSent && <div onClick={() => setIsSent(false)}><Modal state={isSent} text="Thanks for your feedback. We'll resolve the issue soon" /> </div>}
