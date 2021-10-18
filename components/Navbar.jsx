@@ -100,12 +100,8 @@ function Navbar() {
                 <div className="flex items-center">
                     <ul className="flex hidden md:block space-x-5 pr-6 font-medium text-lg">
                         <Link href="/question/">Explore</Link>
-                        {session?.type === 'admin' &&
-                            <Link href="/admin/create_question">
-                                <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Create Question</h1>
-                            </Link>
-                        }
                         <Link href="/how_it_works">How it Works</Link>
+                        {session?.type==='admin' && <Link href="/admin/create_question">Create Question</Link>}
                         {!session &&
                             <>
                                 <Link href="/faq">FAQs</Link>
