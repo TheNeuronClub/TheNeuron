@@ -4,6 +4,8 @@ import Question from "./Question";
 import { useState } from 'react'
 import Image from 'next/image'
 import Row from "./Row";
+import { motion } from "framer-motion";
+import { container, pageTransition } from "../util";
 
 function QuestionGroup({ questions, category, user }) {
     const [filter, setFilter] = useState('')
@@ -55,7 +57,11 @@ function QuestionGroup({ questions, category, user }) {
 
                                 </tr>
                             </thead>
-                            <tbody className="bg-white divide-y divide-gray-200 overflow-auto">
+                            <motion.tbody
+                                initial="hidden"
+                                animate="visible"
+                                variants={container}
+                                transition={pageTransition} className="bg-white divide-y divide-gray-200 overflow-auto">
                                 {
                                     (questions && questions?.length > 0 && filter !== 'Win' && filter !== 'Lose') ?
                                         <>
@@ -72,7 +78,7 @@ function QuestionGroup({ questions, category, user }) {
                                             </td>
                                         </>
                                 }
-                            </tbody>
+                            </motion.tbody>
                         </table>
                     </div>
                     : <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 question__group">

@@ -8,7 +8,6 @@ const userSchema = new mongoose.Schema({
     },
     username: {
         type: String,
-        required: true,
         unique: true
     },
     image_url: {
@@ -21,7 +20,6 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true
     },
     balance: {
         type: Number,
@@ -38,7 +36,13 @@ const userSchema = new mongoose.Schema({
     country: {
         type: String,
     },
+    referred_user: {
+        type: Array
+    },
     referral_code: {
+        type: String,
+    },
+    referred_through: {
         type: String,
     },
     lastVisit: {

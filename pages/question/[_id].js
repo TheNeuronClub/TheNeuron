@@ -1,6 +1,6 @@
 import Head from 'next/head'
-import { useState, useEffect } from 'react'
-import { MinusIcon, PencilIcon, PlusIcon, ShareIcon, XIcon } from '@heroicons/react/solid'
+import { useState } from 'react'
+import { MinusIcon, PlusIcon, ShareIcon, XIcon } from '@heroicons/react/solid'
 import Loader from '../../components/Loader'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -11,7 +11,8 @@ import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, Tw
 import Coin from '../../components/Coin'
 import { balance, updateBalance } from '../../slices/userBalance'
 import { useDispatch, useSelector } from 'react-redux'
-import { modules, formats, getCurrentDate } from '../../util'
+import { motion } from 'framer-motion';
+import { modules, formats, getCurrentDate, pageSlide, pageTransition, pageZoom } from '../../util'
 import dynamic from 'next/dynamic'
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -40,6 +41,7 @@ function QuestionDetail({ questionData }) {
     const [updateQue, setUpdateQue] = useState(questionData);
     const [isQueEdit, setIsQueEdit] = useState(false)
     const [desc, setDesc] = useState(que?.desc)
+    // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
     let { Volume, Favour, Against } = bidData
@@ -139,7 +141,11 @@ function QuestionDetail({ questionData }) {
                 {
                     que && que?.category ?
                         <>
-                            <div className="w-full max-w-5xl gradient-shadow mx-auto rounded-lg lg:p-10 text-xl md:text-2xl font-medium mb-2 sm:mb-4 p-5 px-10 sm:flex sm:space-x-4 items-center text-gray-700 relative">
+                            <motion.div initial="initial"
+                                animate="in"
+                                exit="out"
+                                variants={pageSlide}
+                                transition={pageTransition} className="w-full max-w-5xl gradient-shadow mx-auto rounded-lg lg:p-10 text-xl md:text-2xl font-medium mb-2 sm:mb-4 p-5 px-10 sm:flex sm:space-x-4 items-center text-gray-700 relative">
                                 <img src={que?.image_url || `/images/que/${que?.category?.toLowerCase()}.jfif`} alt="" className="w-12 h-12 shadow-lg hover:scale-105 transition-md object-cover rounded-full" />
                                 {isQueEdit ? <input
                                     placeholder="Question"
@@ -153,7 +159,11 @@ function QuestionDetail({ questionData }) {
                                 <div className="w-12 h-12 absolute top-5 right-6 sm:top-0 sm:right-0 sm:relative pt-1 grid place-items-center">
                                     {!isShare ?
                                         <ShareIcon title="Share this Question" className="w-8 h-8 sm:w-10 sm:h-10 text-gray-700 cursor-pointer" onClick={() => setIsShare(true)} />
-                                        : <div className="w-12 h-auto flex flex-col items-center justify-center space-y-2 z-20">
+                                        : <motion.div initial="initial"
+                                            animate="in"
+                                            exit="out"
+                                            variants={pageSlide}
+                                            transition={pageTransition} className="w-12 h-auto flex flex-col items-center justify-center space-y-2 z-20">
                                             <XIcon className="w-10 h-10 bg-white cursor-pointer rounded-full text-gray-700" onClick={() => setIsShare(false)} />
                                             <>
                                                 {window.innerWidth > 769 ?
@@ -206,13 +216,21 @@ function QuestionDetail({ questionData }) {
                                                     </>
                                                 }
                                             </>
-                                        </div>
+                                        </motion.div>
                                     }
                                 </div>
-                            </div>
-                            <div className="max-w-5xl gradient-shadow mx-auto rounded-lg p-5 lg:p-10 z-10">
+                            </motion.div>
+                            <motion.div initial="initial"
+                                animate="in"
+                                exit="out"
+                                variants={pageSlide}
+                                transition={pageTransition} className="max-w-5xl gradient-shadow mx-auto rounded-lg p-5 lg:p-10 z-10">
                                 <div className="flex flex-col-reverse md:flex-row w-full bet text-lg justify-around">
-                                    <div className="bet__container">
+                                    <motion.div initial="initial"
+                                        animate="in"
+                                        exit="out"
+                                        variants={pageZoom}
+                                        transition={pageTransition} className="bet__container">
                                         <div>
                                             <input type="radio" value="Favour" id="Favour" className="hidden"
                                                 onChange={(e) => setOdd(e.target.value)} name="odd" />
@@ -259,10 +277,13 @@ function QuestionDetail({ questionData }) {
                                                 </tr>
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </motion.div>
 
-                                    <div className="bet__container">
-                                        {/* {session?.admin && <span className="flex space-x-1 items-center text-gray-600 hover:text-gray-800 cursor-pointer text-base font-medium absolute top-5 right-5" onClick={() => setIsDateEdit(true)}><PencilIcon className="w-5 h-5" /> Edit </span>} */}
+                                    <motion.div initial="initial"
+                                        animate="in"
+                                        exit="out"
+                                        variants={pageZoom}
+                                        transition={pageTransition} className="bet__container">
                                         <table className="min-h-[250px]">
                                             <tbody>
                                                 <tr>
@@ -334,11 +355,15 @@ function QuestionDetail({ questionData }) {
                                                 }
                                             </tbody>
                                         </table>
-                                    </div>
+                                    </motion.div>
 
                                 </div>
 
-                                <div className="p-5">
+                                <motion.div initial="initial"
+                                    animate="in"
+                                    exit="out"
+                                    variants={pageSlide}
+                                    transition={pageTransition} className="p-5">
                                     {
                                         isQueEdit ?
                                             <>
@@ -347,18 +372,19 @@ function QuestionDetail({ questionData }) {
                                             </>
                                             :
                                             <>
-                                                <h1 className="text-2xl font-semibold my-2">About the question
-                                                    {/* {session?.admin && <span className="inline-flex ml-2 text-gray-600 hover:text-gray-800 cursor-pointer space-x-1 items-center text-base font-medium" onClick={() => setIsDescEdit(true)}><PencilIcon className="w-5 h-5" /> Edit </span>}  */}
-                                                </h1>
-                                                <div className="sm:text-lg que__desc" dangerouslySetInnerHTML={DESC()}>
-                                                </div>
+                                                <h1 className="text-2xl font-semibold my-2">About the question</h1>
+                                                <div className="sm:text-lg que__desc" dangerouslySetInnerHTML={DESC()}></div>
                                             </>
                                     }
-                                </div>
-                                {que?.reference && <div className="p-5 pt-0">
+                                </motion.div>
+                                {que?.reference && <motion.div initial="initial"
+                                    animate="in"
+                                    exit="out"
+                                    variants={pageSlide}
+                                    transition={pageTransition} className="p-5 pt-0">
                                     <h1 className="text-2xl font-semibold my-2">Source of Settlement</h1>
                                     <a href={que?.reference} className="my-2 text-blue-500 block text-lg" target="_blank" noreferer="true">{que?.reference}</a>
-                                </div>}
+                                </motion.div>}
                                 {session?.type === 'admin' &&
                                     <> {(isQueEdit) ? <div className="px-5 pb-10">
                                         <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={updateQuestion}>Update</button>
@@ -368,17 +394,17 @@ function QuestionDetail({ questionData }) {
                                     }
                                     </>
                                 }
-                                {/* {(isDescEdit || isDateEdit) && <div className="px-5 pb-10">
-                                    <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 gradient-bg text-white cursor-pointer`} onClick={updateQuestion}>Update</button>
-                                    <button className={`px-4 py-2 leading-loose text-gray-800 hover:text-white hover:bg-gray-800 hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 cursor-pointer`} onClick={cancelUpdate}>Cancel</button>
-                                </div>} */}
-                            </div>
+                            </motion.div>
                         </>
                         :
                         <Loader />
                 }
             </div>
-            {isActive && <div className="fixed top-0 left-0 right-0 bottom-0 w-full h-full grid place-items-center z-50" >
+            {isActive && <motion.div initial="initial"
+                animate="in"
+                exit="out"
+                variants={pageZoom}
+                transition={pageTransition} className="fixed top-0 left-0 right-0 bottom-0 w-full h-full grid place-items-center z-50" >
                 <div className="relative max-w-sm md:max-w-md py-10 md:py-14 px-5 md:px-10 bg-white rounded-xl shadow-2xl m-4">
                     <h1 className="text-xl md:text-2xl my-4 text-center font-medium text-gray-800 z-50 leading-tight">
                         Please confirm that you want to place a bid of <div className="flex items-center justify-center">
@@ -390,7 +416,7 @@ function QuestionDetail({ questionData }) {
                         <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose gradient-bg text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={handleBet}>{'Place Bid'}</button>
                     </div>
                 </div>
-            </div>}
+            </motion.div>}
             {isBidPlaced && <div onClick={() => setIsBidPlaced(false)} ><Modal state={isBidPlaced} text="Bid Placed Successfully" /> </div>}
             {isLoggedIn && <div onClick={() => setIsLoggedIn(false)}><Modal state={isLoggedIn} text="Please login to place a bid" link={'/account/login'} /> </div>}
 

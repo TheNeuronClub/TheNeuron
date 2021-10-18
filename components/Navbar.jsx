@@ -10,6 +10,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Loader from './Loader'
 import { signOut } from 'next-auth/client'
+import { motion } from 'framer-motion'
+import { fadeOut, pageTransition } from '../util'
 
 function Navbar() {
     const router = useRouter();
@@ -66,7 +68,7 @@ function Navbar() {
         if (session) {
             checkDailyVisit()
         }
-    }, [])
+    }, [session])
 
     const checkScrollTop = () => {
         if (window.pageYOffset > 75) {
@@ -85,7 +87,7 @@ function Navbar() {
 
     return (
         <>
-            <div style={{zIndex: 48}} className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-14 lg:px-14 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
+            <div style={{ zIndex: 45 }} className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-14 lg:px-14 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
                 <Link href="/">
                     <div className="relative cursor-pointer">
                         <picture>
@@ -102,7 +104,7 @@ function Navbar() {
                         {!session &&
                             <>
                                 <Link href="/faq">FAQs</Link>
-                                <Link href="/contact">Contact Us</Link>
+                                <Link href="/account/login">Login</Link>
                             </>
                         }
                     </ul>
@@ -111,9 +113,6 @@ function Navbar() {
                             <UserDropDown session={session} />
                             :
                             <>
-                                <Link href="/account/login" className="hidden lg:inline-block">
-                                    <button className="btn hidden lg:inline-block cursor-pointer active:scale-95 transition-sm mr-2">Login</button>
-                                </Link>
                                 <Link href="/account/register">
                                     <button className="btn hidden md:inline-block cursor-pointer active:scale-95 transition-sm">Get Started</button>
                                 </Link>
@@ -125,12 +124,21 @@ function Navbar() {
             </div>
 
             {isActive &&
-                <div className="fixed md:hidden z-50 bg-white top-0 left-0 right-0 bottom-0 w-full h-full flex justify-center items-center">
+                <motion.div initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={fadeOut}
+                    transition={pageTransition} className="fixed md:hidden z-50 bg-white top-0 left-0 right-0 bottom-0 w-full h-full flex justify-center items-center">
                     <XIcon className="h-10 w-10 md:hidden absolute top-4 right-5 cursor-pointer active:scale-95 transition-sm" onClick={() => setIsActive(false)} />
                     <ul className="flex flex-col justify-center items-center text-3xl font-bold space-y-5">
                         <Link href="/question/">
                             <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Explore</h1>
                         </Link>
+                        {session?.type === 'admin' &&
+                            <Link href="/admin/create_question">
+                                <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Create Question</h1>
+                            </Link>
+                        }
                         <Link href="/how_it_works">
                             <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >How it Works</h1>
                         </Link>
@@ -146,9 +154,9 @@ function Navbar() {
                                 </Link>
                         }
                     </ul>
-                </div>
+                </motion.div>
             }
-            <ToastContainer style={{textAlign:"center", zIndex: '49', opacity: '0'}} />
+            <ToastContainer style={{ textAlign: "center", zIndex: '49' }} />
             {isLoader && <div className=" w-full h-full bg-white bg-opacity-80 grid place-items-center fixed top-0 right-0">
                 <Loader />
             </div>}

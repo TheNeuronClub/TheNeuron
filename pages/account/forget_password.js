@@ -2,6 +2,9 @@ import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import { userSession } from '../../lib/user-session'
 import Router from 'next/router'
+import { motion } from 'framer-motion'
+import { pageTransition, pageZoom } from '../../util';
+
 function forget_password() {
     const session = userSession();
     useEffect(() => {
@@ -40,7 +43,11 @@ function forget_password() {
                 <title>The Neuron | Forget Password</title>
             </Head>
             <div className="w-full min-h-[500px] pt-32 pb-10">
-                <div className="p-5 sm:px-10 sm:py-10 max-w-3xl text-center bg-white text-gray-700 mx-auto gradient-shadow-md">
+                <motion.div initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageZoom}
+                    transition={pageTransition} className="p-5 sm:px-10 sm:py-10 max-w-3xl text-center bg-white text-gray-700 mx-auto gradient-shadow-md">
 
                     {verify ? <h1 className="text-2xl md:text-3xl text-blue-500 font-semibold">Reset Password link is sent to your email </h1> :
                         <>
@@ -54,7 +61,7 @@ function forget_password() {
                         </>
                     }
                     {!isValid && <p className="text-xs text-red-400">Invalid Credentials </p>}
-                </div>
+                </motion.div>
             </div>
         </>
     )

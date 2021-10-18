@@ -1,5 +1,7 @@
 import moment from 'moment'
 import Router from 'next/router'
+import { item } from '../util'
+import { motion } from 'framer-motion'
 import Coin from './Coin'
 
 function Row({ question }) {
@@ -10,7 +12,7 @@ function Row({ question }) {
     }
     return (
         <>
-            <tr className="hover:bg-gray-50 transition delay-75 cursor-pointer" onClick={handleClick}>
+            <motion.tr initial="hidden" animate="visible" variants={item} className="hover:bg-gray-50 transition delay-75 cursor-pointer" onClick={handleClick}>
                 <td className="p-4 whitespace-nowrap">
                     <div className="flex items-center flex-col sm:flex-row">
                         <div className="flex-shrink-0 h-10 w-10 m-2">
@@ -39,7 +41,7 @@ function Row({ question }) {
                         <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Active</span>
                         : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Closed</span>}
                 </td>
-            </tr>
+            </motion.tr>
         </>
     )
 }

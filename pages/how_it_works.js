@@ -2,6 +2,8 @@ import Head from "next/head";
 import Steps from "../components/Steps";
 import { useState } from 'react'
 import ScrollToTop from "../components/ScrollToTop";
+import { motion } from 'framer-motion'
+import { pageSlide, pageTransition } from '../util'
 
 function how_it_works() {
     const bids = [
@@ -64,13 +66,17 @@ function how_it_works() {
                     <button className={`px-4 py-2 text-lg font-medium bg-gray-50 border border-b-0 mx-2 text-gray-700 rounded-t-md min-w-[100px] shadow-sm ${active === 'bid' && 'gradient-bg text-white gradient-shadow border-none'}`} onClick={() => setActive('bid')}>Place a Bid </button>
                     <button className={`px-4 py-2 text-lg font-medium bg-gray-50 border border-b-0 mx-2 text-gray-700 rounded-t-md min-w-[100px] shadow-sm ${active === 'coin' && 'gradient-bg text-white gradient-shadow border-none'}`} onClick={() => setActive('coin')}>Coins </button>
                 </div>
-                <div className="min-h-screen py-5 shadow-xl gradient-shadow relative max-w-max mx-auto rounded-lg border border-blue-500">
+                <motion.div initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageSlide}
+                    transition={pageTransition} className="min-h-screen py-5 shadow-xl gradient-shadow relative max-w-max mx-auto rounded-lg border border-blue-500">
                     {
                         active === 'bid' ?
                             bids.map(item => (<Steps key={item.no} step={item} type={"bid"} />))
                             : coins.map(item => (<Steps key={item.no} step={item} type={"coin"} />))
                     }
-                </div>
+                </motion.div>
             </div>
             <ScrollToTop />
         </>

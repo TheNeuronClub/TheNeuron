@@ -1,7 +1,8 @@
 import { useState, useEffect } from 'react'
 import Modal from './Modal'
 import dynamic from 'next/dynamic'
-import { formats, modules } from '../util'
+import { motion } from 'framer-motion'
+import { formats, modules, pageTransition, pageZoom } from '../util'
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
     loading: () => <p>Loading ...</p>,
@@ -77,8 +78,9 @@ function CreateQ({ session }) {
             console.log(res.status)
             if (res.status === 201) {
                 setIsSent(true)
-                
-                setData({...data,
+
+                setData({
+                    ...data,
                     question: '',
                     category: '',
                     bidClosing: '',
@@ -94,12 +96,16 @@ function CreateQ({ session }) {
         }
     }
 
-    
+
     return (
         <>
             <div className="w-full pt-28 pb-16">
                 <div className="bg-white rounded gradient-shadow mx-auto p-7 sm:p-10 max-w-xl">
-                    <form onSubmit={handleSubmit}>
+                    <motion.form initial="initial"
+                        animate="in"
+                        exit="out"
+                        variants={pageZoom}
+                        transition={pageTransition} onSubmit={handleSubmit}>
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="Question" className="inline-block mb-1 font-medium">Question<span className="mx-1 text-red-500">*</span></label>
                             <input
@@ -202,7 +208,7 @@ function CreateQ({ session }) {
                         <div className="my-2 sm:my-3">
                             <button type="submit" className="btn-primary">{isSending ? `Adding` : `Add Question`}</button>
                         </div>
-                    </form>
+                    </motion.form>
                 </div>
             </div>
             {isSent && <Modal state={isSent} text="Question created successfully" />}

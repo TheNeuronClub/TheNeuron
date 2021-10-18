@@ -3,7 +3,8 @@ import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState, useEffect } from 'react'
-import { countries } from '../../util'
+import { motion } from 'framer-motion'
+import { countries, pageTransition, pageZoom } from '../../util'
 import { userSession } from '../../lib/user-session'
 import { useRouter } from 'next/router'
 import { useSession, signIn } from "next-auth/client"
@@ -63,8 +64,11 @@ function register({ referral_code }) {
             setIsUsername(true);
         }
         else if (res.status == 201) {
+            const response = await res.json();
             if (data.image_url) {
-                router.push('/account/login')
+                window.localStorage.setItem('neuron-token', JSON.stringify(response.token))
+                window.localStorage.setItem('neuron-newUser', true)
+                router.push('/')
             }
             else {
                 setIsForm(false);
@@ -91,11 +95,15 @@ function register({ referral_code }) {
                             </div>
                         </Link>
                         <div className="max-w-sm lg:max-w-md text-white text-center">
-                            <h1 className="text-3xl md:text-5xl mb-3 font-semibold">Start Betting Now</h1>
+                            <h1 className="text-3xl md:text-5xl mb-3 font-semibold">Start Predicting Now</h1>
                             <p className="text-lg md:text-xl">Join TheNeuron.club to bet directly on the outcome of events. Use your know-how to predict global events across categories and win rewards</p>
                         </div>
                     </div>
-                    <div className="flex flex-col items-center w-full justify-center p-10 px-5">
+                    <motion.div initial="initial"
+                        animate="in"
+                        exit="out"
+                        variants={pageZoom}
+                        transition={pageTransition} className="flex flex-col items-center w-full justify-center p-10 px-5">
                         {
                             isForm ?
                                 <form className="max-w-lg p-10 min-w-[380px] bg-white gradient-shadow" onSubmit={handleSubmit}>
@@ -105,7 +113,6 @@ function register({ referral_code }) {
                                         <div className="flex border-b border-gray-700 py-2">
                                             <UserIcon className="h-6" />
                                             <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="name" minLength="5" value={data.name} required placeholder="Your Name " />
-
                                         </div>
                                         {/* {isUsername && <p className="text-xs text-red-400">Username already exist</p>} */}
                                         <div className="flex border-b border-gray-700 py-2 mt-6">
@@ -152,7 +159,7 @@ function register({ referral_code }) {
                                             <button type="submit" className="px-6 py-2 text-lg text-white font-semibold rounded-md my-4 gradient-bg active:scale-95 transition-sm">{isSending ? 'Wait...' : 'Register'}</button>
                                         </div>
                                     </>}
-                                    <h1 className="text-center">Already have an account ? <a href="/account/login" className="text-blue-500 font-medium">Login</a></h1>
+                                    <h1 className="text-center">Already have an account? &nbsp;<a href="/account/login" className="text-blue-500 font-medium">Login</a></h1>
                                 </form>
                                 :
                                 <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">You've successfully registered to TheNeuron.Club. To continue, please verify your Email Adress</h1>
@@ -168,7 +175,7 @@ function register({ referral_code }) {
                                 <span>Facebook</span>
                             </button>
                         </div>
-                    </div>
+                    </motion.div>
                 </div>
             </div>
         </>
@@ -176,6 +183,7 @@ function register({ referral_code }) {
 }
 
 export default register
+
 export function getServerSideProps(context) {
     const { referral_code } = context.query;
     return {

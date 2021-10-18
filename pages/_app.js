@@ -11,6 +11,7 @@ import Head from 'next/head'
 import ProgressBar from '@badrap/bar-of-progress'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import { AnimatePresence, AnimateSharedLayout } from 'framer-motion'
 
 const progress = new ProgressBar({
   size: 4,
@@ -40,21 +41,25 @@ function MyApp({ Component, pageProps }) {
     }
   }, [router.events])
   return (
-    <AuthProvider session={pageProps.session}>
-      <Provider store={store}>
-        <Head>
-          <link rel="icon" href="/favicon.png" />
-          <link rel="preconnect" href="https://fonts.googleapis.com" />
-          <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-          <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-        </Head>
-        <div className="w-full relative min-h-screen flex flex-col justify-between max_w_3xl">
-          {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Navbar />}
-          <Component {...pageProps} />
-          {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Footer />}
-        </div>
-      </Provider>
-    </AuthProvider>
+    <AnimatePresence exitBeforeEnter>
+      <AnimateSharedLayout>
+        <AuthProvider session={pageProps.session}>
+          <Provider store={store}>
+            <Head>
+              <link rel="icon" href="/favicon.png" />
+              <link rel="preconnect" href="https://fonts.googleapis.com" />
+              <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
+              <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+            </Head>
+            <div className="w-full relative min-h-screen flex flex-col justify-between max_w_3xl">
+              {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Navbar />}
+              <Component {...pageProps} />
+              {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Footer />}
+            </div>
+          </Provider>
+        </AuthProvider>
+      </AnimateSharedLayout>
+    </AnimatePresence>
   )
 }
 

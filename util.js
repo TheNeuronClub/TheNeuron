@@ -248,18 +248,18 @@ const countries = [
 
 const getCurrentDate = () => {
     var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        // today = yyyy + '-' + mm + '-' + dd;
-        today = `${yyyy}-${mm}-${dd}T${today.getHours()}:${today.getMinutes()}`
-        return today
+    var dd = today.getDate();
+    var mm = today.getMonth() + 1;
+    var yyyy = today.getFullYear();
+    if (dd < 10) {
+        dd = '0' + dd
+    }
+    if (mm < 10) {
+        mm = '0' + mm
+    }
+    // today = yyyy + '-' + mm + '-' + dd;
+    today = `${yyyy}-${mm}-${dd}T${today.getHours()}:${today.getMinutes()}`
+    return today
 }
 
 const modules = {
@@ -296,5 +296,108 @@ const formats = [
 ]
 
 
+const shuffleArray = (array) => {
+    let shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+        let j = Math.floor(Math.random() * (i + 1));
+        [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+};
 
-export { countries, modules, formats, getCurrentDate }
+const pageTransition = {
+    type: "tween",
+    duration: 0.2,
+};
+
+const pageSlide = {
+    initial: {
+        opacity: 0,
+        y: "-1rem",
+    },
+    in: {
+        opacity: 1,
+        y: 0,
+    },
+    out: {
+        opacity: 0,
+        y: "1rem",
+    },
+};
+const fadeOut = {
+    initial: {
+        opacity: 0,
+    },
+    in: {
+        opacity: 1,
+    },
+    out: {
+        opacity: 0,
+    },
+};
+
+const pageZoom = {
+    initial: {
+        opacity: 0,
+        scale: 0.90,
+    },
+    in: {
+        opacity: 1,
+        scale: 1,
+    },
+    out: {
+        opacity: 0,
+        scale: 0.90,
+    },
+};
+
+const container = {
+    hidden: { opacity: 0, scale: 1 },
+    visible: {
+        opacity: 1,
+        scale: 1,
+        transition: {
+            delayChildren: 0.2,
+            staggerChildren: 0.1
+        }
+    }
+};
+
+const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+        y: 0,
+        opacity: 1
+    }
+};
+
+const errorAnim = {
+    initial: {
+        opacity: 0,
+        scale: 0.8,
+    },
+    in: {
+        opacity: 1,
+        scale: 1,
+    },
+    out: {
+        opacity: 0,
+        scale: 0.8,
+    },
+};
+
+
+export {
+    errorAnim,
+    pageTransition,
+    pageZoom,
+    fadeOut,
+    container,
+    item,
+    pageSlide,
+    shuffleArray,
+    countries,
+    modules,
+    formats,
+    getCurrentDate
+}

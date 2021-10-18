@@ -2,6 +2,8 @@ import Head from "next/head";
 import Router from "next/router"
 import { useEffect } from 'react'
 import { userSession } from "../../lib/user-session";
+import { motion } from "framer-motion";
+import { pageTransition, pageZoom } from "../../util";
 
 function verify({ verified }) {
     const session = userSession();
@@ -17,7 +19,11 @@ function verify({ verified }) {
                 <title>The Neuron | Verify</title>
             </Head>
             <div className="py-28">
-                <div className="max-w-lg bg-white py-10 px-5 mx-auto text-center gradient-shadow-md">
+                <motion.div initial="initial"
+                    animate="in"
+                    exit="out"
+                    variants={pageZoom}
+                    transition={pageTransition} className="max-w-lg bg-white py-10 px-5 mx-auto text-center gradient-shadow-md">
                     {verified ?
                         <>
                             <h1 className="text-3xl font-bold text-blue-500">Your account is Verified</h1>
@@ -26,7 +32,7 @@ function verify({ verified }) {
                         :
                         <h1 className="text-3xl font-bold text-blue-500">Please verify your account first</h1>
                     }
-                </div>
+                </motion.div>
             </div>
         </>
     )
