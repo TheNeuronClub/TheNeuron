@@ -1,6 +1,7 @@
 import moment from 'moment'
 import User from '../db/models/user'
 import Transaction from '../db/models/transaction';
+import Question from '../db/models/question'
 
 const userData = async (req, res) => {
     const userFound = await User.findById({ _id: req.query._id });
@@ -12,16 +13,6 @@ const userData = async (req, res) => {
         let { Tokens, password, ...other } = userFound._doc;
         other = { ...other, questions }
         res.status(200).send(other)
-    }
-}
-
-const update_user = async (req, res) => {
-    const updatedUser = await User.updateMany({}, { lastVisit: 'Wed Oct 06 2021' });
-    if (updatedUser) {
-        res.status(200).send(updatedUser)
-    }
-    else {
-        res.status(400).send({ mg: "error" })
     }
 }
 
@@ -42,4 +33,13 @@ const dailyVisit = async (req, res) => {
     }
 }
 
-export { userData, update_user, dailyVisit }
+const userQuestions = async (req, res) => {
+    try {
+        const getQuestions = await Question.find({userId: req.query.userId}).sort({ _id: -1 });
+        res.status(200).send(getQuestions)
+    } catch (error) {
+        res.status(400).send({ msg: 'unable to get question' })
+    }
+}
+
+export { userData, dailyVisit, userQuestions }

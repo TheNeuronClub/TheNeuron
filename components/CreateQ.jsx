@@ -1,6 +1,9 @@
 import { useState, useEffect } from 'react'
 import Modal from './Modal'
 import dynamic from 'next/dynamic'
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import addDays from 'date-fns/addDays'
 import { motion } from 'framer-motion'
 import { formats, modules, pageTransition, pageZoom } from '../util'
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
@@ -19,7 +22,10 @@ function CreateQ({ session }) {
     const [isSending, setIsSending] = useState(false)
     const [isSent, setIsSent] = useState(false)
     const [link, setLink] = useState('')
-    const [currentDate, setCurrentDate] = useState('')
+    const [currentDate, setCurrentDate] = useState(new Date())
+    const [goLiveDate, setGoLiveDate] = useState(currentDate)
+    const [bidClosingDate, setBidClosingDate] = useState(addDays(goLiveDate, 1))
+    const [settlementClosingDate, setSettlementClosingDate] = useState(addDays(bidClosingDate, 1))
     const [qImage, setQImage] = useState(null);
     const [data, setData] = useState({
         question: '',
@@ -34,20 +40,12 @@ function CreateQ({ session }) {
     const [desc, setDesc] = useState('')
 
     useEffect(() => {
-        var today = new Date();
-        var dd = today.getDate();
-        var mm = today.getMonth() + 1;
-        var yyyy = today.getFullYear();
-        if (dd < 10) {
-            dd = '0' + dd
-        }
-        if (mm < 10) {
-            mm = '0' + mm
-        }
-        // today = yyyy + '-' + mm + '-' + dd;
-        today = `${yyyy}-${mm}-${dd}T${today.getHours()}:${today.getMinutes()}`
-        setCurrentDate(today)
-    }, [currentDate])
+        setBidClosingDate(addDays(goLiveDate, 7))
+    }, [goLiveDate])
+
+    useEffect(() => {
+        setSettlementClosingDate(addDays(bidClosingDate, 3))
+    }, [bidClosingDate])
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -56,20 +54,20 @@ function CreateQ({ session }) {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        if (qImage?.size < 500000) {
+        if (qImage?.size < 500000 && qImage.size > 10) {
             setIsSending(true);
             const formData = new FormData();
             formData.append("image", qImage);
             formData.append("question", data.question);
             formData.append("userId", data.userId);
             formData.append("category", data.category);
-            formData.append("bidClosing", new Date(data.bidClosing).toISOString());
-            formData.append("settlementClosing", new Date(data.settlementClosing).toISOString());
+            formData.append("goLive", goLiveDate.toISOString());
+            formData.append("bidClosing", bidClosingDate.toISOString());
+            formData.append("settlementClosing", settlementClosingDate.toISOString());
             formData.append("options", data.options);
             formData.append("qstatus", data.qstatus);
             formData.append("desc", desc);
             formData.append("link", link);
-            formData.append("goLive", new Date(data.goLive).toISOString());
             const res = await fetch(`/api/question/create_question`, {
                 method: 'POST',
                 body: formData
@@ -154,7 +152,8 @@ function CreateQ({ session }) {
                         </div>
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="goLive" className="inline-block mb-1 font-medium">Go Live Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
-                            <input
+                            <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={goLiveDate} dateFormat="MM/dd/yyyy hh:mm" minDate={currentDate} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setGoLiveDate(date)} placeholderText="Question go live date and time" />
+                            {/* <input
                                 placeholder="Question go live "
                                 type="datetime-local"
                                 name="goLive"
@@ -163,11 +162,12 @@ function CreateQ({ session }) {
                                 value={data.goLive}
                                 onChange={handleChange}
                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                            />
+                            /> */}
                         </div>
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="bidClosing" className="inline-block mb-1 font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
-                            <input
+                            <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={bidClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(goLiveDate, 7)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setBidClosingDate(date)} placeholderText="Bit closing date and time" />
+                            {/* <input
                                 placeholder="Bit Closing"
                                 type="datetime-local"
                                 name="bidClosing"
@@ -176,11 +176,12 @@ function CreateQ({ session }) {
                                 value={data.bidClosing}
                                 onChange={handleChange}
                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                            />
+                            /> */}
                         </div>
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="settlementClosing" className="inline-block mb-1 font-medium">Settlement Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
-                            <input
+                            <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={settlementClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(bidClosingDate, 3)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setSettlementClosingDate(date)} placeholderText="Settlement closing date and time" />
+                            {/* <input
                                 placeholder="Settlement Closing"
                                 type="datetime-local"
                                 name="settlementClosing"
@@ -189,7 +190,7 @@ function CreateQ({ session }) {
                                 value={data.settlementClosing}
                                 onChange={handleChange}
                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                            />
+                            /> */}
                         </div>
                         <div className="mb-3">
                             <label className="inline-block mb-1 font-medium">Settlement Link</label>

@@ -1,6 +1,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
+import { motion } from 'framer-motion'
 import { pageTransition, pageZoom } from '../util'
 
 function Footer() {

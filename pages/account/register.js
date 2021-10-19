@@ -123,7 +123,7 @@ function register({ referral_code }) {
                                         <div className="flex border-b border-gray-700 py-2 my-4">
                                             <GlobeAltIcon className="h-6" />
                                             <select onChange={handleChange} className="outline-none flex-grow px-2" type="country" name="country" value={data.country} required placeholder="Country ">
-                                                <option disabled>Country </option>
+                                                <option value="" disabled>Country </option>
                                                 {countries.map((country, i) => <option key={i} value={country.country} >{country.country}</option>)}
                                             </select>
                                         </div>
@@ -164,7 +164,7 @@ function register({ referral_code }) {
                                 :
                                 <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">You've successfully registered to TheNeuron.Club. To continue, please verify your Email Adress</h1>
                         }
-                        <h1 className="text-xl font-medium mt-6 tracking-wide text-gray-700"> Or Signup Using </h1>
+                        <h1 className="text-xl font-medium mt-6 tracking-wide text-gray-700"> Or Register Using </h1>
                         <div className="flex items-center">
                             <button className="signup__btn border-gray-500 hover:bg-gray-800" onClick={() => signIn("google")}>
                                 <img src="/images/google.svg" alt="" className="w-10 h-10" />
@@ -183,7 +183,6 @@ function register({ referral_code }) {
 }
 
 export default register
-
 export function getServerSideProps(context) {
     const { referral_code } = context.query;
     return {

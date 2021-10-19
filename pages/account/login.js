@@ -1,4 +1,4 @@
-import { LockClosedIcon, MailIcon } from '@heroicons/react/solid'
+import { GlobeAltIcon, LockClosedIcon, MailIcon, UserIcon } from '@heroicons/react/solid'
 import Head from 'next/head'
 import Link from 'next/link'
 import Image from 'next/image'
@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import { userSession } from '../../lib/user-session'
 import { signIn, useSession } from "next-auth/client"
 import { motion } from 'framer-motion'
-import { pageTransition, pageZoom } from '../../util'
+import { countries, pageTransition, pageZoom } from '../../util'
 
 function login() {
     const user = userSession();
@@ -16,14 +16,20 @@ function login() {
         if (user) {
             Router.push('/')
         }
-    }, [user])
+        else if (session) {
+            socialSignin()
+        }
+    }, [user, session])
 
     const [isSending, setIsSending] = useState(false)
+    const [isNew, setIsNew] = useState(false)
     const [isValid, setIsValid] = useState(true)
     const [isVerified, setIsVerified] = useState(true);
     const [data, setData] = useState({
         email: session?.user?.email || '',
-        password: ''
+        password: '',
+        username: '',
+        country: 'Sweden'
     })
 
     const handleChange = (e) => {
@@ -47,7 +53,11 @@ function login() {
             Router.push('/')
         } else if (res.status === 203) {
             setIsVerified(false)
-        } else {
+        }
+        else if (res.status === 401) {
+            setIsNew(true)
+        }
+        else {
             setIsValid(false);
             console.log("User Unauthorized")
         }
@@ -59,6 +69,10 @@ function login() {
         if (data.email && data.password) {
             await login(data, '/api/account/login');
         }
+        if (session?.user) {
+            const socials = { ...data, ...session?.user }
+            await login(socials, '/api/account/login?type=social');
+        }
         setIsSending(false)
     }
 
@@ -69,11 +83,11 @@ function login() {
         }
         setIsSending(false)
     }
-    useEffect(() => {
-        if (session) {
-            socialSignin()
-        }
-    }, [session])
+    // useEffect(() => {
+    //     if (session) {
+    //         socialSignin()
+    //     }
+    // }, [session])
     return (
         <>
             <div className="min-h-screen w-full">
@@ -102,14 +116,34 @@ function login() {
                         {isVerified ?
                             <form className="max-w-lg p-10 min-w-[350px] bg-white gradient-shadow" onSubmit={handleSubmit}>
                                 {!isValid && <p className="text-xs text-red-400 mb-2">Invalid Credentials </p>}
-                                <div className="flex border-b-2 border-gray-700 py-2 mb-6">
-                                    <MailIcon className="h-6" />
-                                    <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="email" value={data.email} required placeholder="Email or Username " />
-                                </div>
-                                <div className="flex border-b-2 border-gray-700 py-2 my-6">
-                                    <LockClosedIcon className="h-6" />
-                                    <input onChange={handleChange} className="outline-none flex-grow px-2" type="password" name="password" value={data.password} required placeholder="Password " />
-                                </div>
+                                {isNew && <p className="text-sm text-center text-green-500 mb-2">Welcome {session?.user?.name} </p>}
+                                {
+                                    isNew ?
+                                        <>
+                                            <div className="flex border-b border-gray-700 py-2 mb-4">
+                                                <UserIcon className="h-6" />
+                                                <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="username" minLength="5" value={data.username} required placeholder="Create Username " />
+                                            </div>
+                                            <div className="flex border-b border-gray-700 py-2 my-4">
+                                                <GlobeAltIcon className="h-6" />
+                                                <select onChange={handleChange} className="outline-none flex-grow px-2" type="country" name="country" value={data.country} required placeholder="Country ">
+                                                    <option value="" disabled>Country </option>
+                                                    {countries.map((country, i) => <option key={i} value={country.country} >{country.country}</option>)}
+                                                </select>
+                                            </div>
+                                        </>
+                                        :
+                                        <>
+                                            <div className="flex border-b-2 border-gray-700 py-2 mb-6">
+                                                <MailIcon className="h-6" />
+                                                <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="email" value={data.email} required placeholder="Email or Username " />
+                                            </div>
+                                            <div className="flex border-b-2 border-gray-700 py-2 my-6">
+                                                <LockClosedIcon className="h-6" />
+                                                <input onChange={handleChange} className="outline-none flex-grow px-2" type="password" name="password" value={data.password} required placeholder="Password " />
+                                            </div>
+                                        </>
+                                }
 
                                 <h1><a href="/account/forget_password" className="text-blue-500 font-medium">Forget Password ?</a></h1>
                                 <div className="flex items-center space-x-2 mt-2">
@@ -122,7 +156,7 @@ function login() {
                             :
                             <h1 className="text-center max-w-xl p-7 text-3xl font-semibold text-blue-500 bg-white py-10 gradient-shadow">User aleady registered, Verify your email to continue</h1>
                         }
-                        <h1 className="text-xl font-medium mt-6 tracking-wide text-gray-700">Or Signin With </h1>
+                        <h1 className="text-xl font-medium mt-6 tracking-wide text-gray-700">Or Login With </h1>
                         <div className="flex items-center">
                             <button className="signup__btn border-gray-500 hover:bg-gray-800" onClick={() => signIn('google')}>
                                 <img src="/images/google.svg" alt="" className="w-10 h-10" />
