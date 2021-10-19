@@ -29,8 +29,8 @@ const getQuestions = async (req, res) => {
 
 const ques = async (req, res) => {
     try {
-        const trending = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) } }).sort({ Volume: -1 }).limit(8);
-        const newest = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) } }).sort({ _id: -1 }).limit(8);
+        const trending = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ Volume: -1 }).limit(8);
+        const newest = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ _id: -1 }).limit(8);
         res.status(200).send({ trending, newest })
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })

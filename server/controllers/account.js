@@ -26,7 +26,7 @@ const register = async (req, res) => {
                 if (userRegistered) {
                     if (referral_code) {
                         try {
-                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've won 500 neuron coins for refer user`, referred_user: userRegistered.username }, $inc: { balance: 500 } }, { new: true });
+                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've won 500 neuron coins for refer user`, referred_user: userRegistered._id }, $inc: { balance: 500 } }, { new: true });
                             if (refer) {
                                 const referredThrough = await User.findByIdAndUpdate({ _id: userRegistered._id }, { referred_through: `${referral_code}` }, { new: true });
                             }
@@ -140,9 +140,9 @@ const login = async (req, res) => {
             await loginSuccess(req, res, userLogin)
         }
         else {
-            if (type === 'social') {
+            if (req.body.username && req.body?.username?.length > 4 && type === 'social') {
                 try {
-                    const user = new User({ name: req.body.name, email: req.body.email, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
+                    const user = new User({ name: req.body.name, email: req.body.email, username: req.body.username, country: req.body.country, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
                     const userRegistered = await user.save();
                     await loginSuccess(req, res, userRegistered);
                 } catch (error) {
