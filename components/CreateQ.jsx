@@ -40,11 +40,11 @@ function CreateQ({ session }) {
     const [desc, setDesc] = useState('')
 
     useEffect(() => {
-        setBidClosingDate(addDays(goLiveDate, 7))
+        setBidClosingDate(addDays(goLiveDate, 1))
     }, [goLiveDate])
 
     useEffect(() => {
-        setSettlementClosingDate(addDays(bidClosingDate, 3))
+        setSettlementClosingDate(addDays(bidClosingDate, 1))
     }, [bidClosingDate])
 
     const handleChange = (e) => {
