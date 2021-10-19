@@ -117,7 +117,7 @@ function QuestionDetail({ questionData }) {
     const [settlementClosingDate, setSettlementClosingDate] = useState(addDays(bidClosingDate, 1))
 
      useEffect(() => {
-        setSettlementClosingDate(addDays(bidClosingDate, 3))
+        setSettlementClosingDate(addDays(bidClosingDate, 1))
     }, [bidClosingDate])
 
     const updateQuestion = async () => {
