@@ -46,14 +46,22 @@ function QuestionDetail({ questionData }) {
     const [isQueEdit, setIsQueEdit] = useState(false)
     const [desc, setDesc] = useState(que?.desc)
     // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
-    const urlSrc = `https://www.theneuron.club/question/${que?._id}`
+     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
+
+    const getUserInfo = async () => {
+        const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
+        if (res.status == 200) {
+            const response = await res.json();
+            setUserInfo(response)
+        }
+    }
+    console.log(userInfo)
+    console.log(questionData)
+    console.log(que)
     useEffect(() => {
-        const res = await fetch(`/api/user/info?_id=${que?.userId}`)
-        console.log(res.status)
-        const response = await res.json();
-        setUserInfo(response)
-    }, [que])
+            getUserInfo();
+    }, [])
 
     let { Volume, Favour, Against } = bidData
     const handleBet = async () => {
@@ -331,7 +339,7 @@ function QuestionDetail({ questionData }) {
                                                         <tr><td>
                                                             <label htmlFor="bidClosing" className="inline-block mb-1 font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                                                         </td><td>
-                                                                <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={bidClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={bidClosingDate} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setBidClosingDate(date)} placeholderText="Bit closing date and time" />
+                                                                <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={bidClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={new Date()} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setBidClosingDate(date)} placeholderText="Bit closing date and time" />
                                                             </td>
                                                         </tr>
                                                         <tr>
@@ -356,7 +364,7 @@ function QuestionDetail({ questionData }) {
                                                 }
                                                 <tr>
                                                     <td>Creator</td>
-                                                    <td>{userInfo && userInfo?.name}</td>
+                                                    <td>{userInfo?.name || questionData?.userId || 'unKnown'}</td>
                                                 </tr>
                                                 {isQueEdit && <tr>
                                                     <td></td>
