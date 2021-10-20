@@ -50,17 +50,15 @@ function QuestionDetail({ questionData }) {
 
 
     const getUserInfo = async () => {
-        const res = await fetch(`/api/user/info?_id=${que?.userId}`)
+        const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
+        const response = await res.json();
         if (res.status == 200) {
-            const response = await res.json();
             setUserInfo(response)
         }
     }
     useEffect(() => {
-        if (que) {
             getUserInfo();
-        }
-    }, [que])
+    }, [])
 
     let { Volume, Favour, Against } = bidData
     const handleBet = async () => {
