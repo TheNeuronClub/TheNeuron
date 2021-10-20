@@ -9,7 +9,7 @@ const userData = async (req, res) => {
         res.status(400).send('Problem in getting user');
     }
     else {
-        const questions = await Transaction.find({ username: userFound.username }).sort({ _id: -1 })
+        const questions = await Transaction.find({ userId: userFound._id }).sort({ _id: -1 }) || await Transaction.find({ username: userFound.username }).sort({ _id: -1 })
         let { Tokens, password, ...other } = userFound._doc;
         other = { ...other, questions }
         res.status(200).send(other)

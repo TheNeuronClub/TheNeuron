@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react'
 import { ChevronDownIcon, ChevronUpIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, XIcon } from "@heroicons/react/solid"
 import Router from 'next/router'
-import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon, WhatsappIcon } from "react-share";
+import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, PinterestIcon, PinterestShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { useDispatch } from 'react-redux'
 import { updateBalance } from '../slices/userBalance';
 import { useSelector } from 'react-redux'

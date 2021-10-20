@@ -4,6 +4,9 @@ const transactionSchema = new mongoose.Schema({
     username: {
         type: String
     },
+    userId: {
+        type: String
+    },
     questionId: {
         type: String
     },
