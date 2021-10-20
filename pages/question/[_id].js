@@ -363,7 +363,7 @@ function QuestionDetail({ questionData }) {
                                                 }
                                                 <tr>
                                                     <td>Creator</td>
-                                                    <td>{userInfo && userInfo?.name}</td>
+                                                    <td>{userInfo?.name || userInfo?.username}</td>
                                                 </tr>
                                                 {isQueEdit && <tr>
                                                     <td></td>
