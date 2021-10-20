@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
-import { MinusIcon, PencilIcon, PlusIcon, ShareIcon, XIcon } from '@heroicons/react/solid'
+import { MinusIcon, PlusIcon, ShareIcon, XIcon } from '@heroicons/react/solid'
 import Loader from '../../components/Loader'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,7 +15,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import addDays from 'date-fns/addDays'
 import { motion } from 'framer-motion';
-import { modules, formats, getCurrentDate, pageSlide, pageTransition, pageZoom } from '../../util'
+import { modules, formats, pageSlide, pageTransition, pageZoom } from '../../util'
 import dynamic from 'next/dynamic'
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -25,12 +25,13 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
 function QuestionDetail({ questionData }) {
     const session = userSession();
     const amount = useSelector(balance)
-    const currentDate = getCurrentDate();
     const dispatch = useDispatch();
+    const [userInfo, setUserInfo] = useState(null)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isBidPlaced, setIsBidPlaced] = useState(false)
     const [isActive, setIsActive] = useState(false)
     const [lowBalance, setLowBalance] = useState(false)
+    const [bidLimit, setBidLimit] = useState(false)
     const [bid, setBid] = useState(50)
     const [bidData, setBidData] = useState({
         Volume: questionData?.Volume,
@@ -46,6 +47,13 @@ function QuestionDetail({ questionData }) {
     const [desc, setDesc] = useState(que?.desc)
     // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
+
+    useEffect(() => {
+        const res = await fetch(`/api/user/info?_id=${que?.userId}`)
+        console.log(res.status)
+        const response = await res.json();
+        setUserInfo(response)
+    }, [que])
 
     let { Volume, Favour, Against } = bidData
     const handleBet = async () => {
@@ -100,8 +108,12 @@ function QuestionDetail({ questionData }) {
     }
 
     const validate = () => {
-        if (que.qstatus == 'verified') {
-            (session && bid > 0) ? setIsActive(true) : setIsLoggedIn(true)
+        if (bid > 0 && bid <= 1000) {
+            if (que.qstatus == 'verified') {
+                (session) ? setIsActive(true) : setIsLoggedIn(true)
+            }
+        } else {
+            setBidLimit(true)
         }
     }
 
@@ -113,12 +125,8 @@ function QuestionDetail({ questionData }) {
         setUpdateQue({ ...updateQue, qstatus: (updateQue.qstatus === 'verified') ? 'closed' : 'verified' });
     }
 
-    const [bidClosingDate, setBidClosingDate] = useState(new Date())
-    const [settlementClosingDate, setSettlementClosingDate] = useState(addDays(bidClosingDate, 1))
-
-     useEffect(() => {
-        setSettlementClosingDate(addDays(bidClosingDate, 1))
-    }, [bidClosingDate])
+    const [bidClosingDate, setBidClosingDate] = useState(new Date(que?.bidClosing))
+    const [settlementClosingDate, setSettlementClosingDate] = useState(new Date(que?.settlementClosing))
 
     const updateQuestion = async () => {
         const { _id, qstatus, question } = updateQue;
@@ -137,6 +145,15 @@ function QuestionDetail({ questionData }) {
         }
     }
 
+    const checkBid = (e) => {
+        setBid(e.target.value);
+        setLowBalance(false)
+        if (e.target.value < 1 || e.target.value > 1000) {
+            setBidLimit(true)
+        } else {
+            setBidLimit(false)
+        }
+    }
 
     function DESC() {
         return { __html: que?.desc };
@@ -254,7 +271,7 @@ function QuestionDetail({ questionData }) {
                                             <h1 className="font-medium">Amount to Bid : <span className="text-blue-600 inline-flex items-center"><Coin width="4" height="4" />{bid}</span> </h1>
                                             <div className="relative flex items-center space-x-4 mt-4">
                                                 <MinusIcon className="w-7 h-7 p-1 font-semibold bg-gray-800 text-white rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid > 50 && setBid(bid - 50); setLowBalance(false) }} />
-                                                <input type="number" min="1" minLength="1" maxLength="1000" max="1000" value={bid} onChange={(e) => { setBid(e.target.value); setLowBalance(false) }} className="border border-gray-600 font-semibold text-blue-500 text-center rounded focus:outline-none" />
+                                                <input type="number" min="1" minLength="1" maxLength="1000" max="1000" value={bid} onChange={checkBid} className="border border-gray-600 font-semibold text-blue-500 text-center rounded focus:outline-none" />
                                                 <PlusIcon className="w-7 h-7 p-1 font-semibold bg-gray-800 text-white rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid < 951 && setBid(+bid + +50); setLowBalance(false) }} />
                                             </div>
                                         </div>
@@ -263,6 +280,7 @@ function QuestionDetail({ questionData }) {
                                         }
                                         {bid > 0 === 'false' && <p className="text-red-500 text-base mb-4"> Bid amount is low </p>}
                                         {lowBalance && <p className="text-red-500 text-base mb-4"> Not enough balance to bet </p>}
+                                        {bidLimit && <p className="text-red-500 text-base mb-4"> Bid amount should in range of 1-1000 </p>}
                                         <table>
                                             <tbody>
                                                 <tr>
@@ -314,33 +332,13 @@ function QuestionDetail({ questionData }) {
                                                             <label htmlFor="bidClosing" className="inline-block mb-1 font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                                                         </td><td>
                                                                 <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={bidClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={bidClosingDate} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setBidClosingDate(date)} placeholderText="Bit closing date and time" />
-                                                                {/* <input
-                                                            placeholder="Bit Closing"
-                                                            type="datetime-local"
-                                                            name="bidClosing"
-                                                            required
-                                                            min={currentDate}
-                                                            value={updateQue?.bidClosing}
-                                                            onChange={handleChange}
-                                                            className=" w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                                                        /> */}
                                                             </td>
                                                         </tr>
                                                         <tr>
                                                             <td>
                                                                 <label htmlFor="settlementClosing" className="inline-block mb-1 font-medium">Settlement Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                                                             </td><td>
-                                                                <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={settlementClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(bidClosingDate, 3)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setSettlementClosingDate(date)} placeholderText="Settlement closing date and time" />
-                                                                {/* <input
-                                                                placeholder="Settlement Closing"
-                                                                type="datetime-local"
-                                                                name="settlementClosing"
-                                                                required
-                                                                min={currentDate}
-                                                                value={updateQue?.settlementClosing}
-                                                                onChange={handleChange}
-                                                                className=" w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                                                            /> */}
+                                                                <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={settlementClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(bidClosingDate, 1)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setSettlementClosingDate(date)} placeholderText="Settlement closing date and time" />
                                                             </td>
                                                         </tr>
                                                     </>
@@ -358,7 +356,7 @@ function QuestionDetail({ questionData }) {
                                                 }
                                                 <tr>
                                                     <td>Creator</td>
-                                                    <td>{que?.userId}</td>
+                                                    <td>{userInfo && userInfo?.name}</td>
                                                 </tr>
                                                 {isQueEdit && <tr>
                                                     <td></td>
