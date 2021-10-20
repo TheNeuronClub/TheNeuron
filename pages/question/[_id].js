@@ -48,11 +48,18 @@ function QuestionDetail({ questionData }) {
     // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
-    useEffect(() => {
+
+    const getUserInfo = async () => {
         const res = await fetch(`/api/user/info?_id=${que?.userId}`)
-        console.log(res.status)
-        const response = await res.json();
-        setUserInfo(response)
+        if (res.status == 200) {
+            const response = await res.json();
+            setUserInfo(response)
+        }
+    }
+    useEffect(() => {
+        if (que) {
+            getUserInfo();
+        }
     }, [que])
 
     let { Volume, Favour, Against } = bidData
