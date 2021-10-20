@@ -51,14 +51,12 @@ function QuestionDetail({ questionData }) {
 
     const getUserInfo = async () => {
         const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
+    const response = await res.json();
         if (res.status == 200) {
-            const response = await res.json();
             setUserInfo(response)
         }
     }
-    console.log(userInfo)
-    console.log(questionData)
-    console.log(que)
+
     useEffect(() => {
             getUserInfo();
     }, [])
@@ -364,7 +362,9 @@ function QuestionDetail({ questionData }) {
                                                 }
                                                 <tr>
                                                     <td>Creator</td>
+
                                                     <td>{userInfo?.name || questionData?.userId || 'unKnown'}</td>
+
                                                 </tr>
                                                 {isQueEdit && <tr>
                                                     <td></td>
