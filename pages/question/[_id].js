@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
-import { MinusIcon, PencilIcon, PlusIcon, ShareIcon, XIcon } from '@heroicons/react/solid'
+import { MinusIcon, PlusIcon, ShareIcon, XIcon } from '@heroicons/react/solid'
 import Loader from '../../components/Loader'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -15,7 +15,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import addDays from 'date-fns/addDays'
 import { motion } from 'framer-motion';
-import { modules, formats, getCurrentDate, pageSlide, pageTransition, pageZoom } from '../../util'
+import { modules, formats, pageSlide, pageTransition, pageZoom } from '../../util'
 import dynamic from 'next/dynamic'
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
@@ -25,8 +25,8 @@ const QuillNoSSRWrapper = dynamic(import('react-quill'), {
 function QuestionDetail({ questionData }) {
     const session = userSession();
     const amount = useSelector(balance)
-    const currentDate = getCurrentDate();
     const dispatch = useDispatch();
+    const [userInfo, setUserInfo] = useState(null)
     const [isLoggedIn, setIsLoggedIn] = useState(false)
     const [isBidPlaced, setIsBidPlaced] = useState(false)
     const [isActive, setIsActive] = useState(false)
@@ -47,6 +47,13 @@ function QuestionDetail({ questionData }) {
     const [desc, setDesc] = useState(que?.desc)
     // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
+
+    useEffect(() => {
+        const res = await fetch(`/api/user/info?_id=${que?.userId}`)
+        console.log(res.status)
+        const response = await res.json();
+        setUserInfo(response)
+    }, [que])
 
     let { Volume, Favour, Against } = bidData
     const handleBet = async () => {
@@ -349,7 +356,7 @@ function QuestionDetail({ questionData }) {
                                                 }
                                                 <tr>
                                                     <td>Creator</td>
-                                                    <td>{que?.userId}</td>
+                                                    <td>{userInfo && userInfo?.name}</td>
                                                 </tr>
                                                 {isQueEdit && <tr>
                                                     <td></td>
