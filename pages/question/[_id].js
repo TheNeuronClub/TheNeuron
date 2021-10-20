@@ -7,7 +7,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import moment from 'moment'
 import { userSession } from '../../lib/user-session'
 import Modal from '../../components/Modal'
-import { FacebookIcon, LinkedinIcon, PinterestIcon, RedditIcon, TelegramIcon, TwitterIcon, WhatsappIcon } from "react-share";
+import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, PinterestIcon, PinterestShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import Coin from '../../components/Coin'
 import { balance, updateBalance } from '../../slices/userBalance'
 import { useDispatch, useSelector } from 'react-redux'
@@ -45,7 +45,7 @@ function QuestionDetail({ questionData }) {
     const [isQueEdit, setIsQueEdit] = useState(false)
     const [desc, setDesc] = useState(que?.desc)
     // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
-     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
+    const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
     let { Volume, Favour, Against } = bidData
     const handleBet = async () => {
@@ -53,7 +53,7 @@ function QuestionDetail({ questionData }) {
             const { username } = session;
             setIsActive(false)
             setIsSending(true)
-            if (amount > 0 && amount >= bid ) {
+            if (amount > 0 && amount >= bid) {
                 Volume = Volume + bid
                 odd == 'Favour' ? Favour = Favour + bid : Against = Against + bid;
 
@@ -63,7 +63,7 @@ function QuestionDetail({ questionData }) {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, bid, _id, question, category, odd, settlementClosing })
+                    body: JSON.stringify({ username, bid, _id, userId: session?._id, question, category, odd, settlementClosing })
                 })
                 console.log(res.status)
                 const response = await res.json();
@@ -312,9 +312,9 @@ function QuestionDetail({ questionData }) {
                                                     <>
                                                         <tr><td>
                                                             <label htmlFor="bidClosing" className="inline-block mb-1 font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
-                                                        </td><td>  
-                                                        <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={bidClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={bidClosingDate} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setBidClosingDate(date)} placeholderText="Bit closing date and time" />
-                                                            {/* <input
+                                                        </td><td>
+                                                                <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={bidClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={bidClosingDate} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setBidClosingDate(date)} placeholderText="Bit closing date and time" />
+                                                                {/* <input
                                                             placeholder="Bit Closing"
                                                             type="datetime-local"
                                                             name="bidClosing"
@@ -329,9 +329,9 @@ function QuestionDetail({ questionData }) {
                                                         <tr>
                                                             <td>
                                                                 <label htmlFor="settlementClosing" className="inline-block mb-1 font-medium">Settlement Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
-                                                            </td><td> 
-                                                            <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={settlementClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(bidClosingDate, 3)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setSettlementClosingDate(date)} placeholderText="Settlement closing date and time" />
-                                                                 {/* <input
+                                                            </td><td>
+                                                                <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={settlementClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(bidClosingDate, 3)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setSettlementClosingDate(date)} placeholderText="Settlement closing date and time" />
+                                                                {/* <input
                                                                 placeholder="Settlement Closing"
                                                                 type="datetime-local"
                                                                 name="settlementClosing"

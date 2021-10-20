@@ -153,44 +153,14 @@ function CreateQ({ session }) {
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="goLive" className="inline-block mb-1 font-medium">Go Live Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                             <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={goLiveDate} dateFormat="MM/dd/yyyy hh:mm" minDate={currentDate} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setGoLiveDate(date)} placeholderText="Question go live date and time" />
-                            {/* <input
-                                placeholder="Question go live "
-                                type="datetime-local"
-                                name="goLive"
-                                required
-                                min={`${currentDate}`}
-                                value={data.goLive}
-                                onChange={handleChange}
-                                className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                            /> */}
                         </div>
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="bidClosing" className="inline-block mb-1 font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                             <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={bidClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(goLiveDate, 7)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setBidClosingDate(date)} placeholderText="Bit closing date and time" />
-                            {/* <input
-                                placeholder="Bit Closing"
-                                type="datetime-local"
-                                name="bidClosing"
-                                required
-                                min={`${currentDate}`}
-                                value={data.bidClosing}
-                                onChange={handleChange}
-                                className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                            /> */}
                         </div>
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="settlementClosing" className="inline-block mb-1 font-medium">Settlement Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                             <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={settlementClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(bidClosingDate, 3)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setSettlementClosingDate(date)} placeholderText="Settlement closing date and time" />
-                            {/* <input
-                                placeholder="Settlement Closing"
-                                type="datetime-local"
-                                name="settlementClosing"
-                                required
-                                min={`${currentDate}`}
-                                value={data.settlementClosing}
-                                onChange={handleChange}
-                                className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                            /> */}
                         </div>
                         <div className="mb-3">
                             <label className="inline-block mb-1 font-medium">Settlement Link</label>

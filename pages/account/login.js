@@ -27,9 +27,7 @@ function login() {
     const [isVerified, setIsVerified] = useState(true);
     const [data, setData] = useState({
         email: session?.user?.email || '',
-        password: '',
-        username: '',
-        country: 'Sweden'
+        password: ''
     })
 
     const handleChange = (e) => {
@@ -54,9 +52,9 @@ function login() {
         } else if (res.status === 203) {
             setIsVerified(false)
         }
-        else if (res.status === 401) {
-            setIsNew(true)
-        }
+        // else if (res.status === 401) {
+        //     setIsNew(true)
+        // }
         else {
             setIsValid(false);
             console.log("User Unauthorized")
@@ -69,10 +67,6 @@ function login() {
         if (data.email && data.password) {
             await login(data, '/api/account/login');
         }
-        if (session?.user) {
-            const socials = { ...data, ...session?.user }
-            await login(socials, '/api/account/login?type=social');
-        }
         setIsSending(false)
     }
 
@@ -83,11 +77,12 @@ function login() {
         }
         setIsSending(false)
     }
-    // useEffect(() => {
-    //     if (session) {
-    //         socialSignin()
-    //     }
-    // }, [session])
+    useEffect(() => {
+        if (session) {
+            socialSignin()
+        }
+    }, [session])
+    
     return (
         <>
             <div className="min-h-screen w-full">

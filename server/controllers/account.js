@@ -140,9 +140,9 @@ const login = async (req, res) => {
             await loginSuccess(req, res, userLogin)
         }
         else {
-            if (req.body.username && req.body?.username?.length > 4 && type === 'social') {
+            if (type === 'social') {
                 try {
-                    const user = new User({ name: req.body.name, email: req.body.email, username: req.body.username, country: req.body.country, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
+                    const user = new User({ name: req.body.name, email: req.body.email, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
                     const userRegistered = await user.save();
                     await loginSuccess(req, res, userRegistered);
                 } catch (error) {
@@ -152,6 +152,19 @@ const login = async (req, res) => {
             else {
                 res.status(401).json({ error: "User doesn't exist" })
             }
+            // To get additional user details with social login
+            // if (req.body.username && req.body?.username?.length > 4 && type === 'social') {
+            //     try {
+            //         const user = new User({ name: req.body.name, email: req.body.email, username: req.body.username, country: req.body.country, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
+            //         const userRegistered = await user.save();
+            //         await loginSuccess(req, res, userRegistered);
+            //     } catch (error) {
+            //         res.status(400).json({ error: 'Failed to Social Sigin' })
+            //     }
+            // }
+            // else {
+            //     res.status(401).json({ error: "User doesn't exist" })
+            // }
 
         }
     } catch (error) {
