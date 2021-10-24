@@ -1,4 +1,4 @@
-import { useRouter } from 'next/dist/client/router'
+import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { MenuAlt1Icon, XIcon } from '@heroicons/react/solid'
@@ -52,7 +52,7 @@ function Navbar() {
         if (res.status === 200) {
             toast("You've won 100 Neuron coins for daily visit! 🥳", {
                 position: "top-center",
-                autoClose: 100000,
+                autoClose: 10000,
                 hideProgressBar: false,
                 closeOnClick: true,
                 pauseOnHover: true,
@@ -86,7 +86,7 @@ function Navbar() {
 
     return (
         <>
-            <div style={{ zIndex: 45 }} className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-14 lg:px-14 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
+            <div style={{ zIndex: 45 }} className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-16 lg:px-16 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
                 <Link href="/">
                     <div className="relative cursor-pointer">
                         <picture>
@@ -99,8 +99,8 @@ function Navbar() {
                 <div className="flex items-center">
                     <ul className="flex hidden md:block space-x-5 pr-6 font-medium text-lg">
                         <Link href="/question/">Explore</Link>
+                        {session?.type === 'admin' && <Link href="/create_question">Create Question</Link>}
                         <Link href="/how_it_works">How it Works</Link>
-                        {session?.type==='admin' && <Link href="/create_question">Create Question</Link>}
                         {!session &&
                             <>
                                 <Link href="/faq">FAQs</Link>
@@ -135,7 +135,7 @@ function Navbar() {
                             <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Explore</h1>
                         </Link>
                         {session?.type === 'admin' &&
-                            <Link href="/admin/create_question">
+                            <Link href="/create_question">
                                 <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Create Question</h1>
                             </Link>
                         }

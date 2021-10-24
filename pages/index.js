@@ -26,6 +26,7 @@ export default function Home({ questions }) {
     window.localStorage.setItem('neuron-newUser', false)
   }, [])
 
+
     const closeOnboard = () => {
         setCarousel(false);
     }

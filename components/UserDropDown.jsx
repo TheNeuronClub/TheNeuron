@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ChevronDownIcon, ChevronUpIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, XIcon } from "@heroicons/react/solid"
+import {  ChevronDownIcon, ChevronUpIcon, CubeIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, ViewGridIcon, ViewListIcon, XIcon } from "@heroicons/react/solid"
 import Router from 'next/router'
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, PinterestIcon, PinterestShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { useDispatch } from 'react-redux'
@@ -9,7 +9,7 @@ import { balance } from '../slices/userBalance';
 import Coin from './Coin';
 import Carousel from './Carousel';
 import Loader from './Loader';
-import { signOut } from 'next-auth/client'
+import { signOut } from 'next-auth/client';
 import { motion } from 'framer-motion';
 import { fadeOut, pageTransition, pageZoom } from '../util';
 
@@ -19,8 +19,8 @@ function UserDropDown({ session }) {
     const [isLoader, setIsLoader] = useState(false)
     const dispatch = useDispatch();
     const amount = useSelector(balance)
-    const urlSrc = `https://www.theneuron.club/account/register?referral_code=${session?.referral_code}`
-
+    const urlSrc = `https://neuron-club.vercel.app/account/register?referral_code=${session?.referral_code}`
+ 
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsActive(false)
@@ -29,7 +29,7 @@ function UserDropDown({ session }) {
     }, [isActive]);
 
     const getUser = async () => {
-        const res = await fetch(`/api/user/getUser?_id=${session?._id}`);
+        const res = await fetch(`/api/user/info?_id=${session?._id}`);
         console.log(res.status)
         if (res.status == 200) {
             const response = await res.json();
@@ -40,10 +40,9 @@ function UserDropDown({ session }) {
         getUser();
     }, []);
 
-    const userSignOut = () => signOut();
+    const userSignOut = () => signOut()
     const logout = async () => {
         setIsLoader(true)
-        userSignOut();
         window.localStorage.setItem('neuron-token', '');
         const res = await fetch(`/api/account/logout`, {
             method: 'POST',
@@ -53,7 +52,7 @@ function UserDropDown({ session }) {
             body: JSON.stringify({ _id: session?._id })
         });
         if (res.status === 200) {
-            location.reload();
+            userSignOut();
         }
         setIsLoader(false)
     }
@@ -62,11 +61,10 @@ function UserDropDown({ session }) {
     const closeOnboard = () => {
         setcarousel(false);
     }
-
     return (
         <>
             {carousel && <Carousel onSelect={closeOnboard} />}
-            {amount && <span className="inline-flex mr-2 items-center font-medium text-lg cursor-pointer" onClick={() => Router.push('/account/')}><Coin width="4" height="4" />{amount}</span>}
+            {amount && <span className="inline-flex mr-2 items-center font-medium text-lg cursor-pointer" onClick={() => Router.push('/account/portfolio')}><Coin width="4" height="4" />{amount}</span>}
             <div className="relative font-medium">
                 <div className="flex items-center p-1 bg-white rounded-full cursor-pointer text-blue-400" onClick={() => setIsActive(!isActive)}>
                     <div className="MuiAvatar-root MuiAvatar-circle gradient-bg text-white capitalize">
@@ -82,10 +80,14 @@ function UserDropDown({ session }) {
                     variants={fadeOut}
                     transition={pageTransition} className="bg-white gradient-shadow-md absolute min-w-max rounded-md p-3 top-[130%] left-1/2 transform -translate-x-1/2">
                     <ul className="space-y-4 text-lg text-gray-500">
-                        <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/account/')}><UserIcon className="w-6 h-6 mr-1 text-gray-700" />Portfolio</li>
+                        <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/account/')}><UserIcon className="w-6 h-6 mr-1 text-gray-700" />My Account</li>
+                        <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/account/portfolio')}><ViewGridIcon className="w-6 h-6 mr-1 text-gray-700" />Portfolio</li>
                         <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => setIsShare(true)}><ShareIcon className="w-6 h-6 mr-1 text-gray-700" />Invite a Friend</li>
                         {session?.referral_code &&
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => setIsShare(true)}><UsersIcon className="w-6 h-6 mr-1 text-gray-700" />Refer: {session?.referral_code}</li>
+                        }
+                        {session?.type ==='admin' &&
+                            <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/question/verification')}><CubeIcon className="w-6 h-6 mr-1 text-gray-700" />Que's Verification</li>
                         }
                         <li onClick={logout} className="hover:text-gray-900 cursor-pointer transition-sm flex items-center"><LogoutIcon className="w-6 h-6 mr-1 text-gray-700" />Logout </li>
                     </ul>
