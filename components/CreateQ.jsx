@@ -35,7 +35,7 @@ function CreateQ({ session }) {
         goLive: '',
         options: ['Yes', 'No'],
         settlementClosing: '',
-        qstatus: 'verified',
+        qstatus: 'created',
     })
     const [desc, setDesc] = useState('')
 
@@ -168,6 +168,7 @@ function CreateQ({ session }) {
                                 placeholder="Settlement Link ..."
                                 type="text"
                                 value={link}
+                                required
                                 onChange={(e) => setLink(e.target.value)}
                                 className="flex-grow w-full resize-none py-2 h-12 px-4 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
                             />

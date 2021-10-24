@@ -1,9 +1,6 @@
 import mongoose from 'mongoose';
 
 const transactionSchema = new mongoose.Schema({
-    username: {
-        type: String
-    },
     userId: {
         type: String
     },

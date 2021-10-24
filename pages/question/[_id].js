@@ -17,6 +17,8 @@ import addDays from 'date-fns/addDays'
 import { motion } from 'framer-motion';
 import { modules, formats, pageSlide, pageTransition, pageZoom } from '../../util'
 import dynamic from 'next/dynamic'
+import CommentBox from '../../components/CommentBox';
+
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
     loading: () => <p>Loading ...</p>,
@@ -46,7 +48,7 @@ function QuestionDetail({ questionData }) {
     const [isQueEdit, setIsQueEdit] = useState(false)
     const [desc, setDesc] = useState(que?.desc)
     // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
-     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
+    const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
 
     const getUserInfo = async () => {
@@ -58,13 +60,12 @@ function QuestionDetail({ questionData }) {
     }
 
     useEffect(() => {
-            getUserInfo();
+        getUserInfo();
     }, [])
 
     let { Volume, Favour, Against } = bidData
     const handleBet = async () => {
         if (session) {
-            const { username } = session;
             setIsActive(false)
             setIsSending(true)
             if (amount > 0 && amount >= bid) {
@@ -77,7 +78,7 @@ function QuestionDetail({ questionData }) {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, bid, _id, userId: session?._id, question, category, odd, settlementClosing })
+                    body: JSON.stringify({ bid, _id, userId: session?._id, question, category, odd, settlementClosing })
                 })
                 console.log(res.status)
                 const response = await res.json();
@@ -362,9 +363,7 @@ function QuestionDetail({ questionData }) {
                                                 }
                                                 <tr>
                                                     <td>Creator</td>
-
-                                                    <td>{userInfo?.name || questionData?.userId || 'unKnown'}</td>
-
+                                                    <td className="capitalize">{userInfo?.name || questionData?.userId || 'unKnown'}</td>
                                                 </tr>
                                                 {isQueEdit && <tr>
                                                     <td></td>
@@ -379,7 +378,7 @@ function QuestionDetail({ questionData }) {
 
                                 </div>
 
-                                <motion.div initial="initial"
+                               {que?.desc && <motion.div initial="initial"
                                     animate="in"
                                     exit="out"
                                     variants={pageSlide}
@@ -396,7 +395,7 @@ function QuestionDetail({ questionData }) {
                                                 <div className="sm:text-lg que__desc" dangerouslySetInnerHTML={DESC()}></div>
                                             </>
                                     }
-                                </motion.div>
+                                </motion.div>}
                                 {que?.reference && <motion.div initial="initial"
                                     animate="in"
                                     exit="out"
@@ -414,7 +413,11 @@ function QuestionDetail({ questionData }) {
                                     }
                                     </>
                                 }
+
                             </motion.div>
+                            <div className="w-full max-w-5xl gradient-shadow mx-auto rounded-lg lg:p-10 mt-2 sm:mt-4 p-5 relative">
+                                <CommentBox queId={que?._id} userId={session?._id} name={session?.name} image_url={session?.image_url}  />
+                            </div>
                         </>
                         :
                         <Loader />
@@ -456,6 +459,7 @@ export async function getServerSideProps({ params }) {
             }
         }
     }
+
     return {
         props: {
             questionData

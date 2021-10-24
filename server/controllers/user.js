@@ -10,7 +10,6 @@ const userData = async (req, res) => {
     }
     else {
         const questions = await Transaction.find({ userId: userFound._id }).sort({ _id: -1 });
-        console.log(questions)
         let { Tokens, password, ...other } = userFound._doc;
         other = { ...other, questions }
         res.status(200).send(other)

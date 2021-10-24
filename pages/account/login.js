@@ -131,7 +131,7 @@ function login() {
                                         <>
                                             <div className="flex border-b-2 border-gray-700 py-2 mb-6">
                                                 <MailIcon className="h-6" />
-                                                <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="email" value={data.email} required placeholder="Email or Username " />
+                                                <input onChange={handleChange} className="outline-none flex-grow px-2" type="text" name="email" value={data.email} required placeholder="Email Address... " />
                                             </div>
                                             <div className="flex border-b-2 border-gray-700 py-2 my-6">
                                                 <LockClosedIcon className="h-6" />

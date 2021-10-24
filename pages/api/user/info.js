@@ -1,5 +1,5 @@
 import connectDB from "../../../server/db/mongodb";
-import { User } from '../../../server/db/models/user'
+import User from '../../../server/db/models/user'
 
 const info = async (req, res) => {
     const userFound = await User.findById({ _id: req.query._id });
@@ -8,7 +8,6 @@ const info = async (req, res) => {
     }
     else {
         let { Tokens, password, ...other } = userFound._doc;
-        other = { ...other, questions }
         res.status(200).send(other)
     }
 };

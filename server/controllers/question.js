@@ -1,10 +1,11 @@
+import QComment from '../db/models/qcomment';
 import Question from '../db/models/question'
 import Transaction from '../db/models/transaction';
 
 const verifyQuestion = async (req, res) => {
-    const { _id, qstatus, goLive } = req.body;
+    const { _id, qstatus } = req.body;
     try {
-        const data = await Question.findByIdAndUpdate({ _id: _id }, { qstatus, goLive }, { new: true });
+        const data = await Question.findByIdAndUpdate({ _id: _id }, { qstatus }, { new: true });
         if (data) {
             res.status(200).send({ msg: 'question verified' })
         }
@@ -19,7 +20,7 @@ const verifyQuestion = async (req, res) => {
 
 const getQuestions = async (req, res) => {
     try {
-        const filter = { goLive: { $lte: new Date(new Date().toISOString()) } }
+        const filter = req.query.filter ? {qstatus: 'created'} : { goLive: { $lte: new Date(new Date().toISOString()) } }
         const getQuestions = await Question.find(filter).sort({ _id: -1 });
         res.status(200).send(getQuestions)
     } catch (error) {
@@ -38,7 +39,6 @@ const ques = async (req, res) => {
 }
 
 const queDetail = async (req, res) => {
-    console.log(req.query)
     const detail = await Question.findById({ _id: req.query._id });
     if (detail) {
         res.status(200).send(detail)
@@ -47,7 +47,6 @@ const queDetail = async (req, res) => {
         res.status(400).send({ mg: "error" })
     }
 }
-
 
 const update_que = async (req, res) => {
     const { _id, bidClosing, settlementClosing, desc, qstatus, question } = req.body
@@ -86,5 +85,20 @@ const filter = async (req, res) => {
     }
 }
 
+const comment = async (req, res) => {
+    if (req.method == 'POST') {
+        const postComment = new QComment(req.body);
+        const commentSaved = await postComment.save();
+        commentSaved ? res.status(201).send(commentSaved) : res.status(400).send(null);
+    }
+    else if(req.method == 'DELETE'){
+        const delComments = await QComment.findByIdAndDelete({ _id: req.query._id });
+        delComments ? res.status(200).send({msg: "comment deleted"}) : res.status(400).send({msg: 'unable to remove comment'});
+    }
+    else {
+        const getComments = await QComment.find({ queId: req.query.queId });
+        getComments ? res.status(200).send(getComments) : res.status(400).send(null);
+    }
+}
 
-export { ques, getQuestions, filter, queDetail, update_que, verifyQuestion }
+export { ques, getQuestions, filter, queDetail, update_que, verifyQuestion, comment }

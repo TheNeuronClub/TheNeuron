@@ -9,18 +9,15 @@ import sendEMail from '../../lib/Mail/sendMail'
 const host = process.env.HOST
 
 const register = async (req, res) => {
-    const { username, email, password, country, name, referral_code, image_url, isVerified } = req.body;
+    const { email, password, name, referral_code, image_url, isVerified } = req.body;
     try {
         const userEmail = await User.findOne({ email: email });
         if (userEmail) {
             return res.status(421).json({ error: "Email already exist" })
         }
-        const userUsername = await User.findOne({ username: username });
-        if (userUsername) {
-            return res.status(422).json({ error: "Username already exist" })
-        } else {
+        else {
             try {
-                const user = new User({ username, email, password, name, country, image_url, isVerified, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
+                const user = new User({ email, password, name, image_url, isVerified, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
                 const userRegistered = await user.save();
 
                 if (userRegistered) {
@@ -42,9 +39,8 @@ const register = async (req, res) => {
                         const result = await sendEMail(data);
                         console.log(result);
                     }
-                    res.status(201).send({ token: token });
+                    res.status(200).send({ token: token });
                 }
-
             } catch (error) {
                 res.status(400).json({ error: 'Failed to register' })
             }
@@ -72,9 +68,9 @@ const verify = async (req, res) => {
 }
 
 const forgetPassword = async (req, res) => {
-    const userFound = await User.findOne({ email: req.body }) || await User.findOne({ username: req.body })
+    const userFound = await User.findOne({ email: req.body })
     if (userFound) {
-        const link = `${host}/account/reset_password?_id=${userFound._id}&username=${userFound.username}`;
+        const link = `${host}/account/reset_password?_id=${userFound._id}&code=${userFound.referral_code}`;
         const data = { subject: `Reset Password request for TheNeuron.Club Account`, text: `Reset password`, email: userFound.email, html: `Click <a href="${link}" target="_blank">Here</a>  to reset password of your TheNeuron.Club account.` }
         const result = await sendEMail(data);
         console.log(result)
@@ -85,8 +81,8 @@ const forgetPassword = async (req, res) => {
     }
 }
 const resetPassword = async (req, res) => {
-    let { _id, username, password } = req.body;
-    const userFound = await User.findOne({ _id: _id }) && await User.findOne({ username: username })
+    let { _id, code, password } = req.body;
+    const userFound = await User.findOne({ _id: _id }) && await User.findOne({ referral_code: code })
     if (userFound) {
         password = await bcrypt.hash(password, 12)
         const updateUser = await User.findByIdAndUpdate({ _id: _id }, { password: password }, { new: true });
@@ -122,7 +118,7 @@ const login = async (req, res) => {
     const { type } = req.query;
     const { email, password } = req.body;
     try {
-        const userLogin = await User.findOne({ email: email }) || await User.findOne({ username: email })
+        const userLogin = await User.findOne({ email: email })
         if (userLogin && type !== 'social') {
             const isMatch = await bcrypt.compare(password, userLogin.password)
 
@@ -140,10 +136,21 @@ const login = async (req, res) => {
             await loginSuccess(req, res, userLogin)
         }
         else {
-            if (type === 'social') {
+            if (!userLogin && type === 'social') {
                 try {
-                    const user = new User({ name: req.body.name, email: req.body.email, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
+                    const { referral_code, name, email } = req.body;
+                    const user = new User({ name: name, email: email, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
                     const userRegistered = await user.save();
+                    if (userRegistered && referral_code) {
+                        try {
+                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've won 500 neuron coins for refer user`, referred_user: userRegistered._id }, $inc: { balance: 500 } }, { new: true });
+                            if (refer) {
+                                const referredThrough = await User.findByIdAndUpdate({ _id: userRegistered._id }, { referred_through: `${referral_code}` }, { new: true });
+                            }
+                        } catch (error) {
+                            console.log('Wrong Referral Code')
+                        }
+                    }
                     await loginSuccess(req, res, userRegistered);
                 } catch (error) {
                     res.status(400).json({ error: 'Failed to Social Sigin' })
@@ -152,20 +159,6 @@ const login = async (req, res) => {
             else {
                 res.status(401).json({ error: "User doesn't exist" })
             }
-            // To get additional user details with social login
-            // if (req.body.username && req.body?.username?.length > 4 && type === 'social') {
-            //     try {
-            //         const user = new User({ name: req.body.name, email: req.body.email, username: req.body.username, country: req.body.country, image_url: req.body.image, isVerified: true, referral_code: Math.random().toString(36).slice(-6).toUpperCase() });
-            //         const userRegistered = await user.save();
-            //         await loginSuccess(req, res, userRegistered);
-            //     } catch (error) {
-            //         res.status(400).json({ error: 'Failed to Social Sigin' })
-            //     }
-            // }
-            // else {
-            //     res.status(401).json({ error: "User doesn't exist" })
-            // }
-
         }
     } catch (error) {
         console.log(error)

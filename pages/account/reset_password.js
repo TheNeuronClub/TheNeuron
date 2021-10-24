@@ -6,7 +6,7 @@ import { userSession } from '../../lib/user-session';
 import { motion } from 'framer-motion';
 import { pageTransition, pageZoom } from '../../util';
 
-function reset_password({ _id, username }) {
+function reset_password({ _id, code }) {
     const router = useRouter();
     const session = userSession();
     useEffect(() => {
@@ -20,7 +20,7 @@ function reset_password({ _id, username }) {
     const [verify, setVerify] = useState(false);
     const [data, setData] = useState({
         _id: _id,
-        username: username,
+        code: code,
         password: '',
         confirm_password: ''
     })
@@ -108,11 +108,11 @@ function reset_password({ _id, username }) {
 export default reset_password
 
 export function getServerSideProps(context) {
-    const { _id, username } = context.query;
+    const { _id, code } = context.query;
     return {
         props: {
             _id,
-            username
+            code
         }
     }
 }
