@@ -25,7 +25,6 @@ function Navbar() {
     const userSignOut = () => signOut();
     const logout = async () => {
         setIsLoader(true)
-        userSignOut();
         window.localStorage.setItem('neuron-token', '');
         const res = await fetch(`/api/account/logout`, {
             method: 'POST',
@@ -35,7 +34,7 @@ function Navbar() {
             body: JSON.stringify({ _id: session?._id })
         });
         if (res.status === 200) {
-            location.reload();
+            userSignOut();
         }
         setIsLoader(false)
     }
