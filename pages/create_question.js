@@ -10,7 +10,7 @@ function create_question() {
             Router.push('/account/login')
         }
         else if (session?.type!=='admin') {
-            Router.push('/account/login')
+            Router.push('/')
         }
     }, [session])
     return (

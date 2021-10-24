@@ -100,7 +100,7 @@ function Navbar() {
                     <ul className="flex hidden md:block space-x-5 pr-6 font-medium text-lg">
                         <Link href="/question/">Explore</Link>
                         <Link href="/how_it_works">How it Works</Link>
-                        {session?.type==='admin' && <Link href="/admin/create_question">Create Question</Link>}
+                        {session?.type==='admin' && <Link href="/create_question">Create Question</Link>}
                         {!session &&
                             <>
                                 <Link href="/faq">FAQs</Link>
