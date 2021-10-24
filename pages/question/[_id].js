@@ -47,8 +47,8 @@ function QuestionDetail({ questionData }) {
     const [updateQue, setUpdateQue] = useState(questionData);
     const [isQueEdit, setIsQueEdit] = useState(false)
     const [desc, setDesc] = useState(que?.desc)
-    const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
-    // const urlSrc = `https://www.theneuron.club/question/${que?._id}`
+    // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
+    const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
 
     const getUserInfo = async () => {
