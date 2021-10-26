@@ -28,7 +28,7 @@ function Footer() {
                 <div className="">
                     <Link href="/">
                         <div className="relative h-16 w-52">
-                            <Image src="/images/logo.png" layout="fill" objectFit="contain" className="drop-shadow-md" />
+                            <Image src="/images/beta-logo.png" layout="fill" objectFit="contain" className="drop-shadow-md" />
                         </div>
                     </Link>
                     {/* <p className="py-2 max-w-xl">The Neuron Club is a revolutionary forecasting platform where users can earn rewards by predicting the outcomes of future events. We cover topics across a wide range of categories. */}

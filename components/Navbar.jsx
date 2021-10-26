@@ -91,7 +91,7 @@ function Navbar() {
                     <div className="relative cursor-pointer">
                         <picture>
                             <source media="(max-width: 640px)" srcSet="/favicon.png" />
-                            <source media="(min-width: 640px)" srcSet="/images/logo.png" />
+                            <source media="(min-width: 640px)" srcSet="/images/beta-logo.png" />
                             <img src="/images/logo.png" layout="fill" className="h-12 w-12 sm:w-48 object-contain drop-shadow-md overflow-hidden" />
                         </picture>
                     </div>

@@ -6,10 +6,6 @@ const userSchema = new mongoose.Schema({
     name: {
         type: String,
     },
-    username: {
-        type: String,
-        unique: true
-    },
     image_url: {
         type: String
     },
@@ -24,6 +20,10 @@ const userSchema = new mongoose.Schema({
     balance: {
         type: Number,
         default: 1000
+    },
+    earning: {
+        type: Number,
+        default: 0
     },
     isNewUser: {
         type: Boolean,

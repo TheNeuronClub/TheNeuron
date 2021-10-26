@@ -21,7 +21,7 @@ const dailyVisit = async (req, res) => {
     const userFound = await User.findById({ _id: _id });
     if (userFound) {
         if (userFound.lastVisit !== currentDate) {
-            const updatedUser = await User.findByIdAndUpdate({ _id: _id }, { $inc: { balance: 100 }, lastVisit: currentDate, $push: { notification: `You've won, 100 coins on ${moment(currentDate).format('ll')} for daily visit 😀` } }, { new: true });
+            const updatedUser = await User.findByIdAndUpdate({ _id: _id }, { $inc: { balance: 100 }, lastVisit: currentDate, $push: { notification: `You've earned, 100 coins on ${moment(currentDate).format('ll')} for daily visit 😀` } }, { new: true });
             res.status(200).send({ balance: userFound.balance, msg: "new day visit" });
         }
         else {
@@ -35,7 +35,7 @@ const dailyVisit = async (req, res) => {
 
 const userQuestions = async (req, res) => {
     try {
-        const getQuestions = await Question.find({userId: req.query.userId}).sort({ _id: -1 });
+        const getQuestions = await Question.find({ qstatus: 'verified' }).sort({ settlementClosing: 1 });
         res.status(200).send(getQuestions)
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
