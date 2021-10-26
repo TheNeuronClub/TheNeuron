@@ -90,7 +90,13 @@ body {
 }
 
 .gradient-bg {
-    background: linear-gradient(45deg, #1380F9 40%, #1EA5FC);
+    background: linear-gradient(to bottom right ,#5b9dff 0% , #1380F9 40%, #1EA5FC 100%);
+    background-size: 200% 200%;
+    animation: movingGradient 10s linear infinite alternate;
+}
+@keyframes movingGradient{
+    from { background-position: 0 0; }
+    to { background-position: 100% 100%; }
 }
 
 .gradient-shadow {
@@ -108,6 +114,29 @@ body {
 .question {
     background: radial-gradient(#fff, #e6e6fa);
     box-shadow: 0 0 25px rgb(141 30 255 / 10%);
+}
+.info__circle{
+    min-width: 15px;
+    min-height: 15px;
+}
+.inner{
+    display: none;
+    opacity: 0;
+}
+.inner::before{
+    content: '';
+    position: absolute;
+    width: 20px;
+    height: 8px;
+    bottom: -6px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #222;
+    clip-path: polygon(100% 0, 0 0, 50% 100%);
+}
+.info__circle:hover ~ .inner{
+    display: inline-block;
+    opacity: 1;
 }
 
 .bet .bet__container {
@@ -130,6 +159,7 @@ body {
 .bet table td {
     @apply px-4 text-left
 }
+
 
 .custom-shape-divider-bottom-1630315778 {
     position: absolute;

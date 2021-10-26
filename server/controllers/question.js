@@ -20,7 +20,7 @@ const verifyQuestion = async (req, res) => {
 
 const getQuestions = async (req, res) => {
     try {
-        const filter = req.query.filter ? {qstatus: 'created'} : { goLive: { $lte: new Date(new Date().toISOString()) } }
+        const filter = req.query.filter ? { qstatus: 'created' } : { goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } }
         const getQuestions = await Question.find(filter).sort({ _id: -1 });
         res.status(200).send(getQuestions)
     } catch (error) {
@@ -30,8 +30,8 @@ const getQuestions = async (req, res) => {
 
 const ques = async (req, res) => {
     try {
-        const trending = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ Volume: -1 }).limit(8);
-        const newest = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ _id: -1 }).limit(8);
+        const trending = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ Volume: -1 }).limit(8);
+        const newest = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ _id: -1 }).limit(8);
         res.status(200).send({ trending, newest })
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
@@ -64,7 +64,12 @@ const update_que = async (req, res) => {
 const filter = async (req, res) => {
     const { category, sort, qstatus } = req.body;
     let sorting, filter;
-    category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: new Date(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) } })
+    if (sort == 'closed') {
+        category && category.length > 2 ? (filter = { category, qstatus: 'closed', goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } }) : (filter = { qstatus: 'closed', goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } })
+    }
+    else {
+        category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } })
+    }
     if (sort === 'volume') {
         sorting = { Volume: -1 }
     }
@@ -91,9 +96,9 @@ const comment = async (req, res) => {
         const commentSaved = await postComment.save();
         commentSaved ? res.status(201).send(commentSaved) : res.status(400).send(null);
     }
-    else if(req.method == 'DELETE'){
+    else if (req.method == 'DELETE') {
         const delComments = await QComment.findByIdAndDelete({ _id: req.query._id });
-        delComments ? res.status(200).send({msg: "comment deleted"}) : res.status(400).send({msg: 'unable to remove comment'});
+        delComments ? res.status(200).send({ msg: "comment deleted" }) : res.status(400).send({ msg: 'unable to remove comment' });
     }
     else {
         const getComments = await QComment.find({ queId: req.query.queId });

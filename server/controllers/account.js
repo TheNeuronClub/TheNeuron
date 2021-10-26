@@ -42,6 +42,7 @@ const register = async (req, res) => {
                     res.status(200).send({ token: token });
                 }
             } catch (error) {
+                console.log(error)
                 res.status(400).json({ error: 'Failed to register' })
             }
         }
@@ -143,7 +144,7 @@ const login = async (req, res) => {
                     const userRegistered = await user.save();
                     if (userRegistered && referral_code) {
                         try {
-                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've won 500 neuron coins for refer user`, referred_user: userRegistered._id }, $inc: { balance: 500 } }, { new: true });
+                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've earned 500 neuron coins for refer user`, referred_user: userRegistered._id }, $inc: { balance: 500 } }, { new: true });
                             if (refer) {
                                 const referredThrough = await User.findByIdAndUpdate({ _id: userRegistered._id }, { referred_through: `${referral_code}` }, { new: true });
                             }

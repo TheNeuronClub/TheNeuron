@@ -8,7 +8,8 @@ import Head from 'next/head'
 import Coin from "../../components/Coin";
 import Notification from "../../components/Notification";
 import { motion } from "framer-motion";
-import { pageTransition, pageZoom } from "../../util";
+import { container, pageTransition, pageZoom } from "../../util";
+import Row from "../../components/Row";
 
 function portfolio() {
     const session = userSession();
@@ -19,9 +20,7 @@ function portfolio() {
     }, [session])
     const [userData, setUserData] = useState(null);
     const [investment, setInvestment] = useState({
-        total: 0,
-        win: 0,
-        lose: 0
+        total: 0
     });
     const getUser = async () => {
         const res = await fetch(`/api/user/getUser?_id=${session?._id}`);
@@ -43,9 +42,7 @@ function portfolio() {
 
     useEffect(() => {
         setInvestment({
-            total: getTotal(userData?.questions, 'amount'),
-            win: 0,
-            lose: 0
+            total: getTotal(userData?.questions, 'amount')
         })
     }, [userData]);
 
@@ -69,7 +66,7 @@ function portfolio() {
                             variants={pageZoom}
                             transition={pageTransition} className="max-w-xs gradient-shadow rounded-xl p-6 m-2 space-y-2 border-b-4 win__border">
                             <h1 className="font-semibold text-2xl text-gray-700">Net Returns</h1>
-                            <h2 className="text-xl text-gray-600 inline-flex items-center"><Coin width="5" height="5" />{investment?.win - investment?.lose}</h2>
+                            <h2 className="text-xl text-gray-600 inline-flex items-center"><Coin width="5" height="5" />{userData?.earning || '0'}</h2>
                         </motion.div>
                         {/* <motion.div initial="hidden"
                             animate="visible"
@@ -106,7 +103,62 @@ function portfolio() {
                         </div>
                     </div>
                     {userData?.questions?.length > 0 ?
-                        <QuestionGroup questions={userData?.questions} category={"Question Transaction"} user={true} />
+                        <>
+                        <div className={`p-5 py-10 sm:p-10 xl:px-20 min-w-full mx-auto`}>
+                            <div className="flex justify-start border-b-2 mb-4 pb-2 border-gray-200">
+                                <h1 className="text-2xl sm:text-3xl font-semibold  text-gray-700">Question Transactions</h1>
+                            </div>
+                            <div className="flex flex-col w-full overflow-x-scroll max-w-[90vw]">
+                                <table className="divide-y divide-gray-200">
+                                    <thead className="bg-gray-50">
+                                        <tr>
+                                            <th scope="col" className="p-4 text-sm sm:text-base text-gray-700 font-semibold uppercase tracking-wider text-center">
+                                                Category
+                                            </th>
+                                            <th scope="col" className="p-4 text-sm sm:text-base text-gray-700 font-semibold uppercase tracking-wider text-center">
+                                                Question
+                                            </th>
+                                            <th scope="col" className="p-4 text-sm sm:text-base text-gray-700 font-semibold uppercase tracking-wider text-center">
+                                                Bid-Date
+                                            </th>
+                                            <th scope="col" className="p-4 text-sm sm:text-base text-gray-700 font-semibold uppercase tracking-wider text-center">
+                                                Investment
+                                            </th>
+                                            <th scope="col" className="p-4 text-sm sm:text-base text-gray-700 font-semibold uppercase tracking-wider text-center">
+                                                Status
+                                            </th>
+                                            <th scope="col" className="p-4 text-sm sm:text-base text-gray-700 font-semibold uppercase tracking-wider text-center">
+                                                Result
+                                            </th>
+
+                                        </tr>
+                                    </thead>
+                                    <motion.tbody
+                                        initial="hidden"
+                                        animate="visible"
+                                        variants={container}
+                                        transition={pageTransition} className="bg-white divide-y divide-gray-200 overflow-auto">
+                                        {
+                                            (userData?.questions && userData?.questions?.length > 0) ?
+                                                <>
+                                                    {userData?.questions.map((item, i) => (
+                                                        <Row question={item} key={i} />
+                                                    ))}
+                                                </>
+                                                :
+                                                <>
+                                                    <td>
+                                                        <div className="p-5 mx-auto relative min-w-[350px] min-h-[350px]">
+                                                            <Image src="/images/no-data.svg" layout="fill" objectFit="contain" className="w-full h-full drop-shadow" />
+                                                        </div>
+                                                    </td>
+                                                </>
+                                        }
+                                    </motion.tbody>
+                                </table>
+                            </div>
+                            </div>
+                        </>
                         :
                         <div className="text-center p-5">
                             <h1 className="text-3xl lg:text-4xl 2xl:text-5xl font-semibold text-gray-700 my-6">You've not placed any bid yet.</h1>

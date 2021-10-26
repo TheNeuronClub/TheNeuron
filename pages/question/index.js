@@ -112,6 +112,7 @@ function index({ data }) {
                                 <option value="volume">Top Trending</option>
                                 <option value="closing">Closing Soon</option>
                                 <option value="oldest">Oldest First</option>
+                                <option value="closed">Closed</option>
                             </select>
                             <ChevronDownIcon className="absolute top-1/2 transform -translate-y-1/2 right-1 h-7 w-7" />
                         </div>

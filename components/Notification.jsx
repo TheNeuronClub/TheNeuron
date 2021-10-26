@@ -1,4 +1,4 @@
-import { BellIcon, GiftIcon, TagIcon, XIcon } from '@heroicons/react/solid'
+import { BellIcon, EmojiHappyIcon, GiftIcon, TagIcon, ThumbUpIcon, XIcon } from '@heroicons/react/solid'
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { container, item, pageSlide, pageTransition } from '../util'
@@ -25,9 +25,14 @@ function Notification({ notifications }) {
                             <motion.div variants={item} key={i} className="rounded-md flex justify-between items-center border border-gray-200 text-gray-700 px-4 py-2 text-sm my-2">
                                 <h1>{message}</h1>
                                 {message.includes('won') ?
+                                    <EmojiHappyIcon className="w-8 h-5 text-yellow-400 cursor-pointer ml-3" />
+                                    :
+                                    message.includes('lose') && <ThumbUpIcon className="w-8 h-5 text-pink-400 cursor-pointer ml-3" />
+                                }
+                                {message.includes('earned') ?
                                     <GiftIcon className="w-8 h-5 text-green-500 cursor-pointer ml-3" />
                                     :
-                                    <TagIcon className="w-8 h-5 text-blue-500 cursor-pointer ml-3" />
+                                    message.includes('spent') && <TagIcon className="w-8 h-5 text-blue-500 cursor-pointer ml-3" />
                                 }
                             </motion.div>
                         )

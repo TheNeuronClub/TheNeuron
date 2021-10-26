@@ -38,8 +38,17 @@ function Row({ question }) {
                 </td>
                 <td className="p-4 whitespace-nowrap text-center">
                     {question?.qstatus === 'verified' ?
-                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-800">Active</span>
-                        : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Closed</span>}
+                        <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-blue-100 text-blue-600">Active</span>
+                        : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-600">Closed</span>}
+                </td>
+                <td className="p-4 whitespace-nowrap text-center">
+                    {question?.result ?
+                        question?.result == question?.odd ?
+                            <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-600">Won</span>
+                            : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-pink-100 text-pink-600">Lose</span>
+                        : <span className="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-600">Not Settled</span>
+                    }
+
                 </td>
             </motion.tr>
         </>
