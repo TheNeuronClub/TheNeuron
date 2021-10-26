@@ -56,12 +56,11 @@ function QuestionDetail({ questionData }) {
 
     const getUserInfo = async () => {
         const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
-    const response = await res.json();
         if (res.status == 200) {
+            const response = await res.json();
             setUserInfo(response)
         }
     }
-
     useEffect(() => {
         getUserInfo();
     }, [])
@@ -241,7 +240,7 @@ function QuestionDetail({ questionData }) {
                                                         <WhatsappShareButton url={urlSrc} separator=" " >
                                                             <WhatsappIcon size={40} round={true} />
                                                         </WhatsappShareButton>
-                                                        <PinterestShareButton url={urlSrc} description={que?.question} media={que?.image_url || `https://www.theneuron.club.vercel.app/images/que/${que?.category?.toLowerCase()}.jfif`} >
+                                                        <PinterestShareButton url={urlSrc} description={que?.question} media={que?.image_url || `https://www.theneuron.club/images/que/${que?.category?.toLowerCase()}.jfif`} >
                                                             <PinterestIcon size={40} round={true} />
                                                         </PinterestShareButton>
                                                         <TelegramShareButton url={urlSrc} title={que?.question} >
