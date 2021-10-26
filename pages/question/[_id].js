@@ -50,8 +50,8 @@ function QuestionDetail({ questionData }) {
     const [isQueEdit, setIsQueEdit] = useState(false)
     const [isSettle, setIsSettle] = useState(false)
     const [desc, setDesc] = useState(que?.desc)
-    const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
-    // const urlSrc = `https://www.theneuron.club/question/${que?._id}`
+    // const urlSrc = `https://neuron-club.vercel.app/question/${que?._id}`
+    const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
 
     const getUserInfo = async () => {
@@ -240,7 +240,7 @@ function QuestionDetail({ questionData }) {
                                                         <WhatsappShareButton url={urlSrc} separator=" " >
                                                             <WhatsappIcon size={40} round={true} />
                                                         </WhatsappShareButton>
-                                                        <PinterestShareButton url={urlSrc} description={que?.question} media={que?.image_url || `https://neuron-club.vercel.app/images/que/${que?.category?.toLowerCase()}.jfif`} >
+                                                        <PinterestShareButton url={urlSrc} description={que?.question} media={que?.image_url || `https://www.theneuron.club.vercel.app/images/que/${que?.category?.toLowerCase()}.jfif`} >
                                                             <PinterestIcon size={40} round={true} />
                                                         </PinterestShareButton>
                                                         <TelegramShareButton url={urlSrc} title={que?.question} >
