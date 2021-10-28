@@ -119,11 +119,11 @@ body {
     min-width: 15px;
     min-height: 15px;
 }
-.inner{
+.info__inner{
     display: none;
     opacity: 0;
 }
-.inner::before{
+.info__inner::before{
     content: '';
     position: absolute;
     width: 20px;
@@ -134,7 +134,7 @@ body {
     background: #222;
     clip-path: polygon(100% 0, 0 0, 50% 100%);
 }
-.info__circle:hover ~ .inner{
+.info__circle:hover ~ .info__inner{
     display: inline-block;
     opacity: 1;
 }
