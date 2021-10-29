@@ -1,10 +1,12 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
+import Header2 from '../components/Header2'
 import QuestionGroup from '../components/QuestionGroup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Carousel from '../components/Carousel'
+import Header3 from '../components/Header3'
 
 export default function Home({ questions }) {
   const [carousel, setCarousel] = useState(false)
@@ -39,7 +41,9 @@ export default function Home({ questions }) {
           <title>The Neuron</title>
           <link rel="icon" href="/favicon.png" />
         </Head>
-        <Header />
+        {/* <Header /> */}
+        <Header2 />
+        <Header3 />
         <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
         <QuestionGroup questions={questions?.newest} category={"New Topics"} />
       </div>

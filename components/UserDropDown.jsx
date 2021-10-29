@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import {  ChevronDownIcon, ChevronUpIcon, CubeIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, ViewGridIcon, ViewListIcon, XIcon } from "@heroicons/react/solid"
+import {  ChevronDownIcon, ChevronUpIcon, CogIcon, CubeIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, ViewGridIcon, ViewListIcon, XIcon } from "@heroicons/react/solid"
 import Router from 'next/router'
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, PinterestIcon, PinterestShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { useDispatch } from 'react-redux'
@@ -19,7 +19,6 @@ function UserDropDown({ session }) {
     const [isLoader, setIsLoader] = useState(false)
     const dispatch = useDispatch();
     const amount = useSelector(balance)
-    // const urlSrc = `https://neuron-club.vercel.app/account/register?referral_code=${session?.referral_code}`
     const urlSrc = `https://www.theneuron.club/account/register?referral_code=${session?.referral_code}`
  
     useEffect(() => {
@@ -89,6 +88,9 @@ function UserDropDown({ session }) {
                         }
                         {session?.type ==='admin' &&
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/question/verification')}><CubeIcon className="w-6 h-6 mr-1 text-gray-700" />Que's Verification</li>
+                        }
+                        {session?.type ==='admin' &&
+                            <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/setting')}><CogIcon className="w-6 h-6 mr-1 text-gray-700" />Setting</li>
                         }
                         <li onClick={logout} className="hover:text-gray-900 cursor-pointer transition-sm flex items-center"><LogoutIcon className="w-6 h-6 mr-1 text-gray-700" />Logout </li>
                     </ul>

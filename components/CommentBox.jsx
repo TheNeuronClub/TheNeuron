@@ -59,7 +59,8 @@ function CommentBox({ queId, userId, image_url, name}) {
 
     return (
         <>
-            {userId && <div className="flex space-x-2 sm:space-x-3 items-center justify-start max-w-max">
+        <div className="flex-1 mt-4 lg:mt-0">
+            {userId && <div className="flex space-x-2 sm:space-x-3 items-center justify-start lg:max-w-max">
                 {image_url ?
                     <img src={image_url} alt="" className="w-10 sm:w-12 h-10 sm:h-12 border-4 border-gray-100 rounded-full" />
                     :
@@ -67,7 +68,7 @@ function CommentBox({ queId, userId, image_url, name}) {
                         {name?.[0]}
                     </div>
                 }
-                <form onSubmit={postComment} className="comment__box py-4 px-4 sm:px-6">
+                <form onSubmit={postComment} className="comment__box w-full py-4 px-4 sm:px-6">
                     <h2 className="text-gray-600 text-lg font-medium">Add a new comment
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 inline-block ml-2" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M2 5a2 2 0 012-2h7a2 2 0 012 2v4a2 2 0 01-2 2H9l-3 3v-3H4a2 2 0 01-2-2V5z" />
@@ -97,6 +98,7 @@ function CommentBox({ queId, userId, image_url, name}) {
                     </div>
                 </>
             }
+            </div>
         </>
     )
 }

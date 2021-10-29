@@ -25,7 +25,7 @@ export const ConfirmBox = ({ queId, finalResult, setConfirm, setIsSettle, setQue
                 animate="in"
                 exit="out"
                 variants={pageZoom}
-                transition={pageTransition} className="fixed top-0 left-0 right-0 bottom-0 w-full h-full grid place-items-center z-50 bg-black bg-opacity-80" >
+                transition={pageTransition} className="fixed top-0 left-0 right-0 bottom-0 w-full h-full grid place-items-center z-50 bg-black bg-opacity-80 max_w_3xl" >
                 <div className="relative max-w-sm md:max-w-md py-10 md:py-14 px-5 md:px-10 bg-white rounded-xl shadow-2xl m-4">
                     <h1 className="text-xl md:text-2xl my-4 text-center font-medium text-gray-800 z-50 leading-tight">
                         Do you want to settle this question with the choose option ?
@@ -51,7 +51,7 @@ function Settlement({ isSettle, setIsSettle, queId, setQue }) {
                 animate="in"
                 exit="out"
                 variants={pageZoom}
-                transition={pageTransition} className="fixed top-0 left-0 right-0 bottom-0 w-full h-full grid place-items-center z-50 bg-black bg-opacity-50" >
+                transition={pageTransition} className="fixed top-0 left-0 right-0 bottom-0 w-full h-full grid place-items-center z-50 bg-black bg-opacity-50 max_w_3xl" >
                 <div className="relative max-w-sm md:max-w-md py-10 px-5 md:px-10 bg-white rounded-xl shadow-2xl m-4">
                     <h1 className="text-xl md:text-2xl my-4 text-center font-medium text-gray-800 z-50 leading-tight">
                         Please Choose one of the option for settlement

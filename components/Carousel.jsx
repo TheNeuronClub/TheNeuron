@@ -5,6 +5,7 @@ const data = [
     { id: 0, imgSrc: '/images/works/o1.png' },
     { id: 1, imgSrc: '/images/works/o2.png' },
     { id: 2, imgSrc: '/images/works/o3.png' },
+    { id: 3, imgSrc: '/images/works/o4.png' },
 ]
 
 export const CarouselItem = ({ children, width }) => (
