@@ -1,7 +1,12 @@
+import Head from 'next/head'
 function tnc() {
     return (
+        <>
+        <Head>
+            <title>The Neuron | Terms & Conditions</title>
+        </Head>
         <div className="policy max-w-4xl bg-white mx-auto p-10 mb-10 pt-28">
-            <h4 className="text-3xl font-semibold text-gray-800 text-center mb-2 mt-12"> Terms & Conditions </h4>
+            <h4 className="text-3xl 2xl:text-4xl font-semibold text-gray-800 text-center mt-12"> Terms & Conditions </h4>
             <h1>
                 1. Usage of The Neuron Club
             </h1>
@@ -198,6 +203,7 @@ function tnc() {
             <p>The aforesaid notices can be sent to the Company by email at contact@TheNeuron.Club </p>
             <p>On receiving such complaint, grievance or notice, The Neuron Club reserves the right to investigate and/or take such action as The Neuron Club may deem appropriate. The Neuron Club may reach out to the User to seek further clarification or assistance with the investigation, or verify the statements made in the complaint, grievance or notice, and the User acknowledges that timely assistance with the investigation would facilitate the redressal of the same</p>
         </div>
+        </>
     )
 }
 
