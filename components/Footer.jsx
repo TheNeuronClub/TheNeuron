@@ -85,6 +85,7 @@ function Footer() {
                         <hr className="h-1 w-3/4 bg-yellow-400 rounded-sm text-yellow-400 border border-yellow-400" />
                         <ul className="flex flex-col text-lg font-medium py-2">
                             <Link href="/privacy_policy">Privacy Policy</Link>
+                            <Link href="/tnc">Terms & Conditions</Link>
                             <Link href="/contact">Contact Us</Link>
                             <Link href="/report_bug">Report a Bug</Link>
                         </ul>

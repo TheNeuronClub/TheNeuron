@@ -86,7 +86,11 @@ function Navbar() {
 
     return (
         <>
-            <div style={{ zIndex: 45 }} className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-16 lg:px-16 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
+            <motion.div initial="initial"
+                animate="in"
+                exit="out"
+                variants={fadeOut}
+                transition={pageTransition} style={{ zIndex: 45 }} className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-16 lg:px-16 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
                 <Link href="/">
                     <div className="relative cursor-pointer">
                         <picture>
@@ -121,7 +125,7 @@ function Navbar() {
 
                     <MenuAlt1Icon className="w-10 h-10 ml-3 cursor-pointer md:hidden active:scale-95 transition-sm" onClick={() => setIsActive(true)} />
                 </div>
-            </div>
+            </motion.div>
 
             {isActive &&
                 <motion.div initial="initial"

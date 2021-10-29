@@ -7,7 +7,8 @@ function privacy_policy() {
                 <title>The Neuron | Privacy Policy</title>
             </Head>
             <div className="policy max-w-4xl bg-white mx-auto p-10 mb-10 pt-28">
-                <h2 className="mt-10"> We take the protection of personal information seriously and are committed to handling personal data in accordance with the applicable privacy regulations.
+                <h4 className="text-3xl font-semibold text-gray-800 text-center mb-2 mt-12"> Privacy Policy </h4>
+                <h2> We take the protection of personal information seriously and are committed to handling personal data in accordance with the applicable privacy regulations.
                     ‍</h2>
 
                 <p> This privacy policy applies to the information and data collected by us to which we are controllers, including information collected through our website and other channels as described in this policy. This privacy policy explains how we collect, use, share, store and process your personal information. If you do not accept the terms of this privacy policy, you should not use our website and any other channels described herein.

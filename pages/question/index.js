@@ -9,14 +9,16 @@ import { queFilter, updatedFilter } from "../../slices/filter";
 import { useDispatch, useSelector } from "react-redux";
 import { motion } from "framer-motion";
 import { pageSlide, pageTransition } from "../../util";
+import { useRouter } from "next/router";
 
 function index({ data }) {
+    const router = useRouter()
     const [questions, setQuestions] = useState(data)
     const savedFilter = useSelector(queFilter);
     const dispatch = useDispatch();
     const [isData, setIsData] = useState(true)
     const [isLoader, setIsLoader] = useState(false)
-    const [filter, setFilter] = useState(savedFilter)
+    const [filter, setFilter] = useState({...savedFilter, category: router.query.category || ''})
 
     const handleChange = (e) => {
         e.preventDefault();
