@@ -65,7 +65,7 @@ const filter = async (req, res) => {
     const { category, sort, qstatus } = req.body;
     let sorting, filter;
     if (sort == 'closed') {
-        category && category.length > 2 ? (filter = { category, qstatus: 'closed', settlementClosing: { $lte: new Date(new Date().toISOString()) } }) : (filter = { qstatus: 'closed', settlementClosing: { $lte: new Date(new Date().toISOString()) } })
+        category && category.length > 2 ? (filter = { category, qstatus: 'closed' }) : (filter = { qstatus: 'closed' })
     }
     else {
         category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } })
