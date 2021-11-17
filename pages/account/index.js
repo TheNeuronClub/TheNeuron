@@ -2,9 +2,7 @@ import { userSession } from "../../lib/user-session"
 import { useEffect } from 'react'
 import Router from 'next/router'
 import Head from 'next/head'
-import { motion } from "framer-motion";
-import { pageTransition, pageZoom } from "../../util";
-import Portfolio from "../../components/Portfolio";
+import Profile from "../../components/Profile";
 
 function index() {
     const session = userSession();
@@ -15,12 +13,11 @@ function index() {
     }, [session])
 
     return (
-        <div className="py-10">
-            <Head> <title>The Neuron | Portfolio</title> </Head>
+        <div className="pb-10">
+            <Head> <title>The Neuron | Profile</title> </Head>
             {session &&
                 <>
-                    <Portfolio />
-                    {/* <Notification notifications={userData?.notification} /> */}
+                    <Profile />
                 </>
             }
         </div>

@@ -4,6 +4,7 @@ import Modal from '../components/Modal'
 import { userSession } from '../lib/user-session/index'
 import { motion } from 'framer-motion'
 import { pageTransition, pageZoom } from '../util';
+
 function report_bug() {
     const session = userSession();
     const [isSending, setIsSending] = useState(false)
@@ -54,17 +55,17 @@ function report_bug() {
             <Head>
                 <title>The Neuron | Report a Bug</title>
             </Head>
-            <div className="relative pt-24 pb-10">
+            <div className="relative py-10">
 
                 <div className="w-full max-w-xl xl:px-8 xl:w-5/12 mx-auto">
                     <motion.div initial="initial"
                         animate="in"
                         exit="out"
                         variants={pageZoom}
-                        transition={pageTransition} className="bg-white rounded gradient-shadow p-7 sm:p-10 m-2">
+                        transition={pageTransition} className="blur-white rounded gradient-shadow p-7 sm:p-10 m-2">
                         <form onSubmit={handleSubmit}>
                             <div className="mb-1 sm:mb-2">
-                                <label htmlFor="email" className="inline-block mb-1 font-medium">Your E-mail<span className="mx-1 text-red-500">*</span> </label>
+                                <label htmlFor="email" className="inline-block mb-1 text-white font-medium">Your E-mail<span className="mx-1 text-red-500">*</span> </label>
                                 <input
                                     placeholder="john.doe@example.com"
                                     required
@@ -77,7 +78,7 @@ function report_bug() {
                                 />
                             </div>
                             <div className="mb-1 sm:mb-2">
-                                <label htmlFor="Name" className="inline-block mb-1 font-medium">Issue Name<span className="mx-1 text-red-500">*</span></label>
+                                <label htmlFor="Name" className="inline-block mb-1 text-white font-medium">Issue Name<span className="mx-1 text-red-500">*</span></label>
                                 <input
                                     placeholder="Short description "
                                     required
@@ -90,16 +91,16 @@ function report_bug() {
                                 />
                             </div>
                             <div className="mb-1 sm:mb-2">
-                                <label htmlFor="attachment" className="inline-block mb-1 font-medium">Bug Screenshot</label>
+                                <label htmlFor="attachment" className="inline-block mb-1 text-white font-medium">Bug Screenshot</label>
                                 <input type="file" required name="attachment" accept="image/*"
                                     onChange={(e) => setBugImage(e.target.files[0])}
                                     className="flex-grow w-full py-2 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
                                 />
-                                {(bugImage?.size > 1000000) && <p className="text-red-500 text-sm">Maximum image upload size is 1MB </p>}
+                                {(bugImage?.size > 1000000) && <p className="text-red-400 text-sm">Maximum image upload size is 1MB </p>}
                             </div>
 
                             <div className="mb-1 sm:mb-2">
-                                <label htmlFor="message" className="inline-block mb-1 font-medium">Issue Description</label>
+                                <label htmlFor="message" className="inline-block mb-1 text-white font-medium">Issue Description</label>
                                 <textarea
                                     placeholder="Describe the issue here in more detail ..."
                                     minLength="2"
@@ -111,7 +112,7 @@ function report_bug() {
                                 />
                             </div>
                             <div className="mb-2 sm:mb-3">
-                                <button type="submit" className="px-5 py-2 gradient-bg text-lg text-white rounded-xl font-semibold active:scale-95 transition-sm">{isSending ? `Sending...` : `Send Message`}</button>
+                                <button type="submit" className="px-5 py-2 text-lg btn-blue rounded-xl font-semibold active:scale-95 transition-sm">{isSending ? `Sending...` : `Send Message`}</button>
                             </div>
                         </form>
                     </motion.div>

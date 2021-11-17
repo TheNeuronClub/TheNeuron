@@ -5,8 +5,8 @@ function tnc() {
         <Head>
             <title>The Neuron | Terms & Conditions</title>
         </Head>
-        <div className="policy max-w-4xl bg-white mx-auto p-10 mb-10 pt-28">
-            <h4 className="text-3xl 2xl:text-4xl font-semibold text-gray-800 text-center mt-12"> Terms & Conditions </h4>
+        <div className="policy max-w-4xl blur-white mx-auto p-10 my-10">
+            <h4 className="text-3xl xl:text-4xl font-semibold text-white text-center"> Terms & Conditions </h4>
             <h1>
                 1. Usage of The Neuron Club
             </h1>

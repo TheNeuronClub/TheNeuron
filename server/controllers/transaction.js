@@ -58,4 +58,24 @@ const settleQue = async (req, res) => {
     }
 }
 
-export { question, settleQue }
+const undoSettlement = async (req, res) => {
+    const { _id, result, message, reason } = req.body;
+    try {
+        const ques = await Question.findOneAndUpdate({ _id: _id }, { qstatus: reason === 'invalid' ? 'invalid' : 'verified', result: 'null' }, { new: true });
+        const { Volume, Favour, Against } = ques;
+        const transList = await Transaction.find({ questionId: _id }, { userId: 1, amount: 1, odd: 1, createdAt: 1 });
+        // const trans = await Transaction.deleteMany({ questionId: _id });
+        const winAmount = result == 'Favour' ? Volume / Favour : Volume / Against;
+        await Promise.all(transList.map(async (element) => {
+            (element.odd === result)
+                ? await User.updateOne({ _id: element.userId }, { $inc: { balance: 0 - (element.amount * winAmount) + element.amount, earning: 0 - (element.amount * winAmount) }, $push: { notification: message } }, { new: true })
+                : await User.updateOne({ _id: element.userId }, { $inc: { balance: element.amount }, $push: { notification: message } }, { new: true })
+        }))
+        res.status(200).send(ques);
+    } catch (error) {
+        console.log(error)
+        res.status(400).send({ msg: 'error in undo settlement' })
+    }
+}
+
+export { question, settleQue, undoSettlement }

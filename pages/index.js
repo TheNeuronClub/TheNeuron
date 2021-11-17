@@ -1,15 +1,13 @@
 import Head from 'next/head'
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
-import Header2 from '../components/Header2'
 import QuestionGroup from '../components/QuestionGroup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Carousel from '../components/Carousel'
-import Header3 from '../components/Header3'
+import OnBoard from '../components/OnBoard'
 
-export default function Home({ questions }) {
-  const [carousel, setCarousel] = useState(false)
+export default function Home({ questions, carouselList }) {
+  const [onBoard, setOnBoard] = useState(false)
 
   useEffect(() => {
     const data = JSON.parse(window.localStorage.getItem('neuron-newUser'));
@@ -23,41 +21,41 @@ export default function Home({ questions }) {
         draggable: true,
         progress: undefined,
       });
-      setCarousel(true);
+      setOnBoard(true);
     }
     window.localStorage.setItem('neuron-newUser', false)
   }, [])
 
 
-    const closeOnboard = () => {
-        setCarousel(false);
-    }
+  const closeOnboard = () => {
+    setOnBoard(false);
+  }
 
-    return (
+  return (
     <>
-      {carousel && <Carousel onSelect={closeOnboard} />}
+      {onBoard && <OnBoard onSelect={closeOnboard} />}
       <div className="w-full flex flex-col pb-10">
         <Head>
           <title>The Neuron</title>
           <link rel="icon" href="/favicon.png" />
         </Head>
-        {/* <Header /> */}
-        <Header2 />
-        <Header3 />
+        <Header carouselList={carouselList} />
         <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
         <QuestionGroup questions={questions?.newest} category={"New Topics"} />
       </div>
-      <ToastContainer style={{ textAlign: 'center', zIndex: '49', opacity: '0' }} />
+      <ToastContainer style={{ textAlign: 'center', zIndex: '49' }} />
     </>
   )
 }
 
-export async function getServerSideProps() {
+export async function getServerSideProps(context) {
   // const questions = await fetch('https://sample-api-data.vercel.app/api/tnc/questions').then((res) => res.json());
   const questions = await fetch(`${process.env.HOST}/api/question/ques`).then((res) => res.json());
+  const carouselList = await fetch(`${process.env.HOST}/api/carousel`).then((res) => res.json());
   return {
     props: {
-      questions
+      questions,
+      carouselList
     }
   }
 }

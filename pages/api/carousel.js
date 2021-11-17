@@ -29,14 +29,7 @@ handler.post(async (req, res) => {
             }
         }
         else {
-            const carouselData = new Header({ ...req.body });
-            const saveData = await carouselData.save();
-            if (!saveData) {
                 res.status(400).send({ msg: 'Error' });
-            }
-            else {
-                res.status(201).send(saveData)
-            }
         }
     }
 })

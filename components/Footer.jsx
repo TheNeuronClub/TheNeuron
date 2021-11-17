@@ -18,12 +18,7 @@ function Footer() {
     }, [isCopied])
 
     return (
-        <div className="footer relative gradient-bg flex flex-col items-start justify-between p-10 pb-5 text-white md:p-20 md:pb-10 md:min-h-[350px]">
-            <div className="custom-shape-divider-top-1630316193">
-                <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
-                    <path d="M598.97 114.72L0 0 0 120 1200 120 1200 0 598.97 114.72z" className="shape-fill"></path>
-                </svg>
-            </div>
+        <div className="footer relative blur-blue flex flex-col items-start justify-between p-10 pb-5 text-white md:px-20 md:min-h-[350px]">
             <div className="sm:flex w-full justify-between sm:space-x-5 max-w-7xl mx-auto">
                 <div className="">
                     <Link href="/">
@@ -31,9 +26,6 @@ function Footer() {
                             <Image src="/images/beta-logo.png" layout="fill" objectFit="contain" className="drop-shadow-md" />
                         </div>
                     </Link>
-                    {/* <p className="py-2 max-w-xl">The Neuron Club is a revolutionary forecasting platform where users can earn rewards by predicting the outcomes of future events. We cover topics across a wide range of categories. */}
-                    {/* Subscribe for our early access today to start predicting on 100+ topics or create a topic of your own when we launch! */}
-                    {/* </p> */}
                     <ul className="space-x-5 my-2 text-lg font-medium py-2 flex">
                         <Link href="https://www.instagram.com/TheNeuronClub">
                             <div className="footer__social">

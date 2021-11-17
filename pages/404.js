@@ -9,7 +9,7 @@ export default function Custom404() {
             <Head>
                 <title>404 | Page Not Found</title>
             </Head>
-            <div className="w-full pt-28 min-h-[550px] grid place-items-center p-10">
+            <div className="w-full min-h-[550px] 2xl:min-h-[650px] grid place-items-center p-10">
                 <motion.div initial="initial"
                     animate="in"
                     exit="out"

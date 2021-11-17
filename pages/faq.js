@@ -31,9 +31,9 @@ function faq() {
             <Head>
                 <title>The Neuron | FAQs</title>
             </Head>
-            <div className="py-20">
-                <h1 className="text-4xl md:text-5xl font-bold text-gray-700 text-center mt-10">Frequently Asked Questions</h1>
-                <div className="h-1 w-48 mx-auto my-3 md:my-5 bg-gray-500"></div>
+            <div className="pb-20 pt-10">
+                <h1 className="text-4xl md:text-5xl font-bold text-gray-50 text-center mt-10">Frequently Asked Questions</h1>
+                <div className="h-1 w-48 mx-auto my-3 md:my-5 bg-white rounded-lg"></div>
                 <div className="p-5">
                     {accordionData.map((item, i) => (
                         <Accordion key={i} title={item.title} content={item.content} desc={item?.desc} />
