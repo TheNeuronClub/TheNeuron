@@ -170,9 +170,9 @@ function QuestionDetail({ questionData }) {
                                         <div className="text-white bg-black bg-opacity-40 backdrop-filter backdrop-blur-sm text-xl absolute bottom-0 left-0 w-full p-5 font-medium h-28 hover:h-52 transition-all duration-500 ease-in-out overflow-hidden">
                                             <div className="w-full h-full overflow-hidden leading-relaxed cursor-pointer bg-transparent">
                                                 <p>Volume: {Volume}</p>
-                                                <p>Bid Open at {moment(que?.goLive)}</p>
-                                                <p>Bid Closing at {moment(que?.bidClosing)}</p>
-                                                <p>Settlement till {moment(que?.settlementClosing)}</p>
+                                                <p>Bid Open at {moment(que?.goLive).format('lll')}</p>
+                                                <p>Bid Closing at {moment(que?.bidClosing).format('lll')}</p>
+                                                <p>Settlement till {moment(que?.settlementClosing).format('lll')}</p>
                                                 <p>Creator: {userInfo?.name || questionData?.userId || 'unKnown'}</p>
                                             </div>
                                         </div>
