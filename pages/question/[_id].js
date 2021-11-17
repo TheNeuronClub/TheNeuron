@@ -12,7 +12,6 @@ import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, P
 import Coin from '../../components/Coin'
 import { balance, updateBalance } from '../../slices/userBalance'
 import { useDispatch, useSelector } from 'react-redux'
-import "react-datepicker/dist/react-datepicker.css";
 import { motion } from 'framer-motion';
 import { pageSlide, pageTransition, pageZoom } from '../../util'
 import CommentBox from '../../components/CommentBox';

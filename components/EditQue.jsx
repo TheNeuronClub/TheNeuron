@@ -4,7 +4,6 @@ import { motion } from 'framer-motion';
 import { modules, formats, pageTransition, pageZoom } from '../util'
 import { XIcon } from '@heroicons/react/solid';
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import addDays from 'date-fns/addDays'
 
 import dynamic from 'next/dynamic'
