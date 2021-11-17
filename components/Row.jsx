@@ -12,26 +12,26 @@ function Row({ question }) {
     }
     return (
         <>
-            <motion.tr initial="hidden" animate="visible" variants={item} className="hover:bg-gray-50 transition delay-75 cursor-pointer" onClick={handleClick}>
+            <motion.tr initial="hidden" animate="visible" variants={item} className="hover:blur-gray blur-white transition delay-75 cursor-pointer" onClick={handleClick}>
                 <td className="p-4 whitespace-nowrap">
                     <div className="flex items-center flex-col sm:flex-row">
                         <div className="flex-shrink-0 h-10 w-10 m-2">
                             <img className="h-10 w-10 rounded-full shadow-lg border-2 border-white hover:scale-[1.02] transition-md" src={question?.image_url || `/images/que/${question?.category.toLowerCase()}.jfif`} alt="" />
                         </div>
                         <div className="sm:ml-2">
-                            <div className="text-sm sm:text-base font-medium text-gray-900">
+                            <div className="text-sm sm:text-base capitalize font-medium">
                                 {question?.category}
                             </div>
                         </div>
                     </div>
                 </td>
                 <td className="p-4">
-                    <div className="text-sm sm:text-base text-gray-900 max-w-sm min-w-[384px] break-words">{question?.question}</div>
+                    <div className="text-sm sm:text-base max-w-sm min-w-[384px] break-words">{question?.question}</div>
                 </td>
-                <td className="p-4 whitespace-nowrap text-sm sm:text-base text-gray-600 text-center">
+                <td className="p-4 whitespace-nowrap text-sm sm:text-base text-center">
                     {moment(question?.createdAt).format('lll')}
                 </td>
-                <td className="p-4 whitespace-nowrap text-sm sm:text-base text-gray-600 text-center">
+                <td className="p-4 whitespace-nowrap text-sm sm:text-base text-center">
                     <div className="flex items-center justify-center">
                         <Coin width="4" height="4" />{question?.amount}
                     </div>

@@ -5,8 +5,8 @@ import { fadeOut, pageTransition } from '../util'
 function Accordion({ title, content, desc }) {
     const [isActive, setIsActive] = useState(false)
     return (
-        <div className={`max-w-xl md:max-w-2xl lg:max-w-3xl mb-5 md:mb-8 cursor-pointer mx-auto rounded-lg gradient-shadow`}>
-            <div className="gradient-bg text-white font-semibold px-5 py-2 text-lg space-x-4 flex items-center justify-between" onClick={() => setIsActive(!isActive)}>
+        <div className={`max-w-xl md:max-w-2xl blur-white lg:max-w-3xl mb-5 md:mb-8 cursor-pointer mx-auto rounded-lg gradient-shadow`}>
+            <div className="text-white font-semibold px-5 py-2 text-lg space-x-4 flex items-center justify-between" onClick={() => setIsActive(!isActive)}>
                 <h1>{title}</h1>
                 {
                     isActive ?
@@ -24,9 +24,9 @@ function Accordion({ title, content, desc }) {
                     animate="in"
                     exit="out"
                     variants={fadeOut}
-                    transition={pageTransition} className="text-base text-gray-600 bg-white py-3 px-6 pb-4 text-justify">{content}
+                    transition={pageTransition} className="text-base blur-black rounded-b-md text-white py-3 px-6 pb-4 text-justify">{content}
                     {desc &&
-                        <ul className="bg-white">
+                        <ul>
                             {desc.map((item) => <li className="text-sm list-disc ml-6 mt-2">{item} </li>)}
                         </ul>
                     }

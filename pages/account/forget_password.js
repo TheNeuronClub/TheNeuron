@@ -47,15 +47,15 @@ function forget_password() {
                     animate="in"
                     exit="out"
                     variants={pageZoom}
-                    transition={pageTransition} className="p-5 sm:px-10 sm:py-10 max-w-3xl text-center bg-white text-gray-700 mx-auto gradient-shadow-md">
+                    transition={pageTransition} className="p-5 sm:px-10 sm:py-10 max-w-3xl blur-black text-center mx-auto gradient-shadow-md">
 
-                    {verify ? <h1 className="text-2xl md:text-3xl text-blue-500 font-semibold">Reset Password link is sent to your email </h1> :
+                    {verify ? <h1 className="text-2xl md:text-3xl text-white blur-white font-semibold">Reset Password link is sent to your email </h1> :
                         <>
-                            <h1 className="text-2xl md:text-3xl mb-3 font-bold">Enter Your Email</h1>
+                            <h1 className="text-2xl md:text-3xl text-white mb-3 font-bold">Enter Your Email</h1>
                             <div className="max-w-sm my-8 rounded-lg gradient-shadow mx-auto">
                                 <form onSubmit={handleSubmit} className="flex">
-                                    <input type="text" className="flex-grow max-w-xs p-3 px-4 focus:outline-none focus:border focus:border-blue-500 placeholder-gray-400 font-normal" value={mail} required placeholder="Email Address ..." onChange={(e) => setMail(e.target.value)} />
-                                    <button type="submit" className="px-6 py-3 text-lg text-white font-semibold gradient-bg">{isSending ? `Verifying` : `Verify`}</button>
+                                    <input type="text" className="flex-grow max-w-xs p-3 px-4 focus:outline-none focus:border focus:border-blue-400 blur-black text-white placeholder-gray-200 font-normal" value={mail} required placeholder="Email Address ..." onChange={(e) => setMail(e.target.value)} />
+                                    <button type="submit" className="px-6 py-3 text-lg btn-blue font-semibold">{isSending ? `Verifying` : `Verify`}</button>
                                 </form>
                             </div>
                         </>

@@ -7,11 +7,9 @@ import Router, { useRouter } from 'next/router'
 import * as ga from '../lib/ga'
 import { useEffect } from 'react'
 import { store } from '../app/store'
-import Head from 'next/head'
 import ProgressBar from '@badrap/bar-of-progress'
-import Navbar from '../components/Navbar'
-import Footer from '../components/Footer'
 import { AnimatePresence, AnimateSharedLayout } from 'framer-motion'
+import Layout from '../components/Layout'
 
 const progress = new ProgressBar({
   size: 4,
@@ -45,17 +43,9 @@ function MyApp({ Component, pageProps }) {
       <AnimateSharedLayout>
         <AuthProvider session={pageProps.session}>
           <Provider store={store}>
-            <Head>
-              <link rel="icon" href="/favicon.png" />
-              <link rel="preconnect" href="https://fonts.googleapis.com" />
-              <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="true" />
-              <link href="https://fonts.googleapis.com/css2?family=Barlow:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-            </Head>
-            <div className="w-full relative min-h-screen flex flex-col justify-between max_w_3xl">
-              {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Navbar />}
+            <Layout>
               <Component {...pageProps} />
-              {(router.pathname !== '/account/login' && router.pathname !== '/account/register') && <Footer />}
-            </div>
+            </Layout>
           </Provider>
         </AuthProvider>
       </AnimateSharedLayout>

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-    qfilter : {
+    qfilter: {
         category: '',
         sort: 'recent',
         search: '',

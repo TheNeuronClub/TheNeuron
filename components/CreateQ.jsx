@@ -8,15 +8,8 @@ import { motion } from 'framer-motion'
 import { formats, modules, pageTransition, pageZoom } from '../util'
 const QuillNoSSRWrapper = dynamic(import('react-quill'), {
     ssr: false,
-    loading: () => <p>Loading ...</p>,
+    loading: () => <p className="text-gray-100">Loading ...</p>,
 })
-
-// const [createObjectURL, setCreateObjectURL] = useState(null);
-
-// setImage(i);
-// setCreateObjectURL(URL.createObjectURL(i));
-
-// img src=""
 
 function CreateQ({ session }) {
     const [isSending, setIsSending] = useState(false)
@@ -97,15 +90,15 @@ function CreateQ({ session }) {
 
     return (
         <>
-            <div className="w-full pt-28 pb-16">
-                <div className="bg-white rounded gradient-shadow mx-auto p-7 sm:p-10 max-w-xl">
+            <div className="w-full py-16">
+                <div className="blur-white rounded gradient-shadow mx-auto p-7 sm:p-10 md:px-20 max-w-xl md:max-w-3xl">
                     <motion.form initial="initial"
                         animate="in"
                         exit="out"
                         variants={pageZoom}
                         transition={pageTransition} onSubmit={handleSubmit}>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="Question" className="inline-block mb-1 font-medium">Question<span className="mx-1 text-red-500">*</span></label>
+                            <label htmlFor="Question" className="inline-block mb-1 text-white font-medium">Question<span className="mx-1 text-red-500">*</span></label>
                             <input
                                 placeholder="Question"
                                 required
@@ -118,15 +111,15 @@ function CreateQ({ session }) {
                             />
                         </div>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="Question Image" className="inline-block mb-1 font-medium">Question Image<span className="mx-1 text-red-500">*</span></label>
+                            <label htmlFor="Question Image" className="inline-block mb-1 text-white font-medium">Question Image<span className="mx-1 text-red-500">*</span></label>
                             <input type="file" required name="image" accept="image/*"
                                 onChange={(e) => setQImage(e.target.files[0])}
                                 className="flex-grow w-full py-2 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
                             />
-                            {(qImage?.size > 500000) && <p className="text-red-500 text-sm">Maximum image upload size is 500KB </p>}
+                            {(qImage?.size > 1000000) && <p className="text-red-500 text-sm">Maximum image upload size is 1MB </p>}
                         </div>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="category" className="inline-block mb-1 font-medium">Question Category<span className="mx-1 text-red-500">*</span></label>
+                            <label htmlFor="category" className="inline-block mb-1 text-white font-medium">Question Category<span className="mx-1 text-red-500">*</span></label>
                             <select
                                 placeholder="category"
                                 type="text"
@@ -151,19 +144,19 @@ function CreateQ({ session }) {
                             </select>
                         </div>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="goLive" className="inline-block mb-1 font-medium">Go Live Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
+                            <label htmlFor="goLive" className="inline-block mb-1 text-white font-medium">Go Live Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                             <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={goLiveDate} dateFormat="MM/dd/yyyy hh:mm" minDate={currentDate} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setGoLiveDate(date)} placeholderText="Question go live date and time" />
                         </div>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="bidClosing" className="inline-block mb-1 font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
+                            <label htmlFor="bidClosing" className="inline-block mb-1 text-white font-medium">Bid Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                             <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={bidClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(goLiveDate, 1)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setBidClosingDate(date)} placeholderText="Bit closing date and time" />
                         </div>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="settlementClosing" className="inline-block mb-1 font-medium">Settlement Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
+                            <label htmlFor="settlementClosing" className="inline-block mb-1 text-white font-medium">Settlement Closing Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
                             <DatePicker className="inline-block flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={settlementClosingDate} dateFormat="MM/dd/yyyy hh:mm" minDate={addDays(bidClosingDate, 1)} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setSettlementClosingDate(date)} placeholderText="Settlement closing date and time" />
                         </div>
                         <div className="mb-3">
-                            <label className="inline-block mb-1 font-medium">Settlement Link</label>
+                            <label className="inline-block mb-1 text-white font-medium">Settlement Link</label>
                             <input
                                 placeholder="Settlement Link ..."
                                 type="text"
@@ -174,8 +167,8 @@ function CreateQ({ session }) {
                             />
                         </div>
                         <div className="mb-3">
-                            <label className="inline-block mb-1 font-medium">Question Description</label>
-                            <QuillNoSSRWrapper modules={modules} placeholder='Add description here ...' value={desc} onChange={setDesc} formats={formats} theme="snow" />
+                            <label className="inline-block mb-1 text-white font-medium">Question Description</label>
+                            <QuillNoSSRWrapper modules={modules} placeholder='Add description here ...' value={desc} onChange={setDesc} formats={formats} className="bg-white" theme="snow" />
                         </div>
                         <div className="my-2 sm:my-3">
                             <button type="submit" className="btn-primary">{isSending ? `Adding` : `Add Question`}</button>

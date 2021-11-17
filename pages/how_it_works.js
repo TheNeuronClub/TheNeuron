@@ -59,18 +59,18 @@ function how_it_works() {
                 <title>The Neuron | How it Works</title>
             </Head>
             <div className="py-20 relative">
-                <h1 className="mt-20 text-5xl font-bold text-center text-gray-800">Get Started with {active === 'bid' ? 'Bid' : 'Coins'}</h1>
-                <div className="h-1 w-60 mx-auto my-4 bg-gray-600"></div>
+                <h1 className="text-5xl font-bold text-center text-white">Get Started with {active === 'bid' ? 'Bid' : 'Coins'}</h1>
+                <div className="h-1 w-60 mx-auto my-4 bg-gray-50"></div>
 
                 <div className=" flex mx-auto w-full justify-center mt-10">
-                    <button className={`px-4 py-2 text-lg font-medium bg-gray-50 border border-b-0 mx-2 text-gray-700 rounded-t-md min-w-[100px] shadow-sm ${active === 'bid' && 'gradient-bg text-white gradient-shadow border-none'}`} onClick={() => setActive('bid')}>Place a Bid </button>
-                    <button className={`px-4 py-2 text-lg font-medium bg-gray-50 border border-b-0 mx-2 text-gray-700 rounded-t-md min-w-[100px] shadow-sm ${active === 'coin' && 'gradient-bg text-white gradient-shadow border-none'}`} onClick={() => setActive('coin')}>Coins </button>
+                    <button className={`px-4 py-2 text-lg font-medium blur-blue border border-b-0 mx-2 text-gray-50 rounded-t-md min-w-[100px] shadow-sm ${active === 'bid' && 'btn-white gradient-shadow border-none'}`} onClick={() => setActive('bid')}>Place a Bid </button>
+                    <button className={`px-4 py-2 text-lg font-medium blur-blue border border-b-0 mx-2 text-gray-50 rounded-t-md min-w-[100px] shadow-sm ${active === 'coin' && 'btn-white gradient-shadow border-none'}`} onClick={() => setActive('coin')}>Coins </button>
                 </div>
                 <motion.div initial="initial"
                     animate="in"
                     exit="out"
                     variants={pageSlide}
-                    transition={pageTransition} className="min-h-screen py-5 shadow-xl gradient-shadow relative max-w-max mx-auto rounded-lg border border-blue-500">
+                    transition={pageTransition} className="min-h-screen py-5 blur-blue relative max-w-max mx-auto rounded-lg border">
                     {
                         active === 'bid' ?
                             bids.map(item => (<Steps key={item.no} step={item} type={"bid"} />))

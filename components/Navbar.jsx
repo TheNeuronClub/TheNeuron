@@ -1,30 +1,26 @@
-import { useRouter } from 'next/router'
 import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import { MenuAlt1Icon, XIcon } from '@heroicons/react/solid'
 import { userSession } from '../lib/user-session'
 import UserDropDown from './UserDropDown'
 import { updateBalance } from '../slices/userBalance'
+import { updateLoader } from '../slices/loader'
 import { useDispatch } from 'react-redux'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import Loader from './Loader'
 import { signOut } from 'next-auth/client'
 import { motion } from 'framer-motion'
 import { fadeOut, pageTransition } from '../util'
 
 function Navbar() {
-    const router = useRouter();
     const session = userSession();
     const dispatch = useDispatch();
     const [scrolled, setScrolled] = useState(false)
     const [isActive, setIsActive] = useState(false)
 
-    const [isLoader, setIsLoader] = useState(false)
-
     const userSignOut = () => signOut();
     const logout = async () => {
-        setIsLoader(true)
+        dispatch(updateLoader(true))
         window.localStorage.setItem('neuron-token', '');
         const res = await fetch(`/api/account/logout`, {
             method: 'POST',
@@ -36,7 +32,7 @@ function Navbar() {
         if (res.status === 200) {
             userSignOut();
         }
-        setIsLoader(false)
+        dispatch(updateLoader(false))
     }
 
     const checkDailyVisit = async () => {
@@ -90,7 +86,7 @@ function Navbar() {
                 animate="in"
                 exit="out"
                 variants={fadeOut}
-                transition={pageTransition} style={{ zIndex: 45 }} className={`nav__bar flex items-center justify-between p-5 py-4 fixed w-full z-50 md:px-8 md:pr-16 lg:px-16 text-white ${(router.pathname !== '/' || scrolled) && 'gradient-bg gradient-shadow-md'}`}>
+                transition={pageTransition} style={{ zIndex: 45 }} className={`nav__bar blur-blue flex items-center justify-between p-5 py-2 sticky top-0 w-full z-50 md:px-8 lg:px-16 text-white`}>
                 <Link href="/">
                     <div className="relative cursor-pointer">
                         <picture>
@@ -132,38 +128,35 @@ function Navbar() {
                     animate="in"
                     exit="out"
                     variants={fadeOut}
-                    transition={pageTransition} className="fixed md:hidden z-50 bg-white top-0 left-0 right-0 bottom-0 w-full h-full flex justify-center items-center">
-                    <XIcon className="h-10 w-10 md:hidden absolute top-4 right-5 cursor-pointer active:scale-95 transition-sm" onClick={() => setIsActive(false)} />
+                    transition={pageTransition} className="fixed md:hidden z-50 gradient-dark top-0 left-0 right-0 bottom-0 w-full h-full flex justify-center items-center">
+                    <XIcon className="h-10 w-10 md:hidden text-white absolute top-4 right-5 cursor-pointer active:scale-95 transition-sm" onClick={() => setIsActive(false)} />
                     <ul className="flex flex-col justify-center items-center text-3xl font-bold space-y-5">
                         <Link href="/question/">
-                            <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Explore</h1>
+                            <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Explore</h1>
                         </Link>
                         {session?.type === 'admin' &&
                             <Link href="/create_question">
-                                <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Create Question</h1>
+                                <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Create Question</h1>
                             </Link>
                         }
                         <Link href="/how_it_works">
-                            <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >How it Works</h1>
+                            <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >How it Works</h1>
                         </Link>
                         <Link href="/contact">
-                            <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Contact us</h1>
+                            <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Contact us</h1>
                         </Link>
                         {
                             session ?
-                                <button onClick={logout} className="font-bold" > <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Logout</h1> </button>
+                                <button onClick={logout} className="font-bold" > <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Logout</h1> </button>
                                 :
                                 <Link href="/account/register">
-                                    <h1 className="text-gray-700 hover:text-blue-500 cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Get Started</h1>
+                                    <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Get Started</h1>
                                 </Link>
                         }
                     </ul>
                 </motion.div>
             }
             <ToastContainer style={{ textAlign: "center", zIndex: '49' }} />
-            {isLoader && <div className=" w-full h-full bg-white bg-opacity-80 grid place-items-center fixed top-0 right-0">
-                <Loader />
-            </div>}
         </>
     )
 }

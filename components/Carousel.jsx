@@ -1,37 +1,124 @@
-import React, { useState } from 'react'
-import { ArrowLeftIcon, ArrowRightIcon, XIcon } from '@heroicons/react/solid'
+import { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import Image from 'next/image';
+import { useRouter } from 'next/router';
 
-const data = [
-    { id: 0, imgSrc: '/images/works/o1.png' },
-    { id: 1, imgSrc: '/images/works/o2.png' },
-    { id: 2, imgSrc: '/images/works/o3.png' },
-    { id: 3, imgSrc: '/images/works/o4.png' },
-]
+const CarouselItem = ({ item, Size }) => {
+    const router = useRouter();
+    return (
+        <motion.div
+            key={item._id}
+            initial={Size == 'sm' ? { opacity: 0, translateX: '400px' } : { opacity: 0, translateY: '400px' }}
+            animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
+            transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 50,
+            }}
+            className={`relative shadow-xl w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] 2xl:w-[550px] 2xl:h-[550px] cursor-pointer`} key={item.id} onClick={() => router.push(`/question?category=${item.category?.toLowerCase() || item.heading?.toLowerCase()}`)}>
+            <Image src={item?.imgSrc} layout="fill" className="w-full h-full rounded-md" objectFit="contain" />
+            <div className="carousel__scroll absolute left-0 overflow-x-hidden bottom-0 w-full text-white p-5 sm:px-7 xl:px-10 z-10">
+                <motion.div
+                    initial={{ opacity: 0, width: '0px' }}
+                    animate={{ opacity: 1, width: '100%' }}
+                    transition={{
+                        delay: 1,
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 50,
+                    }} className="w-full h-full absolute top-0 left-0 bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm">
 
-export const CarouselItem = ({ children, width }) => (
-    <div className="carousel-item px-10 md:px-20" style={{ width: width }}>
-        <img src={children} className="w-full h-full rounded-lg object-contain" alt="" />
-    </div>
-)
+                </motion.div>
+                <motion.h1
+                    initial={Size == 'sm' ? { opacity: 0.5, translateX: '1000px' } : { opacity: 0.5, translateY: '1000px' }}
+                    animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
+                    transition={{
+                        delay: 1.5,
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 35,
+                    }} className="font-semibold capitalize text-4xl sm:text-5xl">{item.heading}</motion.h1>
+                <motion.p
+                    initial={Size == 'sm' ? { opacity: 0.5, translateX: '1000px' } : { opacity: 0.5, translateY: '1000px' }}
+                    animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
+                    transition={{
+                        delay: 1.8,
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 40,
+                    }} className='text-lg lg:text-xl line-clamp-2 font-medium my-2 2xl:mt-3 max-w-lg'>{item.desc}</motion.p>
+            </div>
+        </motion.div>
+    )
+}
 
-function Carousel(props) {
-    const [activeIndex, setActiveIndex] = useState(0)
+// const data = [
+//     { id: 0, heading: 'Science', desc: 'Explore major advances across the sciences that have transformed our understanding of the world and our universe, and our lives.', imgSrc: 'https://source.unsplash.com/800x800/?science', category: 'science' },
+//     { id: 1, heading: 'Politics', desc: "Latest politics news of different countries, current affairs politics news, political standard brings you all the Latest news, election news", imgSrc: 'https://source.unsplash.com/800x800/?politics', category: 'politics' },
+//     { id: 2, heading: 'Entertainment', desc: 'Latest entertainment news and gossip from the world of bollywood, Hollywood and regional film and music industries.', imgSrc: 'https://source.unsplash.com/800x800/?entertaiment', category: 'entertaiment' },
+//     { id: 3, heading: 'Crypto', desc: 'Current and upcoming Crypto market stocks, NFT related market, market place of different cyrpto currencies', imgSrc: 'https://source.unsplash.com/800x800/?crypto', category: 'crypto' },
+//     { id: 4, heading: 'Coronavirus', desc: 'Cases in country, vaccination ratio, vaccine availabilty, covid affect on different categories', imgSrc: 'https://source.unsplash.com/800x800/?coronavirus', category: 'coronavirus' },
+// ]
+function Carousel({ carouselList }) {
+    const data = [...carouselList]
+    const [active, setActive] = useState(0)
+    const [item, setItem] = useState(data[0])
+    const [Size, setSize] = useState(window?.innerWidth < 1024 ? 'sm' : 'lg')
+
+    useEffect(() => {
+        function handleResize() {
+            window.innerWidth < 1024 ? setSize('sm') : setSize('lg')
+        }
+        window.addEventListener("resize", handleResize);
+        return () => window.removeEventListener("resize", handleResize);
+    }, []);
+
+    const prev = () => {
+        active > 0 ? setActive(active - 1) : setActive(data?.length - 1)
+        setItem(data[active])
+    }
+
+    const next = () => {
+        active < data?.length - 1 ? setActive(active + 1) : setActive(0)
+        setItem(data[active])
+    }
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            active < data?.length - 1 ? setActive(active + 1) : setActive(0)
+        }, 5000);
+        setItem(data[active])
+        return () => clearTimeout(timer);
+    }, [active]);
+
     return (
         <>
-            {data?.[activeIndex] && <div className="h-screen top-0 left-0 absolute w-full bg-black bg-opacity-80 z-50">
-                <div className="max_w_3xl carousel fixed top-1/2 transform -translate-y-1/2">
-                    {activeIndex > 0 && <button className="absolute h-1/2 top-1/2 -translate-y-1/2 left-0" onClick={() => setActiveIndex(activeIndex - 1)}><ArrowLeftIcon className="w-10 h-10 p-1 opacity-50 text-gray-800 mx-2 bg-white rounded-full shadow-lg" /> </button>}
-                    <div className="inner relative" style={{ transform: `translateX(-${activeIndex * 100}%)` }}>
-                        {
-                            data.map((item, index) => (
-                                <CarouselItem children={item.imgSrc} key={index} width="100%" />
-                            ))
-                        }
-                    </div>
-                    <button className="absolute h-1/2 top-1/2 -translate-y-1/2 right-0" onClick={() => activeIndex === data?.length - 1 ? props.onSelect() : setActiveIndex(activeIndex + 1)} ><ArrowRightIcon className="w-10 h-10 p-1 opacity-50 text-gray-800 mx-2 bg-white rounded-full shadow-lg" /> </button>
+            <div className="flex flex-col-reverse mt-10 lg:mt-0 items-center justify-center lg:flex-row lg:w-1/2 xl:w-3/5 max-w-xl z-40 2xl:max-w-2xl h-full">
+                <div className="p-5 h-full flex flex-row lg:flex-col items-center justify-between space-x-10 lg:space-x-0 lg:space-y-10">
+                    <button onClick={prev} className="p-1 border rounded-full w-7 h-7 sm:w-10 sm:h-10 text-sm sm:text-base grid place-items-center hover:bg-white hover:text-gray-800 font-medium scale-110 ease-out">
+                        {Size == 'lg' ? <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M5.293 7.707a1 1 0 010-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 01-1.414 1.414L11 5.414V17a1 1 0 11-2 0V5.414L6.707 7.707a1 1 0 01-1.414 0z" clipRule="evenodd" />
+                        </svg>
+                            :
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                            </svg>}
+                    </button>
+                    <button onClick={next} className="p-1 border rounded-full w-7 h-7 sm:w-10 sm:h-10 text-sm sm:text-base grid place-items-center hover:bg-white hover:text-gray-800 font-medium scale-110 ease-out">
+                        {Size == 'lg' ? <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fillRule="evenodd" d="M14.707 12.293a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 111.414-1.414L9 14.586V3a1 1 0 012 0v11.586l2.293-2.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                        </svg>
+                            :
+                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                            </svg>}
+                    </button>
                 </div>
-                <button className="absolute top-5 right-8" onClick={() => props.onSelect()}><XIcon className="w-10 h-10 p-1 opacity-60 text-gray-800 mx-2 bg-white rounded-full shadow-lg" /> </button>
-            </div>}
+                <div className="relative flex-1">
+                    {item && <CarouselItem key={item._id} item={item} Size={Size} />}
+                </div>
+            </div>
+
         </>
     )
 }

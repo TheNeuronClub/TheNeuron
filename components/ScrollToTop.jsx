@@ -29,11 +29,11 @@ function ScrollToTop() {
                 animate="in"
                 exit="out"
                 variants={fadeOut}
-                transition={pageTransition} className="btn__float gradient-bg gradient-shadow-lg p-3 fixed bottom-10 right-10 font-bold text-white rounded-full"
+                transition={pageTransition} className="btn__float btn-blue gradient-shadow-lg p-3 fixed bottom-10 right-10 font-bold text-white rounded-full"
                 onClick={scrollTop}
                 style={{ display: scrolled ? 'flex' : 'none' }}
             >
-                <ArrowUpIcon className="w-8 h-8 text-white" />
+                <ArrowUpIcon className="w-8 h-8 font-semibold text-white" />
             </motion.button>
         </>
     )

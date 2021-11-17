@@ -46,15 +46,14 @@ function contact() {
       <Head>
         <title>The Neuron | Contact</title>
       </Head>
-      <div className="relative pt-16">
-        <div className="relative">
+      <div className="relative">
           <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">
             <div className="flex flex-col items-center justify-between lg:flex-row">
               <div className="w-full text-center max-w-xl mb-6 xl:mb-0 xl:pr-16 xl:w-7/12">
-                <h1 className="max-w-lg mb-3 font-sans text-3xl font-bold tracking-tight text-gray-800 sm:text-4xl md:text-5xl sm:leading-none">
+                <h1 className="max-w-lg mb-3 font-sans text-3xl font-bold tracking-tight text-white sm:text-4xl md:text-5xl sm:leading-none">
                   Contact Us
                 </h1>
-                <p className="max-w-xl mb-4 text-lg font-medium text-gray-600 md:text-xl">
+                <p className="max-w-xl mb-4 text-lg font-medium text-gray-100 md:text-xl">
                   Reach out to us for any queries, partnerships or just a cup of virtual coffee. We love to hear from you.
                 </p>
 
@@ -64,7 +63,7 @@ function contact() {
                   animate="in"
                   exit="out"
                   variants={pageZoom}
-                  transition={pageTransition} className="bg-white rounded gradient-shadow p-7 sm:p-10 m-2">
+                  transition={pageTransition} className="blur-black text-white rounded gradient-shadow p-7 sm:p-10 m-2">
                   <form onSubmit={handleSubmit}>
                     <div className="mb-1 sm:mb-2">
                       <label htmlFor="Name" className="inline-block mb-1 font-medium">Name<span className="mx-1 text-red-500">*</span></label>
@@ -76,7 +75,7 @@ function contact() {
                         name="name"
                         value={data.name}
                         onChange={handleChange}
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 blur-black border border-gray-300 rounded shadow-sm appearance-none focus:border-purple-300 placeholder-gray-200 focus:outline-none focus:shadow-outline"
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -89,7 +88,7 @@ function contact() {
                         value={data.email}
                         pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                         onChange={handleChange}
-                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 blur-black border border-gray-300 rounded shadow-sm appearance-none focus:border-purple-300 placeholder-gray-200 focus:outline-none focus:shadow-outline"
                       />
                     </div>
                     <div className="mb-1 sm:mb-2">
@@ -102,17 +101,16 @@ function contact() {
                         name="message"
                         value={data.message}
                         onChange={handleChange}
-                        className="flex-grow w-full resize-none py-2 h-24 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:border-deep-purple-accent-400 focus:outline-none focus:shadow-outline"
+                        className="flex-grow w-full resize-none py-2 h-24 px-4 mb-2 transition duration-200 blur-black border border-gray-300 rounded shadow-sm appearance-none focus:border-purple-300 placeholder-gray-200 focus:outline-none focus:shadow-outline"
                       />
                     </div>
                     <div className="mb-2 sm:mb-3">
-                      <button type="submit" className="px-5 py-2 gradient-bg text-lg text-white rounded-xl font-semibold active:scale-95 transition-sm">{isSending ? `Sending...` : `Send Message`}</button>
+                      <button type="submit" className="px-5 py-2 btn-blue text-lg text-white rounded-xl font-semibold active:scale-95 transition-sm">{isSending ? `Sending...` : `Send Message`}</button>
                     </div>
                   </form>
                 </motion.div>
               </div>
             </div>
-          </div>
         </div>
       </div>
       {isSent && <div onClick={() => setIsSent(false)}><Modal state={isSent} text="Thanks for contacting us. We’ll respond as soon as possible." /> </div>}

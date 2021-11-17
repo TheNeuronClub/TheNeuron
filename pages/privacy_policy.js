@@ -6,8 +6,8 @@ function privacy_policy() {
             <Head>
                 <title>The Neuron | Privacy Policy</title>
             </Head>
-            <div className="policy max-w-4xl bg-white mx-auto p-10 mb-10 pt-28">
-                <h4 className="text-3xl font-semibold text-gray-800 text-center mb-2 mt-12"> Privacy Policy </h4>
+            <div className="policy max-w-4xl blur-white mx-auto p-10 my-10">
+                <h4 className="text-3xl lg:text-4xl font-semibold text-white text-center mb-2"> Privacy Policy </h4>
                 <h2> We take the protection of personal information seriously and are committed to handling personal data in accordance with the applicable privacy regulations.
                     ‍</h2>
 
@@ -27,7 +27,7 @@ function privacy_policy() {
                 </h1>
                 <h2>Website visitors</h2>
                 <p className="font-medium">
-                    We may collect the following information about people who visit our website <a className="text-blue-500 hover:text-blue-600">(https://www.theneuron.club/ )</a> to generate statistics which we use to improve our services and communication channels:
+                    We may collect the following information about people who visit our website <a className="text-yellow-300 hover:text-yellow-400">(https://www.theneuron.club/ )</a> to generate statistics which we use to improve our services and communication channels:
                 </p>
                 <ul>
                     <li><p>Number of visitors to the different pages</p></li>
