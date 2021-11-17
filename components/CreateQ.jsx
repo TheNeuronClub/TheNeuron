@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import Modal from './Modal'
 import dynamic from 'next/dynamic'
 import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
 import addDays from 'date-fns/addDays'
 import { motion } from 'framer-motion'
 import { formats, modules, pageTransition, pageZoom } from '../util'

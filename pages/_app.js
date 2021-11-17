@@ -1,5 +1,6 @@
 import 'tailwindcss/tailwind.css'
 import '../styles/quill.snow.css'
+import '../styles/react-datepicker.css'
 import '../styles/global.css'
 import { Provider } from 'react-redux'
 import { Provider as AuthProvider } from "next-auth/client"
