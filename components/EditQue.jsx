@@ -8,7 +8,7 @@ import addDays from 'date-fns/addDays'
 
 import dynamic from 'next/dynamic'
 
-const QuillNoSSRWrapper = dynamic(() => 'react-quill'), {
+const QuillNoSSRWrapper = dynamic(() => 'react-quill' , {
     ssr: false,
     loading: () => <p>Loading ...</p>,
 })
