@@ -137,7 +137,7 @@ function Profile() {
                         {userQuestions?.length > 0 &&
                             <>
                                 <h1 className="text-2xl sm:text-3xl font-semibold  text-white my-6 sm:px-5">My Questions</h1>
-                                <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 question__group">
+                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 gap-y-8 place-items-center items-stretch question__group">
                                     {userQuestions?.map(item => (
                                         <Question key={item?._id} question={item} />
                                     ))}

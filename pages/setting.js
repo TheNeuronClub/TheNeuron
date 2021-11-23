@@ -164,7 +164,7 @@ function setting({ carouselList }) {
         <>
             <div className="w-full min-h-screen p-10 relative">
                 <h1 className="text-3xl font-semibold py-2 px-5 text-white">Carousel Setting </h1>
-                <div className="flex items-center justify-around">
+                <div className="flex flex-wrap items-center justify-around">
                     {carouselData?.length > 0 && carouselData?.map(item => (
                         <CarouselItem key={item._id} item={item} onSelect={delCarousel} />
                     ))}
