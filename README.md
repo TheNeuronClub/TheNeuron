@@ -20,4 +20,4 @@
    
 Preview on Local system : http://localhost:3000/
 <br />
-Live Preview: https://neuron-club.vercel.app/
+Live Preview: https://www.theneuron.club/
