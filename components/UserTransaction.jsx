@@ -7,7 +7,7 @@ import { container, item, pageTransition } from '../util'
 function UserTransaction({ queId, userId }) {
     const [transaction, setTransaction] = useState(null)
     const getUser = async () => {
-        const res = await fetch(`/api/user/getUser?_id=${userId}&quesId=${queId}`);
+        const res = await fetch(`/api/user/getUser?_id=${userId}&queId=${queId}`);
         if (res.status === 200) {
             const response = await res.json();
             setTransaction(response?.questions)

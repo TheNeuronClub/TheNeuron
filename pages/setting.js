@@ -73,7 +73,7 @@ const CarouselItem = ({ item, onSelect }) => {
                             />
                         </div>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="message" className="inline-block mb-1 font-medium">Carousel Description<span className="mx-1 text-red-500">*</span></label>
+                            <label htmlFor="message" className="inline-block mb-1 font-medium">Carousel Description</label>
                             <textarea
                                 placeholder="Describe here ..."
                                 minLength="2"
@@ -198,7 +198,7 @@ function setting({ carouselList }) {
                                     />
                                 </div>
                                 <div className="mb-1 sm:mb-2">
-                                    <label htmlFor="message" className="inline-block mb-1 font-medium">Carousel Description<span className="mx-1 text-red-500">*</span></label>
+                                    <label htmlFor="message" className="inline-block mb-1 font-medium">Carousel Description</label>
                                     <textarea
                                         placeholder="Describe here ..."
                                         minLength="2"
