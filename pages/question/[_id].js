@@ -17,9 +17,12 @@ import { pageSlide, pageTransition, pageZoom } from '../../util'
 import CommentBox from '../../components/CommentBox';
 import Settlement from '../../components/Settlement';
 import UserTransaction from '../../components/UserTransaction'
-import { EditQue } from '../../components/EditQue'
 import { UndoSettle } from '../../components/UndoSettle'
-
+import dynamic from 'next/dynamic'
+const EditQue = dynamic(() => import('../../components/EditQue') , {
+    ssr: false,
+    loading: () => <p className="text-gray-100">Loading ...</p>,
+})
 
 function QuestionDetail({ questionData }) {
     const session = userSession();

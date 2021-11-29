@@ -8,12 +8,12 @@ import addDays from 'date-fns/addDays'
 
 import dynamic from 'next/dynamic'
 
-const QuillNoSSRWrapper = dynamic(() => 'react-quill' , {
+const QuillNoSSRWrapper = dynamic(() => import('react-quill') , {
     ssr: false,
     loading: () => <p>Loading ...</p>,
 })
 
-export const EditQue = (props) => {
+export default EditQue = (props) => {
     const [isVerify, setIsVerify] = useState(false)
     const [isInValid, setIsInValid] = useState(false)
     const [userInfo, setUserInfo] = useState()

@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import addDays from 'date-fns/addDays'
 import { motion } from 'framer-motion'
 import { formats, modules, pageTransition, pageZoom } from '../util'
-const QuillNoSSRWrapper = dynamic(import('react-quill'), {
+const QuillNoSSRWrapper = dynamic(() => import('react-quill') , {
     ssr: false,
     loading: () => <p className="text-gray-100">Loading ...</p>,
 })
