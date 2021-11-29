@@ -54,10 +54,13 @@ function QuestionDetail({ questionData }) {
     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
     const getUserInfo = async () => {
+        if(questionData?.userId?.length >10){
+            
         const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
         if (res.status == 200) {
             const response = await res.json();
             setUserInfo(response)
+        }
         }
     }
     useEffect(() => {
