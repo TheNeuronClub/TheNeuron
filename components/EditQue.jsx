@@ -5,9 +5,7 @@ import { modules, formats, pageTransition, pageZoom } from '../util'
 import { XIcon } from '@heroicons/react/solid';
 import DatePicker from "react-datepicker";
 import addDays from 'date-fns/addDays'
-
 import dynamic from 'next/dynamic'
-
 const QuillNoSSRWrapper = dynamic(() => import('react-quill') , {
     ssr: false,
     loading: () => <p>Loading ...</p>,
