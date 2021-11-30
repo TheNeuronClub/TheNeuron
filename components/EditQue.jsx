@@ -6,7 +6,7 @@ import { XIcon } from '@heroicons/react/solid';
 import DatePicker from "react-datepicker";
 import addDays from 'date-fns/addDays'
 import dynamic from 'next/dynamic'
-const QuillNoSSRWrapper = dynamic(() => import('react-quill') , {
+const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
     ssr: false,
     loading: () => <p className="text-gray-100">Loading ...</p>,
 })
@@ -58,13 +58,13 @@ const EditQue = (props) => {
 
     const updateQuestion = async () => {
         setIsUpdating(true)
-        const { _id, question } = updatedQue;
+        const { _id, question, reference } = updatedQue;
         const res = await fetch(`/api/question/update_que`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ _id, desc, question, bidClosing: bidClosingDate, settlementClosing: settlementClosingDate })
+            body: JSON.stringify({ _id, desc, reference, question, bidClosing: bidClosingDate, settlementClosing: settlementClosingDate })
         })
         console.log(res.status)
         const response = await res.json();
