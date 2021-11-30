@@ -18,11 +18,7 @@ import CommentBox from '../../components/CommentBox';
 import Settlement from '../../components/Settlement';
 import UserTransaction from '../../components/UserTransaction'
 import { UndoSettle } from '../../components/UndoSettle'
-import dynamic from 'next/dynamic'
-const EditQue = dynamic(() => import('../../components/EditQue') , {
-    ssr: false,
-    loading: () => <p className="text-gray-100">Loading ...</p>,
-})
+import EditQue from '../../components/EditQue'
 
 function QuestionDetail({ questionData }) {
     const session = userSession();

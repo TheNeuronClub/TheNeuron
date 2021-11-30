@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react'
 import { userSession } from '../../lib/user-session';
 import { useRouter } from 'next/router'
-import dynamic from 'next/dynamic'
+import EditQue from '../../components/EditQue'
 
-const EditQue = dynamic(() => import('../../components/EditQue') , {
-    ssr: false,
-    loading: () => <p className="text-gray-100">Loading ...</p>,
-})
 function verification({ data }) {
     const session = userSession();
     const router = useRouter();
