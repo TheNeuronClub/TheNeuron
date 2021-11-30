@@ -6,14 +6,9 @@ import { pageSlide, pageTransition } from '../util'
 // import Carousel from './Carousel'
 import dynamic from "next/dynamic";
 
-const Carousel = dynamic(
-  () => {
-    return import("./Carousel");
-  },
-  { ssr: false }
-);
+const Carousel = dynamic(() => import("./Carousel"), { ssr: false });
 
-function Header({carouselList}) {
+function Header({ carouselList }) {
     const session = userSession()
     return (
         <div className="relative filter saturate-150 min-h-[650px] sm:min-h-[680px] md:min-h-[550px] lg:min-h-[650px] flex flex-col-reverse text-center lg:text-left lg:flex-row items-center justify-around px-5 sm:px-10 xl:px-20 text-white">
@@ -34,7 +29,7 @@ function Header({carouselList}) {
                     </Link>
                 }
             </motion.div>
-          {carouselList?.length > 0 && <Carousel carouselList={carouselList} />}
+            {carouselList?.length > 0 && <Carousel carouselList={carouselList} />}
         </div>
     )
 }

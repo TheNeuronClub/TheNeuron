@@ -170,7 +170,7 @@ function CreateQ({ session }) {
                             <QuillNoSSRWrapper modules={modules} placeholder='Add description here ...' value={desc} onChange={setDesc} formats={formats} className="bg-white" theme="snow" />
                         </div>
                         <div className="my-2 sm:my-3">
-                            <button type="submit" className="btn-primary">{isSending ? `Adding` : `Add Question`}</button>
+                            <button type="submit" className="btn-primary" disabled={isSending}>{isSending ? `Adding` : `Add Question`}</button>
                         </div>
                     </motion.form>
                 </div>

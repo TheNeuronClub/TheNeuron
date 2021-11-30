@@ -11,7 +11,7 @@ const QuillNoSSRWrapper = dynamic(() => import('react-quill') , {
     loading: () => <p>Loading ...</p>,
 })
 
-export default EditQue = (props) => {
+const EditQue = (props) => {
     const [isVerify, setIsVerify] = useState(false)
     const [isInValid, setIsInValid] = useState(false)
     const [userInfo, setUserInfo] = useState()
@@ -188,3 +188,5 @@ export default EditQue = (props) => {
         </div >
     )
 }
+
+export default EditQue
