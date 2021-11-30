@@ -34,9 +34,7 @@ function Question({ question }) {
         if (session && bidModal?.odd) {
             setIsSending(true)
             if (amount > 0 && amount >= bid) {
-                console.log(que)
                 const { _id, question, category, settlementClosing } = que
-                console.log({ bid, _id, userId: session?._id, question, category, odd: bidModal?.odd, settlementClosing })
                 const res = await fetch(`/api/transaction/question`, {
                     method: 'POST',
                     headers: {
