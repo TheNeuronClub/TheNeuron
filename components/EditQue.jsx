@@ -83,7 +83,7 @@ const EditQue = (props) => {
         return { __html: que?.desc };
     }
     return (
-        <div className="fixed top-0 left-0 grid place-items-center blur-black w-full min-h-screen p-1 z-50">
+        <div className="fixed top-0 left-0 grid place-items-center blur-black w-full h-screen p-1 z-50">
             <XIcon className="bg-white text-gray-700 w-12 h-12 cursor-pointer rounded-full p-1 absolute top-5 right-6 z-[55] gradient-shadow" onClick={() => props.setIsQue(null)} />
             <motion.div initial="initial"
                 animate="in"

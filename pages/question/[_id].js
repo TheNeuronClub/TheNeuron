@@ -19,7 +19,7 @@ import Settlement from '../../components/Settlement';
 import UserTransaction from '../../components/UserTransaction'
 import { UndoSettle } from '../../components/UndoSettle'
 import dynamic from 'next/dynamic'
-const EditQue = dynamic(() => import('../../components/EditQue') , {
+const EditQue = dynamic(() => import('../../components/EditQue'), {
     ssr: false
 })
 
@@ -53,13 +53,13 @@ function QuestionDetail({ questionData }) {
     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
     const getUserInfo = async () => {
-        if(questionData?.userId?.length >10){
-            
-        const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
-        if (res.status == 200) {
-            const response = await res.json();
-            setUserInfo(response)
-        }
+        if (questionData?.userId?.length > 10) {
+
+            const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
+            if (res.status == 200) {
+                const response = await res.json();
+                setUserInfo(response)
+            }
         }
     }
     useEffect(() => {
@@ -153,8 +153,8 @@ function QuestionDetail({ questionData }) {
                 <title>Question: {que?.question}</title>
             </Head>
             <ToastContainer />
+            {isQue && <EditQue queData={isQue} setIsQue={setIsQue} updateQues={updateQues} from="queDetail" />}
             <div className="py-10 relative">
-                {isQue && <EditQue queData={isQue} setIsQue={setIsQue} updateQues={updateQues} from="queDetail" />}
                 {
                     que && que?.category ?
                         <>
@@ -197,17 +197,17 @@ function QuestionDetail({ questionData }) {
                                         </h2>
                                         <div className="flex space-x-3 items-center justify-center lg:justify-start">
                                             {que?.qstatus === 'verified' ?
-                                            <>
-                                             {   que?.bidClosing < new Date().toISOString()
-                                                    ?
-                                                    session?.type === 'admin'
-                                                        ? <button className={`select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointerpointer`} onClick={() => setIsSettle(true)}>Settle This Question</button>
-                                                        : <button className="select-none btn-gray text-gray-500 cursor-not-allowed min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointer">Bidding Closed</button>
-                                                    : <button className="select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointer" onClick={() => setBidPlaceModal(true)}>Place a bid</button>
-                                            }
-                                              </>
+                                                <>
+                                                    {que?.bidClosing < new Date().toISOString()
+                                                        ?
+                                                        session?.type === 'admin'
+                                                            ? <button className={`select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointerpointer`} onClick={() => setIsSettle(true)}>Settle This Question</button>
+                                                            : <button className="select-none btn-gray text-gray-500 cursor-not-allowed min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointer">Bidding Closed</button>
+                                                        : <button className="select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointer" onClick={() => setBidPlaceModal(true)}>Place a bid</button>
+                                                    }
+                                                </>
                                                 : <button className="select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointer" onClick={() => setIsUndoSettle(true)}>Undo Settlement</button>
-                                                
+
                                             }
 
                                             {
@@ -452,7 +452,7 @@ function QuestionDetail({ questionData }) {
                         </motion.div>
                     </div>
                 }
-               
+
             </div>
             {isUndoSettle && <UndoSettle setIsUndoSettle={setIsUndoSettle} finalResult={que?.result} queId={que?._id} setQue={setQue} />}
             {isSettle && <Settlement isSettle={isSettle} setIsSettle={setIsSettle} queId={que?._id} setQue={setQue} />}
