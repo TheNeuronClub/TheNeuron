@@ -5,9 +5,22 @@ import QuestionGroup from '../components/QuestionGroup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OnBoard from '../components/OnBoard'
+import CardLoader from '../components/CardLoader';
 
-export default function Home({ questions, carouselList }) {
+export default function Home({ carouselList }) {
   const [onBoard, setOnBoard] = useState(false)
+  const [questions, setQuestions] = useState([])
+
+  async function getQue() {
+    const ques = await fetch(`${process.env.host}/api/question/ques`).then((res) => res.json());
+    if (ques) {
+      setQuestions(ques)
+    }
+
+  }
+  useEffect(() => {
+    getQue()
+  }, [])
 
   useEffect(() => {
     const data = JSON.parse(window.localStorage.getItem('neuron-newUser'));
@@ -40,8 +53,11 @@ export default function Home({ questions, carouselList }) {
           <link rel="icon" href="/favicon.png" />
         </Head>
         <Header carouselList={carouselList} />
-        <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
-        <QuestionGroup questions={questions?.newest} category={"New Topics"} />
+        {questions?.length <= 0
+          ? <CardLoader />
+          : <> <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
+            <QuestionGroup questions={questions?.newest} category={"New Topics"} />
+          </>}
       </div>
       <ToastContainer style={{ textAlign: 'center', zIndex: '49' }} />
     </>
@@ -50,11 +66,11 @@ export default function Home({ questions, carouselList }) {
 
 export async function getServerSideProps(context) {
   // const questions = await fetch('https://sample-api-data.vercel.app/api/tnc/questions').then((res) => res.json());
-  const questions = await fetch(`${process.env.HOST}/api/question/ques`).then((res) => res.json());
+  // const questions = await fetch(`${process.env.HOST}/api/question/ques`).then((res) => res.json());
   const carouselList = await fetch(`${process.env.HOST}/api/carousel`).then((res) => res.json());
   return {
     props: {
-      questions,
+      // questions,
       carouselList
     }
   }

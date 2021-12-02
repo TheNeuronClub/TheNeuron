@@ -1,5 +1,6 @@
 import { MinusIcon, PlusIcon } from '@heroicons/react/solid'
 import Router from 'next/router'
+import Image from 'next/image'
 import moment from 'moment';
 import { motion } from 'framer-motion';
 import { pageTransition, pageZoom } from './../util';
@@ -74,8 +75,11 @@ function Question({ question }) {
                 exit="out"
                 variants={pageZoom}
                 transition={pageTransition} className="text-white max-w-xs p-5 shadow-lg relative blur-black rounded-lg">
-                <h1 className="absolute top-0 right-0 py-1 px-2 blur-blue rounded-tr-lg rounded-bl-lg">{closingTime?.includes('ago') ? `closed ${closingTime}` : `closing ${closingTime}`}</h1>
-                <img className="w-full h-48 object-cover rounded-lg cursor-pointer" onClick={handleClick} src={question?.image_url || `images/que/${question.category}.jfif`} alt="" />
+                <h1 className="absolute top-0 right-0 py-1 px-2 blur-blue rounded-tr-lg rounded-bl-lg z-20">{closingTime?.includes('ago') ? `closed ${closingTime}` : `closing ${closingTime}`}</h1>
+                <div className="relative w-[280px] h-48 object-cover rounded-lg cursor-pointer z-10" onClick={handleClick}>
+                    <Image src={question?.image_url || `/images/que/${question.category}.jfif`} layout="fill" objectFit="cover" className="w-full h-full object-cover rounded-lg cursor-pointer" placeholder="blur" blurDataURL={question?.image_url || `/images/que/${question.category}.jfif`} alt="" />
+                </div>
+                {/* <img className="w-full h-48 object-cover rounded-lg cursor-pointer" onClick={handleClick} src={question?.image_url || `/images/que/${question.category}.jfif`} alt="" /> */}
                 <div className="py-5 font-medium h-full">
                     <h1 className="text-lg text-center mb-4 cursor-pointer line-clamp-3 h-[88px]" onClick={handleClick}>{question.question}</h1>
                     <div className="flex justify-around items-center text-lg">

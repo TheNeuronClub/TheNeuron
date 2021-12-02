@@ -16,7 +16,7 @@ const CarouselItem = ({ item, Size }) => {
                 damping: 50,
             }}
             className={`relative shadow-xl w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] 2xl:w-[550px] 2xl:h-[550px]`} key={item.id}>
-            <Image src={item?.imgSrc} layout="fill" className="w-full h-full object-cover rounded-md" objectFit="cover" />
+            <Image src={item?.imgSrc} layout="fill" className="w-full h-full object-cover rounded-md" objectFit="cover" placeholder="blur" blurDataURL={item?.imgSrc} alt="" />
             <div className="carousel__scroll absolute left-0 overflow-x-hidden bottom-0 w-full text-white p-5 sm:px-7 xl:px-10 z-10">
                 <motion.div
                     initial={{ opacity: 0, width: '0px' }}
@@ -52,13 +52,6 @@ const CarouselItem = ({ item, Size }) => {
     )
 }
 
-// const data = [
-//     { id: 0, heading: 'Science', desc: 'Explore major advances across the sciences that have transformed our understanding of the world and our universe, and our lives.', imgSrc: 'https://source.unsplash.com/800x800/?science', category: 'science' },
-//     { id: 1, heading: 'Politics', desc: "Latest politics news of different countries, current affairs politics news, political standard brings you all the Latest news, election news", imgSrc: 'https://source.unsplash.com/800x800/?politics', category: 'politics' },
-//     { id: 2, heading: 'Entertainment', desc: 'Latest entertainment news and gossip from the world of bollywood, Hollywood and regional film and music industries.', imgSrc: 'https://source.unsplash.com/800x800/?entertaiment', category: 'entertaiment' },
-//     { id: 3, heading: 'Crypto', desc: 'Current and upcoming Crypto market stocks, NFT related market, market place of different cyrpto currencies', imgSrc: 'https://source.unsplash.com/800x800/?crypto', category: 'crypto' },
-//     { id: 4, heading: 'Coronavirus', desc: 'Cases in country, vaccination ratio, vaccine availabilty, covid affect on different categories', imgSrc: 'https://source.unsplash.com/800x800/?coronavirus', category: 'coronavirus' },
-// ]
 function Carousel({ carouselList }) {
     const data = [...carouselList]
     const [active, setActive] = useState(0)
@@ -93,7 +86,7 @@ function Carousel({ carouselList }) {
 
     return (
         <>
-            <div className="flex flex-col-reverse mt-10 lg:mt-0 items-center justify-center lg:flex-row lg:w-1/2 xl:w-3/5 max-w-xl z-40 2xl:max-w-2xl h-full">
+            <div className="flex flex-col-reverse mt-10 lg:mt-0 items-center justify-center lg:flex-row lg:w-1/2 xl:w-3/5 max-w-xl z-40 2xl:max-w-2xl h-full relative">
                 <div className="p-5 h-full flex flex-row lg:flex-col items-center justify-between space-x-10 lg:space-x-0 lg:space-y-10">
                     <button onClick={prev} className="p-1 border rounded-full w-7 h-7 sm:w-10 sm:h-10 text-sm sm:text-base grid place-items-center hover:bg-white hover:text-gray-800 font-medium scale-110 ease-out">
                         {Size == 'lg' ? <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">

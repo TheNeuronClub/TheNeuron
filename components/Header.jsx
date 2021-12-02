@@ -7,6 +7,7 @@ import { pageSlide, pageTransition } from '../util'
 import dynamic from "next/dynamic";
 
 const Carousel = dynamic(() => import("./Carousel"), { ssr: false });
+// import Carousel from './Carousel'
 
 function Header({ carouselList }) {
     const session = userSession()

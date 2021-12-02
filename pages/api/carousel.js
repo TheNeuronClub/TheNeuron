@@ -18,7 +18,7 @@ handler.post(async (req, res) => {
         const file = dataUri(req).content;
         const result = await uploader.upload(file)
         if (result) {
-            const imgSrc = result.url
+            const imgSrc = result.secure_url
             const carouselData = new Header({ ...req.body, imgSrc });
             const saveData = await carouselData.save();
             if (!saveData) {
@@ -29,7 +29,7 @@ handler.post(async (req, res) => {
             }
         }
         else {
-                res.status(400).send({ msg: 'Error' });
+            res.status(400).send({ msg: 'Error' });
         }
     }
 })
@@ -37,7 +37,7 @@ handler.post(async (req, res) => {
 handler.patch(async (req, res) => {
     if (req.file) {
         const file = dataUri(req).content;
-        const result = await uploader.upload(file)
+        const result = await uploader.upload(file, { folder: "carousel" }, function (error, result) { console.log(result, error); })
         if (result) {
             const imgSrc = result.url
             const carouselData = await Header.findByIdAndUpdate({ _id: req.query._id }, { ...req.body, imgSrc }, { new: true });

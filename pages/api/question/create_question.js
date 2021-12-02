@@ -19,7 +19,7 @@ handler.post(async (req, res) => {
         const file = dataUri(req).content;
         const result = await uploader.upload(file)
         if (result) {
-            const image_url = result.url
+            const image_url = result.secure_url
             const questionCreated = new Question({ ...req.body, image_url });
             const saveQuestion = await questionCreated.save();
             if (!saveQuestion) {

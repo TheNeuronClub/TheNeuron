@@ -46,7 +46,7 @@ const CarouselItem = ({ item, onSelect }) => {
                         <img className="w-96 h-96 object-cover rounded-md" src={newData.imgSrc} alt="" />
                         <div className="absolute bottom-0 w-full p-3 blur-black">
                         <h1 className="text-2xl font-semibold text-gray-50">{newData.heading}</h1>
-                        <p className="text-lg font-medium text-gray-50">{newData.desc}</p>
+                        <p className="text-lg font-medium text-gray-50 line-clamp-3">{newData.desc}</p>
                         </div>
                     </div>
                     :

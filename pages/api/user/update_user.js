@@ -18,7 +18,7 @@ handler.post(async (req, res) => {
         const file = dataUri(req).content;
         const result = await uploader.upload(file)
         if (result) {
-            const image_url = result.url
+            const image_url = result.secure_url
             const { _id, ...other } = req.body;
             const userUpdated = await User.findByIdAndUpdate({ _id: _id }, { ...other, image_url }, { new: true });
             if (!userUpdated) {

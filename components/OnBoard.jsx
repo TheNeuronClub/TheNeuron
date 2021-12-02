@@ -67,8 +67,8 @@ function OnBoard(props) {
 
     return (
         <>
-            {<div className="h-screen top-0 left-0 absolute w-full z-50">
-                <div className="max_w_3xl overflow-hidden fixed h-screen p-5 blur-black w-full top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            {<div className="h-screen fixed top-0 left-0 w-full z-50 overflow-hidden">
+                <div className="max_w_3xl overflow-hidden fixed h-screen p-5 blur-black w-full top-0 left-0">
                     {activeIndex > 0 && <button className="outline-none border-none focus:border-none focus:outline-none absolute h-1/2 top-1/2 -translate-y-1/2 left-0" onClick={() => prev()}><ArrowLeftIcon className="w-10 h-10 p-1 opacity-50 text-gray-800 mx-2 bg-white rounded-full shadow-lg" /> </button>}
                    {item && <OnBoardItem key={item.id} activeIndex={activeIndex} item={item} />}
                     <button className="outline-none border-none focus:border-none focus:outline-none absolute h-1/2 top-1/2 -translate-y-1/2 right-0" onClick={() => activeIndex === data?.length - 1 ? props.onSelect() : next()} ><ArrowRightIcon className="w-10 h-10 p-1 opacity-50 text-gray-800 mx-2 bg-white rounded-full shadow-lg" /> </button>
