@@ -56,7 +56,7 @@ export default function Home({ carouselList }) {
           <title>The Neuron</title>
           <link rel="icon" href="/favicon.png" />
         </Head>
-        {carouselList && <Header carouselList={carouselList} />}
+        <Header carouselList={carouselList} />
         <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
         <QuestionGroup questions={questions?.newest} category={"New Topics"} />
       </div>
