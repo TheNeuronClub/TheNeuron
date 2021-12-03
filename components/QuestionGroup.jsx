@@ -1,9 +1,9 @@
 import { ArrowRightIcon } from "@heroicons/react/solid";
 import Link from "next/link";
 import Question from "./Question";
-import Image from 'next/image'
 
 function QuestionGroup({ questions, category }) {
+    const items = [1, 2, 3, 4, 5, 6, 7, 8]
     return (
         <>
             <div className={`p-5 py-10 sm:p-10 xl:px-20 min-w-full mx-auto text-white`}>
@@ -17,14 +17,25 @@ function QuestionGroup({ questions, category }) {
                     {
                         questions && questions?.length > 0 ?
                             <>
-                                {questions?.slice(0, 6).map((item, i) => (
+                                {questions?.map((item, i) => (
                                     <Question question={item} key={i} />
                                 ))}
                             </>
                             :
-                            <div className="p-5 relative row-start-1 col-start-1 col-end-6 col-span-2 min-w-[380px] min-h-[500px]">
-                                <Image src="/images/no-data.svg" layout="fill" objectFit="contain" className="w-full h-full drop-shadow" />
-                            </div>
+                            <>
+                                {
+                                    items.map(item => (
+                                        <div key={item} className="max-w-xs min-w-[75%] p-5 shadow-lg relative blur-black animate-pulse rounded-lg">
+                                            <div className="w-full h-48 rounded-lg bg-gray-500 bg-opacity-70"></div>
+                                            <div className="py-5 h-full">
+                                                <h1 className="mb-4 h-[80px] bg-gray-600 bg-opacity-50"></h1>
+                                                <div className="h-16 w-full bg-gray-700 bg-opacity-60">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    ))
+                                }
+                            </>
                     }
                 </div>
             </div>

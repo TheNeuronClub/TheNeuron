@@ -5,11 +5,10 @@ import QuestionGroup from '../components/QuestionGroup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OnBoard from '../components/OnBoard'
-import CardLoader from '../components/CardLoader';
 import dynamic from 'next/dynamic'
 
-const Header = dynamic(() => import('../components/Header') , {
-    ssr: false
+const Header = dynamic(() => import('../components/Header'), {
+  ssr: false
 })
 
 export default function Home({ carouselList }) {
@@ -57,12 +56,9 @@ export default function Home({ carouselList }) {
           <title>The Neuron</title>
           <link rel="icon" href="/favicon.png" />
         </Head>
-        <Header carouselList={carouselList} />
-        {questions?.length <= 0
-          ? <CardLoader />
-          : <> <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
-            <QuestionGroup questions={questions?.newest} category={"New Topics"} />
-          </>}
+        {carouselList && <Header carouselList={carouselList} />}
+        <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
+        <QuestionGroup questions={questions?.newest} category={"New Topics"} />
       </div>
       <ToastContainer style={{ textAlign: 'center', zIndex: '49' }} />
     </>
@@ -70,12 +66,9 @@ export default function Home({ carouselList }) {
 }
 
 export async function getServerSideProps(context) {
-  // const questions = await fetch('https://sample-api-data.vercel.app/api/tnc/questions').then((res) => res.json());
-  // const questions = await fetch(`${process.env.HOST}/api/question/ques`).then((res) => res.json());
   const carouselList = await fetch(`${process.env.HOST}/api/carousel`).then((res) => res.json());
   return {
     props: {
-      // questions,
       carouselList
     }
   }
