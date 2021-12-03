@@ -18,7 +18,7 @@ function CreateQ({ session }) {
     const [goLiveDate, setGoLiveDate] = useState(currentDate)
     const [bidClosingDate, setBidClosingDate] = useState(addDays(goLiveDate, 1))
     const [settlementClosingDate, setSettlementClosingDate] = useState(addDays(bidClosingDate, 1))
-    const [qImage, setQImage] = useState(null);
+    const [qImage, setQImage] = useState('');
     const [data, setData] = useState({
         question: '',
         userId: session?._id,
@@ -45,8 +45,10 @@ function CreateQ({ session }) {
     }
 
     const handleSubmit = async (e) => {
-        e.preventDefault();
-        if (qImage?.size < 500000 && qImage.size > 10) {
+        if(e){
+            e.preventDefault();
+        }
+        if (qImage?.size < 1000000 && qImage.size > 10) {
             setIsSending(true);
             const formData = new FormData();
             formData.append("image", qImage);
@@ -77,7 +79,7 @@ function CreateQ({ session }) {
                     goLive: '',
                     settlementClosing: '',
                 })
-                setQImage(null);
+                setQImage('');
                 setLink('');
                 setDesc('');
                 setIsSending(false)
@@ -175,7 +177,7 @@ function CreateQ({ session }) {
                     </motion.form>
                 </div>
             </div>
-            {isSent && <Modal state={isSent} text="Question created successfully" />}
+            {isSent && <div onClick={() => setIsSent(false)}><Modal state={isSent} text="Question created successfully" /> </div>}
         </>
     )
 }

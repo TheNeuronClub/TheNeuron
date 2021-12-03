@@ -31,7 +31,7 @@ const getQuestions = async (req, res) => {
 const ques = async (req, res) => {
     try {
         if (req.query.type == 'expiring') {
-            const expiring = await Question.find({ bidClosing: { $lte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ settlementClosing: -1 });
+            const expiring = await Question.find({ bidClosing: { $lte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ settlementClosing: 1 });
             res.status(200).send(expiring)
         }
         else {
@@ -70,12 +70,6 @@ const update_que = async (req, res) => {
 const filter = async (req, res) => {
     const { category, sort, qstatus } = req.body;
     let sorting, filter;
-    if (sort == 'closed') {
-        category && category.length > 2 ? (filter = { category, qstatus: 'closed' }) : (filter = { qstatus: 'closed' })
-    }
-    else {
-        category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } })
-    }
     if (sort === 'volume') {
         sorting = { Volume: -1 }
     }
@@ -88,6 +82,15 @@ const filter = async (req, res) => {
     else {
         sorting = { createdAt: -1 }
     }
+
+    if (sort == 'closed') {
+        category && category.length > 2 ? (filter = { category, qstatus: 'closed' }) : (filter = { qstatus: 'closed' });
+        sorting = { updatedAt: -1 };
+    }
+    else {
+        category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } })
+    }
+
     try {
         const getQuestions = await Question.find(filter).sort(sorting);
         res.status(200).send(getQuestions)

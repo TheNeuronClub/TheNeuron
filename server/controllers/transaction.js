@@ -5,9 +5,9 @@ import Question from '../db/models/question'
 import Transaction from '../db/models/transaction'
 
 const question = async (req, res) => {
-    const { question, _id, category, odd, bid, username, userId, settlementClosing, image_url } = req.body
+    const { question, _id, category, odd, bid, userId, settlementClosing, image_url } = req.body
     try {
-        const createTransaction = new Transaction({ username, userId, amount: bid, questionId: _id, question, category, odd, settlementClosing, image_url });
+        const createTransaction = new Transaction({ userId, amount: bid, questionId: _id, question, category, odd, settlementClosing, image_url });
         const transactionRegistered = await createTransaction.save();
         if (transactionRegistered) {
             const getTransaction = await Transaction.find({ userId: userId }).countDocuments();
@@ -68,7 +68,7 @@ const undoSettlement = async (req, res) => {
         const winAmount = result == 'Favour' ? Volume / Favour : Volume / Against;
         await Promise.all(transList.map(async (element) => {
             (element.odd === result)
-                ? await User.updateOne({ _id: element.userId }, { $inc: { balance: 0 - (element.amount * winAmount) + element.amount, earning: 0 - (element.amount * winAmount) }, $push: { notification: message } }, { new: true })
+                ? await User.updateOne({ _id: element.userId }, { $inc: { balance: 0 - (element.amount * winAmount) + element.amount, earning: 0 - (element.amount * winAmount) }, $push: { notification: `we've undo the settlement due to ${message}` } }, { new: true })
                 : await User.updateOne({ _id: element.userId }, { $inc: { balance: element.amount }, $push: { notification: message } }, { new: true })
         }))
         res.status(200).send(ques);

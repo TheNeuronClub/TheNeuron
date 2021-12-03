@@ -557,6 +557,117 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
 /** END of Loader*/
 
 
+  .loader{
+      position: relative;
+      width: 300px;
+      height: 300px;
+      box-sizing: border-box;
+      background: transparent;
+  }
+  .loader .face{
+      position: absolute;
+      border: 4px solid transparent;
+  }
+  .loader .face.face1{
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: transparent;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 50%;
+      border-left: 2px solid #1EA5FC;
+      border-top: 4px solid #1EA5FC;
+      animation: animateLoader 3s linear infinite;
+  }
+  .loader .face.face2{
+      top: 50px;
+      left: 50px;
+      right: 50px;
+      bottom: 50px;
+      background: transparent;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 50%;
+      border-right: 4px solid #ffff00;
+      border-bottom: 2px solid #ffff00;
+      animation: animateLoader 2s linear reverse infinite;
+  }
+  .loader .face.face3{
+      top: 100px;
+      left: 100px;
+      right: 100px;
+      bottom: 100px;
+      background: transparent;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      border-radius: 50%;
+      border-left: 2px solid #00FF7F;
+      border-top: 4px solid #00FF7F;
+      animation: animateLoader 1s linear infinite;
+  }
+  .loader .face .circle{
+      position: absolute;
+      top: calc(50% - 2px);
+      left: 50%;
+      width: 50%;
+      height: 2px;
+      transform-origin: left;
+  }
+  .loader .face.face1 .circle{
+      transform: rotate(-45deg);
+  }
+  .loader .face.face2 .circle{
+      transform: rotate(-45deg);
+  }
+  .loader .face.face3 .circle{
+      transform: rotate(-45deg);
+  }
+  .loader .face .circle::before{
+      content: '';
+      position: absolute;
+      width: 16px;
+      height: 16px;
+      border-radius: 50%;
+      top: -6px;
+      right: -10px;
+  }
+  .loader .face.face1 .circle::before{
+      background: #1EA5FC;
+      box-shadow: 0 0 20px #1EA5FC,
+                  0 0 40px #1EA5FC,
+                  0 0 60px #1EA5FC,
+                  0 0 80px #1EA5FC,
+                  0 0 100px #1EA5FC,
+                  0 0 0 5px rgba(3, 169, 244, 0.1);
+  }
+  .loader .face.face2 .circle::before{
+      background: #ffff00;
+      box-shadow: 0 0 20px #ffff00,
+                  0 0 40px #ffff00,
+                  0 0 60px #ffff00,
+                  0 0 80px #ffff00,
+                  0 0 100px #ffff00,
+                  0 0 0 5px rgba(255, 255, 0, 0.1);
+  }
+  .loader .face.face3 .circle::before{
+      background: #00FF7F;
+      box-shadow: 0 0 20px #00FF7F,
+                  0 0 40px #00FF7F,
+                  0 0 60px #00FF7F,
+                  0 0 80px #00FF7F,
+                  0 0 100px #00FF7F,
+                  0 0 0 5px rgba(0, 255, 127, 0.1);
+  }
+  
+  @keyframes animateLoader {
+      0%{
+          transform: rotate(0deg);
+      }
+      100%{
+          transform: rotate(360deg);
+      }
+  }
+
+
 input[type="number"] {
     -webkit-appearance: textfield;
     -moz-appearance: textfield;
@@ -618,21 +729,12 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 @media(max-width: 640px) {
-    .custom-shape-divider-bottom-1630315778 svg {
-        height: 30px;
-    }
-
     .carousel-item {
         height: 36rem;
     }
 
 }
 
-@media(max-width: 769px) {
-    .custom-shape-divider-top-1630316193 svg {
-        height: 20px;
-    }
-}
 
 @media(min-width: 1700px) {
     .question__group {

@@ -1,4 +1,3 @@
-import Image from 'next/image'
 import Link from 'next/link'
 import { userSession } from '../lib/user-session'
 import { motion } from 'framer-motion'
@@ -7,7 +6,6 @@ import { pageSlide, pageTransition } from '../util'
 import dynamic from "next/dynamic";
 
 const Carousel = dynamic(() => import("./Carousel"), { ssr: false });
-// import Carousel from './Carousel'
 
 function Header({ carouselList }) {
     const session = userSession()

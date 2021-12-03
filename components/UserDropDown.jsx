@@ -18,7 +18,7 @@ function UserDropDown({ session }) {
     const dispatch = useDispatch();
     const amount = useSelector(balance)
     
-    const urlSrc = `https://neuron-club.vercel.app/account/register?referral_code=${session?.referral_code}`
+    const urlSrc = `https://www.theneuron.club/account/register?referral_code=${session?.referral_code}`
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -97,7 +97,7 @@ function UserDropDown({ session }) {
 
             {isShare &&
                 <>
-                    <div className="fixed inset-0 w-full h-screen grid place-items-center z-50 blur-black" onClick={() => setIsShare(false)} >
+                    <div className="fixed inset-0 w-full h-screen grid place-items-center z-50 bg-black bg-opacity-50 backdrop-filter backdrop-blur max_w_3xl" onClick={() => setIsShare(false)} >
                         <motion.div initial="initial"
                             animate="in"
                             exit="out"

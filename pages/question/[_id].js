@@ -75,13 +75,13 @@ function QuestionDetail({ questionData }) {
                 Volume = Volume + bid
                 odd == 'Favour' ? Favour = Favour + bid : Against = Against + bid;
 
-                const { _id, question, category, settlementClosing } = que
+                const { _id, question, category, settlementClosing, image_url } = que
                 const res = await fetch(`/api/transaction/question`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ bid, _id, userId: session?._id, question, category, odd, settlementClosing })
+                    body: JSON.stringify({ bid, _id, userId: session?._id, question, image_url, category, odd, settlementClosing })
                 })
                 console.log(res.status)
                 const response = await res.json();
@@ -329,7 +329,7 @@ function QuestionDetail({ questionData }) {
                 }
                 {
                     bidPlaceModal &&
-                    <div className="fixed inset-0 text-white w-full h-full blur-black z-40">
+                    <div className="fixed inset-0 text-white w-full h-screen blur-black z-40">
 
                         <motion.div initial="initial"
                             animate="in"
@@ -460,7 +460,7 @@ function QuestionDetail({ questionData }) {
                 animate="in"
                 exit="out"
                 variants={pageZoom}
-                transition={pageTransition} className="fixed top-0 left-0 right-0 bottom-0 w-full h-full blur-black grid place-items-center z-50" >
+                transition={pageTransition} className="fixed inset-0 w-full h-screen blur-black grid place-items-center z-50" >
                 <div className="relative max-w-sm md:max-w-md py-10 md:py-14 px-5 md:px-10 blur-gray rounded-xl shadow-2xl m-4">
                     <h1 className="text-xl md:text-2xl my-4 text-center font-medium text-white z-50 leading-tight">
                         Please confirm that you want to place a bid of <div className="flex items-center justify-center">

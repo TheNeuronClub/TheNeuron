@@ -15,7 +15,6 @@ import { fadeOut, pageTransition } from '../util'
 function Navbar() {
     const session = userSession();
     const dispatch = useDispatch();
-    const [scrolled, setScrolled] = useState(false)
     const [isActive, setIsActive] = useState(false)
 
     const userSignOut = () => signOut();
@@ -65,20 +64,6 @@ function Navbar() {
         }
     }, [session])
 
-    const checkScrollTop = () => {
-        if (window.pageYOffset > 75) {
-            setScrolled(true)
-        } else if (window.pageYOffset <= 75) {
-            setScrolled(false)
-        }
-    };
-
-    useEffect(() => {
-        window.addEventListener('scroll', checkScrollTop)
-        return () => {
-            window.removeEventListener('scroll', checkScrollTop)
-        }
-    }, [scrolled])
 
     return (
         <>

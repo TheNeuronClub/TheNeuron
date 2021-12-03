@@ -35,13 +35,13 @@ function Question({ question }) {
         if (session && bidModal?.odd) {
             setIsSending(true)
             if (amount > 0 && amount >= bid) {
-                const { _id, question, category, settlementClosing } = que
+                const { _id, question, category, settlementClosing, image_url } = que
                 const res = await fetch(`/api/transaction/question`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ bid, _id, userId: session?._id, question, category, odd: bidModal?.odd, settlementClosing })
+                    body: JSON.stringify({ bid, _id, userId: session?._id, question, image_url, category, odd: bidModal?.odd, settlementClosing })
                 })
                 console.log(res.status)
                 const response = await res.json();
@@ -79,10 +79,11 @@ function Question({ question }) {
                 <div className="relative w-[280px] h-48 object-cover rounded-lg cursor-pointer z-10" onClick={handleClick}>
                     <Image src={question?.image_url || `/images/que/${question.category}.jfif`} layout="fill" objectFit="cover" className="w-full h-full object-cover rounded-lg cursor-pointer" placeholder="blur" blurDataURL={question?.image_url || `/images/que/${question.category}.jfif`} alt="" />
                 </div>
-                {/* <img className="w-full h-48 object-cover rounded-lg cursor-pointer" onClick={handleClick} src={question?.image_url || `/images/que/${question.category}.jfif`} alt="" /> */}
                 <div className="py-5 font-medium h-full">
                     <h1 className="text-lg text-center mb-4 cursor-pointer line-clamp-3 h-[88px]" onClick={handleClick}>{question.question}</h1>
-                    <div className="flex justify-around items-center text-lg">
+                   {question?.qstatus ==='closed' 
+                   ? <h1 className="text-lg text-center font-medium text-yellow-300">Bidding Closed</h1>
+                   : <div className="flex justify-around items-center text-lg">
                         <div className="flex flex-col items-center justify-center">
                             <button className="font-semibold btn-blue rounded-3xl py-2 px-6 mb-2" onClick={() => session ? setBidModal({ state: true, odd: 'Favour' }) : setIsLoggedIn(true)}>Yes</button>
                             <h1 className="font-normal text-center leading-none">{question?.Favour > 0 ? Math.round((question?.Favour * 100 / question.Volume)) : 0}%<br />says yes</h1>
@@ -91,7 +92,7 @@ function Question({ question }) {
                             <button className="font-semibold btn-orange rounded-3xl py-2 px-6 mb-2" onClick={() => session ? setBidModal({ state: true, odd: 'Against' }) : setIsLoggedIn(true)}>No</button>
                             <h1 className="font-normal text-center leading-none">{question?.Against > 0 ? Math.round((question?.Against * 100 / question.Volume)) : 0}%<br />says no</h1>
                         </div>
-                    </div>
+                    </div>}
                 </div>
             </motion.div>
 
@@ -100,7 +101,7 @@ function Question({ question }) {
                 animate="in"
                 exit="out"
                 variants={pageZoom}
-                transition={pageTransition} className="fixed inset-0 w-full h-full grid place-items-center z-50 blur-black max_w_3xl" >
+                transition={pageTransition} className="fixed inset-0 w-full h-screen grid place-items-center z-50 blur-black max_w_3xl" >
                 <div className="relative max-w-sm md:max-w-md p-5 lg:py-10 md:px-10 blur-black text-white rounded-xl shadow-2xl m-4">
                     <div className="my-4 flex flex-col items-center">
                         <h1 className="font-medium text-2xl lg:text-3xl text-center">{que?.question} </h1>
@@ -125,7 +126,7 @@ function Question({ question }) {
                 variants={pageZoom}
                 transition={pageTransition}
                 onClick={() => setIsBidPlaced(false)}
-                className="fixed inset-0 w-full h-full grid place-items-center z-50 blur-black max_w_3xl" >
+                className="fixed inset-0 w-full h-screen grid place-items-center z-50 blur-black max_w_3xl" >
                 <Modal state={isBidPlaced} text="Bid Placed Successfully" />
             </motion.div>
             }
@@ -135,7 +136,7 @@ function Question({ question }) {
                 variants={pageZoom}
                 transition={pageTransition}
                 onClick={() => setIsLoggedIn(false)}
-                className="fixed inset-0 w-full h-full grid place-items-center z-50 blur-black max_w_3xl" >
+                className="fixed inset-0 w-full h-screen grid place-items-center z-50 blur-black max_w_3xl" >
                 <Modal state={isLoggedIn} text="Please login to place a bid" link={'/account/login'} />
             </motion.div>
             }

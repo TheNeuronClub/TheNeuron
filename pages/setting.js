@@ -3,6 +3,7 @@ import { useState } from "react"
 
 const CarouselItem = ({ item, onSelect }) => {
     const [isActive, setIsActive] = useState(false)
+    const [isDelete, setIsDelete] = useState(false)
     const [isSending, setIsSending] = useState(false)
     const [newImage, setNewImage] = useState(false)
     const [newData, setNewData] = useState({
@@ -42,11 +43,11 @@ const CarouselItem = ({ item, onSelect }) => {
                 !isActive ?
                     <div className="m-4 my-6 relative">
                         <PencilIcon className="absolute -top-5 right-10 cursor-pointer p-2 rounded-full bg-white shadow-lg w-10 h-10 text-blue-600" onClick={() => setIsActive(true)} />
-                        <TrashIcon className="absolute -top-5 -right-2 cursor-pointer p-2 rounded-full bg-white shadow-lg w-10 h-10 text-red-600" onClick={() => onSelect(item?._id)} />
+                        <TrashIcon className="absolute -top-5 -right-2 cursor-pointer p-2 rounded-full bg-white shadow-lg w-10 h-10 text-red-600" onClick={() => setIsDelete(true)} />
                         <img className="w-96 h-96 object-cover rounded-md" src={newData.imgSrc} alt="" />
                         <div className="absolute bottom-0 w-full p-3 blur-black">
-                        <h1 className="text-2xl font-semibold text-gray-50">{newData.heading}</h1>
-                        <p className="text-lg font-medium text-gray-50 line-clamp-3">{newData.desc}</p>
+                            <h1 className="text-2xl font-semibold text-gray-50">{newData.heading}</h1>
+                            <p className="text-lg font-medium text-gray-50 line-clamp-3">{newData.desc}</p>
                         </div>
                     </div>
                     :
@@ -93,6 +94,18 @@ const CarouselItem = ({ item, onSelect }) => {
                     </form>
             }
 
+            {isDelete && <div className="fixed inset-0 w-full h-screen blur-black grid place-items-center z-50" >
+                <div className="relative max-w-sm md:max-w-md py-10 md:py-14 px-5 md:px-10 blur-gray rounded-xl shadow-2xl m-4">
+                    <h1 className="text-xl md:text-2xl my-4 text-center font-medium text-white z-50 leading-tight">
+                        Do you want to delete this Carsousel Image ?
+                    </h1>
+                    <div className="flex items-center justify-around mt-6">
+                        <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose text-gray-100 border border-gray-100 hover:bg-gray-100 hover:text-gray-800 shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => setIsDelete(false)}>{'Cancel'}</button>
+                        <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose btn-orange text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => { onSelect(item?._id); setIsDelete(false) }}>Delete</button>
+                    </div>
+                </div>
+            </div>}
+
         </>
     )
 }
@@ -134,7 +147,7 @@ function setting({ carouselList }) {
             })
             setCarouselImage(null)
             setIsSending(false)
-            carouselData?.length > 0 ? setCarouselData([response, ...carouselData]) : setCarouselData([...response])
+            carouselData?.length > 0 ? setCarouselData([...carouselData, response]) : setCarouselData([...response])
         }
         setIsSending(false)
         setIsForm(false)

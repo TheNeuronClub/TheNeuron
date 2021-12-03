@@ -1,10 +1,8 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from 'next/image';
-import { useRouter } from 'next/router';
 
 const CarouselItem = ({ item, Size }) => {
-    const router = useRouter();
     return (
         <motion.div
             key={item._id}
@@ -16,7 +14,7 @@ const CarouselItem = ({ item, Size }) => {
                 damping: 50,
             }}
             className={`relative shadow-xl w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] 2xl:w-[550px] 2xl:h-[550px]`} key={item.id}>
-            <Image src={item?.imgSrc} layout="fill" className="w-full h-full object-cover rounded-md" objectFit="cover" placeholder="blur" blurDataURL={item?.imgSrc} alt="" />
+                <Image src={item?.imgSrc} layout="fill" className="w-full h-full object-cover rounded-md" objectFit="cover" placeholder="blur" blurDataURL={item?.imgSrc} alt="" />
             <div className="carousel__scroll absolute left-0 overflow-x-hidden bottom-0 w-full text-white p-5 sm:px-7 xl:px-10 z-10">
                 <motion.div
                     initial={{ opacity: 0, width: '0px' }}
