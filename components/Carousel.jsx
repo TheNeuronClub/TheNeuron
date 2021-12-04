@@ -2,55 +2,7 @@ import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Image from 'next/image';
 
-const CarouselItem = ({ item, Size }) => {
-    return (
-        <motion.div
-            key={item._id}
-            initial={Size == 'sm' ? { opacity: 0, translateX: '400px' } : { opacity: 0, translateY: '400px' }}
-            animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
-            transition={{
-                type: "spring",
-                stiffness: 260,
-                damping: 50,
-            }}
-            className={`relative shadow-xl w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] 2xl:w-[550px] 2xl:h-[550px]`} key={item.id}>
-                <Image src={item?.imgSrc} layout="fill" className="w-full h-full object-cover rounded-md" objectFit="cover" placeholder="blur" blurDataURL={item?.imgSrc} alt="" />
-            <div className="carousel__scroll absolute left-0 overflow-x-hidden bottom-0 w-full text-white p-5 sm:px-7 xl:px-10 z-10">
-                <motion.div
-                    initial={{ opacity: 0, width: '0px' }}
-                    animate={{ opacity: 1, width: '100%' }}
-                    transition={{
-                        delay: 1,
-                        type: "spring",
-                        stiffness: 260,
-                        damping: 50,
-                    }} className="w-full h-full absolute top-0 left-0 bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm">
-
-                </motion.div>
-                <motion.h1
-                    initial={Size == 'sm' ? { opacity: 0.5, translateX: '1000px' } : { opacity: 0.5, translateY: '1000px' }}
-                    animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
-                    transition={{
-                        delay: 1.5,
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 35,
-                    }} className="font-semibold capitalize text-4xl sm:text-5xl">{item.heading}</motion.h1>
-                <motion.p
-                    initial={Size == 'sm' ? { opacity: 0.5, translateX: '1000px' } : { opacity: 0.5, translateY: '1000px' }}
-                    animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
-                    transition={{
-                        delay: 1.8,
-                        type: "spring",
-                        stiffness: 200,
-                        damping: 40,
-                    }} className='text-lg lg:text-xl line-clamp-2 font-medium my-2 2xl:mt-3 max-w-lg'>{item.desc}</motion.p>
-            </div>
-        </motion.div>
-    )
-}
-
-function Carousel({ carouselList }) {
+export default function Carousel({ carouselList }) {
     const data = [...carouselList]
     const [active, setActive] = useState(0)
     const [item, setItem] = useState(data[0])
@@ -114,4 +66,51 @@ function Carousel({ carouselList }) {
     )
 }
 
-export default Carousel
+
+const CarouselItem = ({ item, Size }) => {
+    return (
+        <motion.div
+            key={item._id}
+            initial={Size == 'sm' ? { opacity: 0, translateX: '400px' } : { opacity: 0, translateY: '400px' }}
+            animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
+            transition={{
+                type: "spring",
+                stiffness: 260,
+                damping: 50,
+            }}
+            className={`relative shadow-xl w-[350px] h-[350px] sm:w-[500px] sm:h-[500px] lg:w-[400px] lg:h-[400px] xl:w-[500px] xl:h-[500px] 2xl:w-[550px] 2xl:h-[550px]`} key={item.id}>
+                <Image src={item?.imgSrc} layout="fill" className="w-full h-full object-cover rounded-md" objectFit="cover" placeholder="blur" blurDataURL={item?.imgSrc} alt="" />
+            <div className="carousel__scroll absolute left-0 overflow-x-hidden bottom-0 w-full text-white p-5 sm:px-7 xl:px-10 z-10">
+                <motion.div
+                    initial={{ opacity: 0, width: '0px' }}
+                    animate={{ opacity: 1, width: '100%' }}
+                    transition={{
+                        delay: 1,
+                        type: "spring",
+                        stiffness: 260,
+                        damping: 50,
+                    }} className="w-full h-full absolute top-0 left-0 bg-black bg-opacity-30 backdrop-filter backdrop-blur-sm">
+
+                </motion.div>
+                <motion.h1
+                    initial={Size == 'sm' ? { opacity: 0.5, translateX: '1000px' } : { opacity: 0.5, translateY: '1000px' }}
+                    animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
+                    transition={{
+                        delay: 1.5,
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 35,
+                    }} className="font-semibold capitalize text-4xl sm:text-5xl">{item.heading}</motion.h1>
+                <motion.p
+                    initial={Size == 'sm' ? { opacity: 0.5, translateX: '1000px' } : { opacity: 0.5, translateY: '1000px' }}
+                    animate={Size == 'sm' ? { opacity: 1, translateX: '0px' } : { opacity: 1, translateY: '0px' }}
+                    transition={{
+                        delay: 1.8,
+                        type: "spring",
+                        stiffness: 200,
+                        damping: 40,
+                    }} className='text-lg lg:text-xl line-clamp-2 font-medium my-2 2xl:mt-3 max-w-lg'>{item.desc}</motion.p>
+            </div>
+        </motion.div>
+    )
+}
