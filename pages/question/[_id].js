@@ -54,7 +54,6 @@ function QuestionDetail({ questionData }) {
 
     const getUserInfo = async () => {
         if (questionData?.userId?.length > 10) {
-
             const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
             if (res.status == 200) {
                 const response = await res.json();
@@ -119,7 +118,7 @@ function QuestionDetail({ questionData }) {
 
     const validate = () => {
         if (que.qstatus === 'verified' && que.bidClosing > new Date().toISOString()) {
-            if (bid > 0 && bid <= 1000) {
+            if (bid > 0 && bid <= 10000) {
                 if (que.qstatus == 'verified') {
                     (session) ? setIsActive(true) : setIsLoggedIn(true)
                 }
@@ -132,7 +131,7 @@ function QuestionDetail({ questionData }) {
     const checkBid = (e) => {
         setBid(e.target.value);
         setLowBalance(false)
-        if (e.target.value < 1 || e.target.value > 1000) {
+        if (e.target.value < 1 || e.target.value > 10000) {
             setBidLimit(true)
         } else {
             setBidLimit(false)
@@ -281,8 +280,8 @@ function QuestionDetail({ questionData }) {
                                                 <h1 className="font-medium">Amount to Bid : <span className="text-blue-300 inline-flex items-center"><Coin width="4" height="4" />{bid}</span> </h1>
                                                 <div className="relative flex items-center space-x-4 mt-4">
                                                     <MinusIcon className="w-7 h-7 p-1 font-semibold bg-gray-100 text-gray-900 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid > 50 && setBid(bid - 50); setLowBalance(false) }} />
-                                                    <input type="number" min="1" minLength="1" maxLength="1000" max="1000" value={bid} onChange={checkBid} className="border border-gray-100 font-semibold text-blue-500 text-center rounded focus:outline-none" />
-                                                    <PlusIcon className="w-7 h-7 p-1 font-semibold bg-gray-100 text-gray-900 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid < 951 && setBid(+bid + +50); setLowBalance(false) }} />
+                                                    <input type="number" min="1" minLength="1" maxLength="10000" max="10000" value={bid} onChange={checkBid} className="border border-gray-100 font-semibold text-blue-500 text-center rounded focus:outline-none" />
+                                                    <PlusIcon className="w-7 h-7 p-1 font-semibold bg-gray-100 text-gray-900 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid < 9951 && setBid(+bid + +50); setLowBalance(false) }} />
                                                 </div>
                                             </div>
                                             {isSending ? <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose btn-blue text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]">{'Wait...'}</button>
@@ -290,7 +289,7 @@ function QuestionDetail({ questionData }) {
                                             }
                                             {bid > 0 === 'false' && <p className="text-red-500 text-base mb-4"> Bid amount is low </p>}
                                             {lowBalance && <p className="text-red-500 text-base mb-4"> Not enough balance to bet </p>}
-                                            {bidLimit && <p className="text-red-500 text-base mb-4"> Bid amount should in range of 1-1000 </p>}
+                                            {bidLimit && <p className="text-red-500 text-base mb-4"> Bid amount should in range of 1-10000 </p>}
                                             <table>
                                                 <tbody>
                                                     <tr>
@@ -350,8 +349,8 @@ function QuestionDetail({ questionData }) {
                                 <h1 className="font-medium">Amount to Bid : <span className="text-blue-300 inline-flex items-center"><Coin width="4" height="4" />{bid}</span> </h1>
                                 <div className="relative flex items-center space-x-4 mt-4">
                                     <MinusIcon className="w-7 h-7 p-1 font-semibold bg-gray-100 text-gray-900 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid > 50 && setBid(bid - 50); setLowBalance(false) }} />
-                                    <input type="number" min="1" minLength="1" maxLength="1000" max="1000" value={bid} onChange={checkBid} className="border border-gray-100 font-semibold text-blue-500 text-center rounded focus:outline-none" />
-                                    <PlusIcon className="w-7 h-7 p-1 font-semibold bg-gray-100 text-gray-900 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid < 951 && setBid(+bid + +50); setLowBalance(false) }} />
+                                    <input type="number" min="1" minLength="1" maxLength="10000" max="10000" value={bid} onChange={checkBid} className="border border-gray-100 font-semibold text-blue-500 text-center rounded focus:outline-none" />
+                                    <PlusIcon className="w-7 h-7 p-1 font-semibold bg-gray-100 text-gray-900 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid < 9951 && setBid(+bid + +50); setLowBalance(false) }} />
                                 </div>
                             </div>
                             {isSending ? <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose btn-blue text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]">{'Wait...'}</button>
@@ -359,7 +358,7 @@ function QuestionDetail({ questionData }) {
                             }
                             {bid > 0 === 'false' && <p className="text-red-500 text-base mb-4"> Bid amount is low </p>}
                             {lowBalance && <p className="text-red-500 text-base mb-4"> Not enough balance to bet </p>}
-                            {bidLimit && <p className="text-red-500 text-base mb-4"> Bid amount should in range of 1-1000 </p>}
+                            {bidLimit && <p className="text-red-500 text-base mb-4"> Bid amount should in range of 1-10000 </p>}
                             <table>
                                 <tbody>
                                     <tr>

@@ -158,7 +158,6 @@ const EditQue = (props) => {
                                 placeholder="Settlement Link"
                                 type="text"
                                 name="reference"
-                                required
                                 value={updatedQue?.reference}
                                 onChange={handleChange}
                                 className="w-full flex-1 h-12 px-4 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"

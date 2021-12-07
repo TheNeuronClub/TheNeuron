@@ -1,16 +1,20 @@
 import Link from 'next/link'
 import { userSession } from '../lib/user-session'
 import { motion } from 'framer-motion'
-import { pageSlide, pageTransition } from '../util'
+import { fadeOut, pageSlide, pageTransition } from '../util'
 import dynamic from "next/dynamic";
 
 const Carousel = dynamic(() => import("./Carousel"), {
     ssr: false,
-    loading: () => <div className="w-full mt-10 lg:mt-0 lg:w-1/2 xl:w-3/5 max-w-xl z-40 2xl:max-w-2xl h-full relative">
+    loading: () => <motion.div initial="initial"
+        animate="in"
+        exit="out"
+        variants={fadeOut}
+        transition={pageTransition} className="w-full mt-10 lg:mt-0 lg:w-1/2 xl:w-3/5 max-w-xl z-40 2xl:max-w-2xl h-full relative">
         <div className={`relative mx-auto shadow-xl w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] lg:w-[300px] lg:h-[300px] xl:w-[400px] xl:h-[400px] 2xl:w-[450px] 2xl:h-[450px] blur-black animate-pulse`}>
             <h1 className="absolute bottom-0 left-0 w-full h-32 blur-gray animate-pulse"></h1>
         </div>
-    </div>
+    </motion.div>
 });
 
 function Header({ carouselList }) {
@@ -37,17 +41,6 @@ function Header({ carouselList }) {
                 </motion.div>
                 {carouselList?.length > 0 && <Carousel carouselList={carouselList} />}
             </div>
-            {/* <div className="w-full relative min-h-[650px] sm:min-h-[680px] md:min-h-[550px] lg:min-h-[650px] flex flex-col-reverse text-center lg:text-left lg:flex-row items-center justify-around px-5 sm:px-10 xl:px-20">
-                <div className="w-full lg:w-1/2 xl:w-2/5 lg:pr-5 my-10 lg:my-0">
-                    <h1 className='w-full max-w-xl mx-auto lg:mx-0 lg:max-w-md h-40 md:h-60 bg-gray-600 animate-pulse bg-opacity-75'></h1>
-                    <p className="w-full py-4 max-w-2xl lg:max-w-lg xl:max-w-xl h-20 bg-gray-700 animate-pulse bg-opacity-80 mt-4"></p>
-                </div>
-                <div className="w-full mt-10 lg:mt-0 lg:w-1/2 xl:w-3/5 max-w-xl z-40 2xl:max-w-2xl h-full relative">
-                    <div className={`relative mx-auto shadow-xl w-[250px] h-[250px] sm:w-[400px] sm:h-[400px] lg:w-[300px] lg:h-[300px] xl:w-[400px] xl:h-[400px] 2xl:w-[450px] 2xl:h-[450px] blur-black animate-pulse`}>
-                        <h1 className="absolute bottom-0 left-0 w-full h-32 blur-gray animate-pulse"></h1>
-                    </div>
-                </div>
-            </div> */}
         </>
     )
 }

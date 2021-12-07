@@ -61,7 +61,7 @@ function Question({ question }) {
     const checkBid = (e) => {
         setBid(e.target.value);
         setLowBalance(false)
-        if (e.target.value < 1 || e.target.value > 1000) {
+        if (e.target.value < 1 || e.target.value > 10000) {
             setBidLimit(true)
         } else {
             setBidLimit(false)
@@ -106,11 +106,11 @@ function Question({ question }) {
                     <div className="my-4 flex flex-col items-center">
                         <h1 className="font-medium text-2xl lg:text-3xl text-center">{que?.question} </h1>
                         {lowBalance && <p className="text-red-500 text-base mt-2"> Not enough balance to bet </p>}
-                        {bidLimit && <p className="text-red-500 text-base mt-2"> Bid amount should in range of 1-1000 </p>}
+                        {bidLimit && <p className="text-red-500 text-base mt-2"> Bid amount should in range of 1-10000 </p>}
                         <div className="relative flex items-center space-x-4 my-4">
                             <MinusIcon className="w-7 h-7 p-1 font-semibold bg-gray-50 text-gray-800 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid > 50 && setBid(bid - 50); setLowBalance(false); setBidLimit(false) }} />
-                            <input type="number" min="1" minLength="1" maxLength="1000" max="1000" value={bid} onChange={checkBid} className="border border-gray-800 font-semibold text-blue-400 text-center text-xl lg:text-2xl rounded focus:outline-none" />
-                            <PlusIcon className="w-7 h-7 p-1 font-semibold bg-gray-50 text-gray-800 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid < 951 && setBid(+bid + +50); setLowBalance(false); setBidLimit(false) }} />
+                            <input type="number" min="1" minLength="1" maxLength="10000" max="10000" value={bid} onChange={checkBid} className="border border-gray-800 font-semibold text-blue-400 text-center text-xl lg:text-2xl rounded focus:outline-none" />
+                            <PlusIcon className="w-7 h-7 p-1 font-semibold bg-gray-50 text-gray-800 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid < 9951 && setBid(+bid + +50); setLowBalance(false); setBidLimit(false) }} />
                         </div>
                         <h1 className="font-medium text-gray-50 text-xl lg:text-2xl flex items-center justify-center flex-wrap">You're placing a bid of &nbsp;<span className="text-blue-400 inline-flex items-center"><Coin width="4" height="4" />{bid}</span>&nbsp;in <span className="text-blue-400 capitalize">{bidModal?.odd}</span> </h1>
                     </div>
