@@ -319,7 +319,7 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 .filter__item select {
-    @apply h-10 z-20 bg-transparent cursor-pointer w-full px-4 pr-8 appearance-none focus:outline-none
+    @apply h-10 z-20 bg-transparent cursor-pointer w-full px-4 pr-8 appearance-none focus:outline-none capitalize
 }
 
 .footer__social {
