@@ -5,12 +5,12 @@ import DatePicker from "react-datepicker";
 import addDays from 'date-fns/addDays'
 import { motion } from 'framer-motion'
 import { formats, modules, pageTransition, pageZoom } from '../util'
-const QuillNoSSRWrapper = dynamic(() => import('react-quill') , {
+const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
     ssr: false,
     loading: () => <p className="text-gray-100">Loading ...</p>,
 })
 
-function CreateQ({ session }) {
+function CreateQ({ session, categories }) {
     const [isSending, setIsSending] = useState(false)
     const [isSent, setIsSent] = useState(false)
     const [link, setLink] = useState('')
@@ -45,7 +45,7 @@ function CreateQ({ session }) {
     }
 
     const handleSubmit = async (e) => {
-        if(e){
+        if (e) {
             e.preventDefault();
         }
         if (qImage?.size < 1000000 && qImage.size > 10) {
@@ -131,17 +131,7 @@ function CreateQ({ session }) {
                                 className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
                             >
                                 <option value="" disabled>Choose a category</option>
-                                <option value="politics">Politics</option>
-                                <option value="entertainment">Entertainment</option>
-                                <option value="sports">Sports</option>
-                                <option value="economics">Economics</option>
-                                <option value="climate">Climate</option>
-                                <option value="coronavirus">Coronavirus</option>
-                                <option value="crypto">Crypto</option>
-                                <option value="business">Business</option>
-                                <option value="crime">Crime</option>
-                                <option value="arts">Arts</option>
-                                <option value="technology">Technology</option>
+                                {categories?.map(item => <option key={item._id} value={item.category} className="capitalize">{item.category}</option>)}
                             </select>
                         </div>
                         <div className="mb-1 sm:mb-2">

@@ -20,7 +20,8 @@ import UserTransaction from '../../components/UserTransaction'
 import { UndoSettle } from '../../components/UndoSettle'
 import dynamic from 'next/dynamic'
 const EditQue = dynamic(() => import('../../components/EditQue'), {
-    ssr: false
+    ssr: false,
+    loading: () => <p className="text-gray-200">Loading ...</p>,
 })
 
 function QuestionDetail({ questionData }) {
@@ -53,11 +54,13 @@ function QuestionDetail({ questionData }) {
     const urlSrc = `https://www.theneuron.club/question/${que?._id}`
 
     const getUserInfo = async () => {
-        if (questionData?.userId?.length > 10) {
+        if (questionData?.userId?.length === 24 || questionData?.userId?.length === 12) {
             const res = await fetch(`/api/user/info?_id=${questionData?.userId}`)
             if (res.status == 200) {
                 const response = await res.json();
                 setUserInfo(response)
+            }else{
+                setUserInfo(null)
             }
         }
     }

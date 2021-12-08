@@ -11,14 +11,14 @@ import { motion } from "framer-motion";
 import { pageSlide, pageTransition } from "../../util";
 import { useRouter } from "next/router";
 
-function index({ data }) {
+function index({ categories }) {
     const router = useRouter()
-    const [questions, setQuestions] = useState(data)
+    const [questions, setQuestions] = useState(null)
     const savedFilter = useSelector(queFilter);
     const dispatch = useDispatch();
     const [isData, setIsData] = useState(true)
     const [isLoader, setIsLoader] = useState(false)
-    const [filter, setFilter] = useState({...savedFilter, category: router.query.category || ''})
+    const [filter, setFilter] = useState({ ...savedFilter, category: router.query.category || '' })
 
     const handleChange = (e) => {
         e.preventDefault();
@@ -88,17 +88,7 @@ function index({ data }) {
                                 onChange={handleChange}
                             >
                                 <option value="">All</option>
-                                <option value="politics">Politics</option>
-                                <option value="entertainment">Entertainment</option>
-                                <option value="sports">Sports</option>
-                                <option value="economics">Economics</option>
-                                <option value="climate">Climate</option>
-                                <option value="coronavirus">Coronavirus</option>
-                                <option value="crypto">Crypto</option>
-                                <option value="business">Business</option>
-                                <option value="crime">Crime</option>
-                                <option value="arts">Arts</option>
-                                <option value="technology">Technology</option>
+                                {categories?.map(item => <option key={item._id} value={item.category} className="capitalize">{item.category}</option>)}
                             </select>
                             <ChevronDownIcon className="absolute top-1/2 transform -translate-y-1/2 right-1 h-7 w-7" />
                         </div>
@@ -154,10 +144,11 @@ function index({ data }) {
 export default index
 
 export async function getServerSideProps() {
-    const data = await fetch(`${process.env.HOST}/api/question/get_questions`).then(res => res.json());
+    // const data = await fetch(`${process.env.HOST}/api/question/get_questions`).then(res => res.json());
+    const categories = await fetch(`${process.env.HOST}/api/question/queCategory`).then((res) => res.json());
     return {
         props: {
-            data
+            categories
         }
     }
 }

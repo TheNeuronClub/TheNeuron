@@ -62,7 +62,7 @@ function CommentBox({ queId, userId, image_url, name }) {
             {(userComments?.length > 0 || userId) && <div className="flex-1 mt-10 p-5 lg:px-10 max-h-screen blur-black rounded-md overflow-y-scroll">
                 {userId && <div className="flex space-x-2 sm:space-x-3 items-center justify-start lg:max-w-max">
                     {image_url ?
-                        <img src={image_url} alt="" className="w-10 sm:w-12 h-10 sm:h-12 border-4 border-gray-100 rounded-full" />
+                        <img src={image_url} alt="" className="w-10 sm:w-12 h-10 sm:h-12 object-cover border-4 border-gray-100 rounded-full" />
                         :
                         <div className="MuiAvatar-root MuiAvatar-circle btn-blue text-white capitalize">
                             {name?.[0]}

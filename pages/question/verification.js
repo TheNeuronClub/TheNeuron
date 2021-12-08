@@ -4,7 +4,8 @@ import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
 
 const EditQue = dynamic(() => import('../../components/EditQue') , {
-    ssr: false
+    ssr: false,
+    loading: () => <p className="text-gray-200">Loading ...</p>,
 })
 
 function verification({ data }) {
@@ -54,7 +55,6 @@ function verification({ data }) {
                         </>
                         :
                         <h1 className="text-lg sm:text-xl 2xl:text-2xl text-white blur-gray font-medium max-w-5xl mx-auto p-5 rounded-lg gradient-shadow">No Questions Available</h1>
-
                     }
                 </div>
             }
