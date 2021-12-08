@@ -22,15 +22,24 @@ const EditQue = (props) => {
     const [isUpdating, setIsUpdating] = useState(false)
     const [bidClosingDate, setBidClosingDate] = useState(new Date(que?.bidClosing))
     const [settlementClosingDate, setSettlementClosingDate] = useState(new Date(que?.settlementClosing))
+    const [categories, setCategories] = useState(null)
 
     const getUser = async () => {
-        const res = await fetch(`/api/user/info?_id=${que?.userId}`);
-        if (res.status == 200) {
-            const response = await res.json();
-            setUserInfo(response)
+        if (que?.userId?.length === 24 || que?.userId?.length === 12) {
+            const res = await fetch(`/api/user/info?_id=${que?.userId}`)
+            if (res.status == 200) {
+                const response = await res.json();
+                setUserInfo(response)
+            } else {
+                setUserInfo(null)
+            }
         }
     }
     useEffect(() => {
+        (async () => {
+            const data = await fetch(`${process.env.host}/api/question/queCategory`).then((res) => res.json());
+            setCategories(data)
+        })()
         getUser();
     }, []);
 
@@ -100,10 +109,23 @@ const EditQue = (props) => {
                             required
                             value={updatedQue?.question}
                             onChange={handleChange}
-                            className="w-full flex-1 h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 text-gray-800 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
+                            className="w-full flex-1 h-12 px-4 mb-2 text-lg transition duration-200 bg-white border border-gray-300 text-gray-800 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
                         /> : <h1 className="flex-1"> {que?.question} </h1>
                         }
-                        <h2 className="flex-1 text-sm text-gray-100 capitalize"> {que?.category} </h2>
+                        {isQueEdit ?
+                            <select
+                                placeholder="category"
+                                type="text"
+                                name="category"
+                                required
+                                value={updatedQue?.category}
+                                onChange={handleChange}
+                                className="flex-grow w-full h-10 max-w-max capitalize px-4 mb-2 text-lg transition duration-200 bg-white text-gray-800 border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
+                            >
+                                <option value="" disabled>Choose a category</option>
+                                {categories?.map(item => <option key={item._id} value={item.category} className="capitalize">{item.category}</option>)}
+                            </select>
+                            : <h2 className="flex-1 text-sm text-gray-100 capitalize"> {que?.category} </h2>}
                     </div>
                     {props.from === 'queVerification' && <> <button className="px-4 py-1 mx-auto leading-loose btn-blue text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => updateStatus({ qstatus: 'verified' })}>{isVerify ? 'Wait...' : 'Set Verified'}</button>
                         <button className="px-4 py-1 mx-auto leading-loose bg-red-500 text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] ml-4 sm:ml-0" onClick={() => updateStatus({ qstatus: 'invalid' })} >{isInValid ? 'Wait...' : 'Set Invalid'}</button> </>}
