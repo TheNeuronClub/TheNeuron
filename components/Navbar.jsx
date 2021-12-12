@@ -99,7 +99,7 @@ function Navbar() {
                             :
                             <>
                                 <Link href="/account/register">
-                                    <button className="btn hidden md:inline-block cursor-pointer active:scale-95 transition-sm">Get Started</button>
+                                    <button className="btn hidden md:inline-block cursor-pointer active:scale-95 transition-sm">Sign Up</button>
                                 </Link>
                             </>
                     }
@@ -135,7 +135,7 @@ function Navbar() {
                                 <button onClick={logout} className="font-bold" > <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Logout</h1> </button>
                                 :
                                 <Link href="/account/register">
-                                    <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Get Started</h1>
+                                    <h1 className="text-gray-100 hover:text-white cursor-pointer transition-sm" onClick={() => setIsActive(false)} >Sign Up</h1>
                                 </Link>
                         }
                     </ul>
