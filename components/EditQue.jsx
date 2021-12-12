@@ -67,13 +67,13 @@ const EditQue = (props) => {
 
     const updateQuestion = async () => {
         setIsUpdating(true)
-        const { _id, question,category, reference } = updatedQue;
+        const { _id, question, category, reference } = updatedQue;
         const res = await fetch(`/api/question/update_que`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ _id, desc, reference, question,category, bidClosing: bidClosingDate, settlementClosing: settlementClosingDate })
+            body: JSON.stringify({ _id, desc, reference, question, category, bidClosing: bidClosingDate, settlementClosing: settlementClosingDate })
         })
         console.log(res.status)
         const response = await res.json();

@@ -5,11 +5,6 @@ import QuestionGroup from '../components/QuestionGroup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OnBoard from '../components/OnBoard'
-// import dynamic from 'next/dynamic'
-
-// const Header = dynamic(() => import('../components/Header'), {
-//   ssr: false
-// })
 
 export default function Home({ carouselList }) {
   const [onBoard, setOnBoard] = useState(false)

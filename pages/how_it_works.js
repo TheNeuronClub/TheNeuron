@@ -32,7 +32,7 @@ function how_it_works() {
             no: 1,
             img: "/images/works/c1.svg",
             heading: "Welcome Bonus",
-            desc: "When you join, we gift you 1000 coins as a welcome bonus. You can use these coins on TheNeuron.club to invest in questions. You can check your coin balance on top of the page"
+            desc: "When you join, we gift you 1000 coins as a welcome bonus. You can use these coins on TheNeuron.club to invest in questions. You can check your coin balance on top of the page. 1 US Dollar is equivalent to 100 Neuron coins"
         },
         {
             no: 2,

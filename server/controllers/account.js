@@ -33,13 +33,13 @@ const register = async (req, res) => {
                     }
 
                     const token = await userRegistered.generateAuthToken();
-                    const link = `${host}/account/verify?token=${token}`;
-                    const data = { subject: `Confirmation for TheNeuron.Club Account`, text: link, email: userRegistered.email, html: `Click <a href="${link}" target="_blank">Here</a>  to verify your account.` };
-                    if (!isVerified) {
-                        const result = await sendEMail(data);
-                        console.log(result);
-                    }
-                    res.status(200).send({ token: token });
+                    // const link = `${host}/account/verify?token=${token}`;
+                    // const data = { subject: `Confirmation for TheNeuron.Club Account`, text: link, email: userRegistered.email, html: `Click <a href="${link}" target="_blank">Here</a>  to verify your account.` };
+                    // if (!isVerified) {
+                    //     const result = await sendEMail(data);
+                    //     console.log(result);
+                    // }
+                    res.status(200).send({ token: token, newUser: true });
                 }
             } catch (error) {
                 console.log(error)

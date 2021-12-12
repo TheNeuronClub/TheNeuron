@@ -38,7 +38,7 @@ const OnBoardItem = ({ activeIndex, item }) => {
 const data = [
     { id: 1, imgSrc: '/images/onboard/1.png', text: `Check out live questions under the 'Explore' Tab. New questions are added daily` },
     { id: 2, imgSrc: '/images/onboard/2.png', text: `Make predictions on the event before the time runs out! Watch out for the question expiration deadline` },
-    { id: 3, imgSrc: '/images/onboard/3.png', text: `You receive a joining bonus of 1000 coins. 100 coins are equivalent to 1 USD. Continue earning coins with daily visits, referrals, completing challenges and weekly activity` },
+    { id: 3, imgSrc: '/images/onboard/3.png', text: `You receive a joining bonus of 1000 coins. 1 US Dollar is equivalent to 100 coins. Use your coins wisely as you can not buy more coins yet. We are working to allow you soon in future. Continue earning coins with daily visits, referrals, completing challenges and weekly activities.` },
     { id: 4, imgSrc: '/images/onboard/4.png', text: `Grow your coins with every prediction if your opinion turns out to be correct` },
     { id: 5, imgSrc: '/images/onboard/5.png', text: `We are in the Beta phase! Stay tuned for soon being able to convert coins into real money!` },
 ]
@@ -60,7 +60,7 @@ function OnBoard(props) {
     useEffect(() => {
         const timer = setTimeout(() => {
             activeIndex < data?.length - 1 ? setActiveIndex(activeIndex + 1) : setActiveIndex(0)
-        }, 10000);
+        }, 15000);
         setItem(data[activeIndex])
         return () => clearTimeout(timer);
     }, [activeIndex]);
