@@ -28,7 +28,7 @@ function Header({ carouselList }) {
                     variants={pageSlide}
                     transition={pageTransition} className="lg:w-1/2 xl:w-2/5 lg:pr-5 my-10 lg:my-0">
                     <h1 className='text-[40px] font-bold leading-tight max-w-xl mx-auto lg:mx-0 lg:max-w-md sm:text-5xl md:text-6xl lg:text-7xl'>Predict future and win rewards!</h1>
-                    <p className="py-4 text-base sm:text-lg max-w-2xl lg:max-w-lg xl:max-w-xl md:text-xl">The Neuron Club (TNC) is an online gaming platform that allows users to predict global events across categories and win rewards
+                    <p className="py-4 text-base sm:text-lg max-w-2xl lg:max-w-lg xl:max-w-xl md:text-xl">The Neuron Club (TNC) is an online gaming platform that allows users to predict global events across categories and win rewards.&nbsp;
                         {!session && <span>Signup today and earn Neuron coins worth $10 as a welcome bonus!</span>}
                     </p>
                     {session ?
