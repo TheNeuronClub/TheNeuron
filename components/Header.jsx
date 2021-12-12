@@ -37,7 +37,7 @@ function Header({ carouselList }) {
                         </Link>
                         :
                         <Link href="/account/register">
-                            <button className="btn-header mt-2">Signup Now</button>
+                            <button className="btn-header mt-2">Sign Up</button>
                         </Link>
                     }
                 </motion.div>
