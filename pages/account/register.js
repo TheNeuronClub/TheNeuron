@@ -51,9 +51,8 @@ function register({ referral_code }) {
         }
         else if (res.status == 200) {
             const response = await res.json();
-            console.log(response)
-            window.localStorage.setItem('neuron-token', response.token)
-            window.localStorage.setItem('neuron-newUser', response.newUser)
+            window.localStorage.setItem('neuron-token', JSON.stringify(response.token))
+            window.localStorage.setItem('neuron-newUser', JSON.stringify(response.newUser))
             router.push('/')
             // if (userData.image) {
             // }
