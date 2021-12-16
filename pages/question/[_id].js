@@ -197,25 +197,25 @@ function QuestionDetail({ questionData }) {
                                             <p className="pr-5 text-yellow-300">{Volume > 0 ? Math.round((Against * 100 / Volume)) : 0}% say no</p>
                                             <p className="pl-5 text-green-300">{Volume > 0 ? Math.round((Favour * 100 / Volume)) : 0}% say yes</p>
                                         </h2>
-                                        <div className="flex space-x-3 items-center justify-center lg:justify-start">
+                                        <div className="flex flex-wrap-reverse items-center justify-center lg:justify-start">
                                             {que?.qstatus === 'verified' ?
                                                 <>
-                                                    {que?.bidClosing < new Date().toISOString()
+                                                    {new Date(que?.bidClosing) < new Date(new Date().toISOString())
                                                         ?
                                                         session?.type === 'admin'
-                                                            ? <button className={`select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointerpointer`} onClick={() => setIsSettle(true)}>Settle This Question</button>
-                                                            : <button className="select-none btn-gray text-gray-500 cursor-not-allowed min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointer">Bidding Closed</button>
-                                                        : <button className="select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointer" onClick={() => setBidPlaceModal(true)}>Place a bid</button>
+                                                            ? <button className={`select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-2 sm:mr-3 cusor-pointerpointer`} onClick={() => setIsSettle(true)}>Settle Question</button>
+                                                            : <button className="select-none btn-gray text-gray-500 cursor-not-allowed min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-2 sm:mr-3 cusor-pointer">Bidding Closed</button>
+                                                        : <button className="select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-2 sm:mr-3 cusor-pointer" onClick={() => setBidPlaceModal(true)}>Place a bid</button>
                                                     }
                                                 </>
-                                                : <button className="select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-3 cusor-pointer" onClick={() => setIsUndoSettle(true)}>Undo Settlement</button>
+                                                : <button className="select-none btn-blue min-w-max px-5 py-2 text-lg font-medium rounded-3xl mr-2 sm:mr-3 cusor-pointer" onClick={() => setIsUndoSettle(true)}>Undo Settlement</button>
 
                                             }
 
                                             {
                                                 session?.type === 'admin' && <button className="select-none px-4 py-1 mx-auto min-w-[100px] leading-loose btn-orange text-white shadow text-lg rounded-3xl font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none" onClick={() => setIsQue(que)}>Edit</button>
                                             }
-                                            <button className="select-none inline-flex min-w-[100px] flex-1 items-center justify-end px-5 py-2 text-lg font-medium rounded-3xl cursor-pointer" onClick={() => setIsShare(true)}>Share <ShareIcon title="Share this Question" className="w-6 h-6 mx-1 sm:w-7 sm:h-7 text-white cursor-pointer" /></button>
+                                            <button className="select-none inline-flex min-w-[100px] flex-1 items-center justify-end px-5 py-2 text-lg font-medium rounded-3xl cursor-pointer" onClick={() => setIsShare(true)}>Share <ShareIcon title="Share this Question" className="w-6 h-6 mx-1 sm:w-7 sm:h-7 text-white cursor-pointer flex-shrink-0" /></button>
                                         </div>
                                     </motion.div>
 

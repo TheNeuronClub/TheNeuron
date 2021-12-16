@@ -30,7 +30,6 @@ function Question({ question }) {
     const [bidLimit, setBidLimit] = useState(false)
     const [bid, setBid] = useState(50)
     const [que, setQue] = useState(question)
-
     const handleBet = async () => {
         if (session && bidModal?.odd) {
             setIsSending(true)
@@ -81,7 +80,7 @@ function Question({ question }) {
                 </div>
                 <div className="py-5 font-medium h-full">
                     <h1 className="text-lg text-center mb-4 cursor-pointer line-clamp-3 h-[88px]" onClick={handleClick}>{question.question}</h1>
-                   {question?.qstatus ==='closed' 
+                   {question?.qstatus ==='closed' || new Date(question?.bidClosing) < new Date(new Date().toISOString())
                    ? <h1 className="text-lg text-center font-medium text-yellow-300">Bidding Closed</h1>
                    : <div className="flex justify-around items-center text-lg">
                         <div className="flex flex-col items-center justify-center">
