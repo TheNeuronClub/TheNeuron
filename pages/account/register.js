@@ -97,7 +97,7 @@ function register({ referral_code }) {
                         <Link href="/">
                             <div className="absolute top-5 left-5 cursor-pointer">
                                 <div className="relative h-12 w-48">
-                                    <Image src="/images/logo.png" layout="fill" objectFit="contain" className="drop-shadow-md overflow-hidden" />
+                                    <Image src="/images/beta-logo.png" layout="fill" objectFit="contain" className="drop-shadow-md overflow-hidden" />
                                 </div>
                             </div>
                         </Link>

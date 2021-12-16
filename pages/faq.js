@@ -24,6 +24,27 @@ function faq() {
             title: `How is Neuron different from a stock trading platform?`,
             content: `Our vision for TheNeruon.club is to develop it along the lines of a stock trading platform and offer users similar functionalities. The Neuron platform allows users to trade on the outcome of events beyond the business domain, thus offering a much wider scope of services`
         },
+        {
+            title: `What is the signup offer?`,
+            content: `When you join, we gift you 1000 coins worth $10 as a welcome bonus. You can use these coins on TheNeuron.club to invest in questions. You can check your coin balance on top of the page.`
+        },
+        {
+            title: `What are neuron.club points?`,
+            content: ` Neuron.club points is currency which you can use on Neuron.club to invest. 100 coins are equivalent of 1$`
+        },
+        {
+            title: `How can I convert coins to money?`,
+            content: `We will soon begin supporting converting coins to money. Meanwhile, please continue to bet and earn more coins`
+        },
+        {
+            title: `How can I add coins to my wallet?`,
+            content: `We will soon begin supporting addition of coins to the wallet. Currently, you can earn more coins by logging in daily, and doing additional transactions.`
+        },
+        {
+            title: `How can I earn more coins?`,
+            content: `Firstly, you can earn more coins when you predict correctly. Secondly, we continue to provide you additional coins for certain activities -`,
+            desc: [`You earn 100 coins every day you visit TheNeuron.club`, `You earn 200 coins when you do your first investment on any question`, `You earn 500 coins every time you invest in at least 3 questions in a week`]
+        },
 
     ];
     return (
