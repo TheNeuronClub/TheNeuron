@@ -81,7 +81,7 @@ const EditQue = (props) => {
             setIsQueEdit(false);
             setQue(response)
             if (props.from === 'queDetail') {
-                props.updateQues(que)
+                props.updateQues(response)
                 props.setIsQue(null)
             }
         }
