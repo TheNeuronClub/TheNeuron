@@ -57,7 +57,7 @@ function portfolio() {
                             variants={pageZoom}
                             transition={pageTransition} className="max-w-xs gradient-shadow bg-gray-200 bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-xl p-6 m-2 space-y-2 border-b-4 invest__border">
                             <h1 className="font-semibold text-2xl text-white">Investment</h1>
-                            <h2 className="text-xl text-gray-200 inline-flex items-center"><Coin width="5" height="5" />{investment?.total}</h2>
+                            <h2 className="text-xl text-gray-200 inline-flex items-center"><Coin width="5" height="5" />{investment?.total?.toFixed(2)}</h2>
                         </motion.div>
                         <motion.div initial="initial"
                             animate="in"
@@ -65,7 +65,7 @@ function portfolio() {
                             variants={pageZoom}
                             transition={pageTransition} className="max-w-xs gradient-shadow bg-green-200 bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-xl p-6 m-2 space-y-2 border-b-4 win__border">
                             <h1 className="font-semibold text-2xl text-white">Net Returns</h1>
-                            <h2 className="text-xl text-gray-200 inline-flex items-center"><Coin width="5" height="5" />{userData?.earning || '0'}</h2>
+                            <h2 className="text-xl text-gray-200 inline-flex items-center"><Coin width="5" height="5" />{userData?.earning?.toFixed(2) || '0'}</h2>
                         </motion.div>
                         {/* <motion.div initial="hidden"
                             animate="visible"
@@ -80,7 +80,7 @@ function portfolio() {
                             variants={pageZoom}
                             transition={pageTransition} className="max-w-xs gradient-shadow bg-blue-200 bg-opacity-20 backdrop-filter backdrop-blur-sm rounded-xl p-6 m-2 space-y-2 border-b-4 balance__border">
                             <h1 className="font-semibold text-2xl text-white">Balance</h1>
-                            <h2 className="text-xl text-gray-200 inline-flex items-center"><Coin width="5" height="5" />{userData?.balance}</h2>
+                            <h2 className="text-xl text-gray-200 inline-flex items-center"><Coin width="5" height="5" />{userData?.balance?.toFixed(2)}</h2>
                         </motion.div>
                         <div className="hidden xl:inline-block col-span-2 md:col-span-1 m-2">
                             <motion.div initial="initial"
