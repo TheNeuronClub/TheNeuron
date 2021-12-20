@@ -9,7 +9,7 @@ export const userBalance = createSlice({
     initialState,
     reducers: {
         updateAmount: (state, action) => {
-            state.balance = action.payload?.toFixed(2);
+            state.balance = Math.round(action.payload);
         },
     }
 });
