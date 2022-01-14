@@ -24,7 +24,7 @@ handler.post(async (req, res) => {
         const result = await uploader.upload(file)
         if (result) {
             const image_url = result.secure_url
-            const bids = { Favour: getRandom(2, 5) * getRandom(400, 500), Against: getRandom(2, 5) * getRandom(400, 500) }
+            const bids = { Favour: getRandom(50, 100), Against: getRandom(50, 100) }
             const questionCreated = new Question({ ...req.body, ...bids, Volume: bids.Favour + bids.Against, image_url });
             const saveQuestion = await questionCreated.save();
             if (!saveQuestion) {
