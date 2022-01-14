@@ -36,8 +36,9 @@ const dailyVisit = async (req, res) => {
 
 const userQuestions = async (req, res) => {
     try {
-        const getQuestions = await Question.find({ qstatus: 'verified' }).sort({ settlementClosing: 1 });
-        res.status(200).send(getQuestions)
+        const getValidQ = await Question.find({ qstatus: 'verified', userId: req.query._id }).sort({ settlementClosing: 1 });
+        const getInvalidQ = await Question.find({ qstatus: 'invalid', userId: req.query._id });
+        res.status(200).send({ getInvalidQ, getValidQ })
     } catch (error) {
         res.status(400).send({ msg: 'unable to get question' })
     }

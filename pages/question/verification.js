@@ -23,7 +23,6 @@ function verification({ data }) {
     const [queList, setQueList] = useState(data ? [...data] : null);
 
     const updateQues = async ({ _id }) => {
-
         const index = queList.findIndex((q) => q._id == _id)
         if (index >= 0) {
             queList.splice(index, 1)

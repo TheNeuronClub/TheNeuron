@@ -129,6 +129,7 @@ const EditQue = (props) => {
                     </div>
                     {props.from === 'queVerification' && <> <button className="px-4 py-1 mx-auto leading-loose btn-blue text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => updateStatus({ qstatus: 'verified' })}>{isVerify ? 'Wait...' : 'Set Verified'}</button>
                         <button className="px-4 py-1 mx-auto leading-loose bg-red-500 text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] ml-4 sm:ml-0" onClick={() => updateStatus({ qstatus: 'invalid' })} >{isInValid ? 'Wait...' : 'Set Invalid'}</button> </>}
+                    {props.from === 'user' && <button className="btn-orange px-4 py-1 mx-auto leading-loose text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] ml-4 sm:ml-0" onClick={() => updateStatus({ qstatus: 'created' })} >{isInValid ? 'Wait...' : 'Re-Post'}</button>}
                 </div>
                 <div className="font-medium text-white text-center sm:text-left space-y-4 sm:space-y-0 text-lg sm:flex flex-wrap items-center justify-around sm:space-x-4 p-5">
                     <div>

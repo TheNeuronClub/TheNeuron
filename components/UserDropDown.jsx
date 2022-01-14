@@ -83,7 +83,7 @@ function UserDropDown({ session }) {
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/question/verification')}><CubeIcon className="w-6 h-6 mr-1 text-gray-700" />Que's Verification</li>
                         }
                         {session?.type === 'admin' &&
-                            <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/question/settled')}><ViewListIcon className="w-6 h-6 mr-1 text-gray-700" />Settled Ques</li>
+                            <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/question/settled')}><ViewListIcon className="w-6 h-6 mr-1 text-gray-700" />Past Ques</li>
                         }
                         {session?.type === 'admin' &&
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/setting')}><CogIcon className="w-6 h-6 mr-1 text-gray-700" />Setting</li>

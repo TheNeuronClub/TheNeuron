@@ -14,13 +14,18 @@ const dUri = new DatauriParser();
 
 const dataUri = req => dUri.format(`.${req.file.originalname.split('.').pop()}`, req.file.buffer);
 
+function getRandom(min, max) {
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 handler.post(async (req, res) => {
     if (req.file) {
         const file = dataUri(req).content;
         const result = await uploader.upload(file)
         if (result) {
             const image_url = result.secure_url
-            const questionCreated = new Question({ ...req.body, image_url });
+            const bids = { Favour: getRandom(2, 5) * getRandom(400, 500), Against: getRandom(2, 5) * getRandom(400, 500) }
+            const questionCreated = new Question({ ...req.body, ...bids, Volume: bids.Favour + bids.Against, image_url });
             const saveQuestion = await questionCreated.save();
             if (!saveQuestion) {
                 console.log('unable to add question')

@@ -5,6 +5,14 @@ import Coin from "./Coin";
 import { PencilIcon, CheckIcon, XIcon } from "@heroicons/react/solid";
 import { useRef, useEffect, useState } from "react";
 import Question from "./Question";
+import { container, item, pageTransition } from '../util'
+import { motion } from 'framer-motion'
+import dynamic from 'next/dynamic'
+
+const EditQue = dynamic(() => import('./EditQue'), {
+    ssr: false,
+    loading: () => <p className="text-gray-200">Loading ...</p>,
+})
 
 function Profile() {
     const session = userSession();
@@ -62,21 +70,42 @@ function Profile() {
         }
     }
 
-    const [userQuestions, setUserQuestions] = useState()
+    const [userQuestions, setUserQuestions] = useState([])
+    const [isUserQue, setIsUserQue] = useState(false)
+
+    const [invalidQuestions, setInvalidQuestions] = useState([])
+    const [isInvalidQue, setIsInvalidQue] = useState(false)
+    const [isQue, setIsQue] = useState(null);
+
 
     const getQuestion = async () => {
-        const res = await fetch(`/api/question/ques?type=expiring`);
+        const res = await fetch(`/api/user/questions?_id=${session?._id}`);
         console.log(res.status)
         const response = await res.json();
-        setUserQuestions(response)
+        if (res.status == 200) {
+            setUserQuestions(response.getValidQ)
+            setInvalidQuestions(response.getInvalidQ)
+        }
     }
+
     useEffect(() => {
         getQuestion();
     }, []);
 
+    const updateQues = async ({ _id }) => {
+        const index = invalidQuestions.findIndex((q) => q._id == _id)
+        if (index >= 0) {
+            invalidQuestions.splice(index, 1)
+        } else {
+            console.warn(`Can't verify question`)
+        }
+        setInvalidQuestions([...invalidQuestions]);
+    }
+
 
     return (
         <>
+            {isQue && <EditQue queData={isQue} setIsQue={setIsQue} updateQues={updateQues} from="user" />}
             <div className="min-h-[220px] w-full max_w_3xl relative blur-blue">
                 <div className="w-full h-48 rounded-full absolute -bottom-20 transform left-1/2 -translate-x-1/2 flex flex-col justify-center items-center">
                     <div className="relative p-2 rounded-full bg-white">
@@ -132,19 +161,47 @@ function Profile() {
             {session?.type === 'admin' &&
                 <>
                     <hr className=" border-t-2 rounded-lg w-4/5 mx-auto" />
-                    <div className={`p-5 py-10 sm:p-10 xl:px-20 min-w-full mx-auto`}>
-                        {userQuestions?.length <= 0 && <h1 className="text-3xl lg:text-4xl 2xl:text-5xl my-6 font-semibold text-white text-center">You've not contributed any question yet.</h1>}
+                    <motion.div initial="hidden"
+                        animate="visible"
+                        variants={container}
+                        transition={pageTransition} className={`p-5 pb-10 sm:p-10 xl:px-20 min-w-full mx-auto`}>
+                        {/* {invalidQuestions?.length <= 0 && <h1 className="text-3xl lg:text-4xl 2xl:text-5xl my-6 font-semibold text-white text-center">You've not contributed any question yet.</h1>} */}
+                        {invalidQuestions?.length > 0 &&
+                            <>
+                                <div className='flex items-center justify-between text-white py-4 pr-5 xl:px-10 cursor-pointer' onClick={() => setIsInvalidQue(!isInvalidQue)}>
+                                    <h1 className="text-2xl sm:text-3xl font-semibold  text-white">Rejected Questions</h1>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-7 w-7 ${isInvalidQue && 'rotate-180'} transition-all duration-300 ease-in-out`} viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                {isInvalidQue && <>{invalidQuestions?.map(que => (
+                                    <motion.div initial="hidden" animate="visible" variants={item} key={que?._id} className="w-full blur-blue text-white max-w-7xl mx-auto text-lg sm:text-xl font-medium p-5 px-10 flex space-x-2 sm:space-x-4 items-center relative rounded-lg gradient-shadow my-2">
+                                        <img src={que?.image_url} alt="" className="w-12 h-12 shadow-lg border border-white hover:scale-105 transition-md object-cover rounded-full" />
+                                        <div className="my-3 sm:my-0 flex-1">
+                                            <h1 className="flex-1 line-clamp-1"> {que?.question} </h1>
+                                            <h2 className="flex-1 text-sm text-gray-100 capitalize"> {que?.category} </h2>
+                                        </div>
+                                        <button className="px-4 py-1 mx-auto leading-loose btn-orange text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => setIsQue(que)}>Edit</button>
+                                    </motion.div>
+                                ))}</>}
+                            </>
+                        }
                         {userQuestions?.length > 0 &&
                             <>
-                                <h1 className="text-2xl sm:text-3xl font-semibold  text-white my-6 sm:px-5">My Questions</h1>
-                                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 gap-y-8 place-items-center items-stretch question__group">
+                                <div className='flex items-center justify-between text-white py-4 pr-5 mt-8 xl:px-10 cursor-pointer' onClick={() => setIsUserQue(!isUserQue)}>
+                                    <h1 className="text-2xl sm:text-3xl font-semibold  text-white">Verified Questions</h1>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className={`h-7 w-7 ${isUserQue && 'rotate-180'} transition-all duration-300 ease-in-out`} viewBox="0 0 20 20" fill="currentColor">
+                                        <path fillRule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clipRule="evenodd" />
+                                    </svg>
+                                </div>
+                                {isUserQue && <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 gap-y-8 place-items-center items-stretch question__group">
                                     {userQuestions?.map(item => (
                                         <Question key={item?._id} question={item} />
                                     ))}
-                                </div>
+                                </div>}
                             </>
                         }
-                    </div>
+                    </motion.div>
                 </>
             }
         </>
