@@ -19,7 +19,7 @@ const userSchema = new mongoose.Schema({
     },
     balance: {
         type: Number,
-        default: 1000
+        default: 200
     },
     earning: {
         type: Number,
@@ -54,7 +54,7 @@ const userSchema = new mongoose.Schema({
     },
     notification: {
         type: Array,
-        default: ["🦄 Wow, You've won 1000 Neuron coins! 🥳"]
+        default: ["🦄 Wow, You've won 200 Neuron coins! 🥳"]
     },
     Tokens: [{
         token: {

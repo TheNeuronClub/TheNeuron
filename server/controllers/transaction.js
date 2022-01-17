@@ -10,13 +10,14 @@ const question = async (req, res) => {
         const createTransaction = new Transaction({ userId, amount: bid, questionId: _id, question, category, odd, settlementClosing, image_url });
         const transactionRegistered = await createTransaction.save();
         if (transactionRegistered) {
-            const getTransaction = await Transaction.find({ userId: userId }).countDocuments();
-            const thirdTransaction = getTransaction % 3 === 0 || getTransaction === 0;
+            // const getTransaction = await Transaction.find({ userId: userId }).countDocuments();
+            // const thirdTransaction = getTransaction % 3 === 0 || getTransaction === 0;
+            const thirdTransaction = false;
             const reductionAmount = thirdTransaction ? bid - 200 : bid;
             const updatedUser = await User.findOneAndUpdate({ _id: userId }, { $inc: { balance: -reductionAmount }, $push: { notification: `You've spent, ${bid} coins on ${moment(transactionRegistered?.createdAt).format('ll')}` } }, { new: true });
-            if (thirdTransaction) {
-                const updateUserNotification = await User.findOneAndUpdate({ _id: userId }, { $push: { notification: `You've earned 200 coins on ${moment(transactionRegistered?.createdAt).format('ll')} for making the golden transaction 🥳` } }, { new: true });
-            }
+            // if (thirdTransaction) {
+            //     const updateUserNotification = await User.findOneAndUpdate({ _id: userId }, { $push: { notification: `You've earned 200 coins on ${moment(transactionRegistered?.createdAt).format('ll')} for making the golden transaction 🥳` } }, { new: true });
+            // }
             if (updatedUser) {
                 const updatedq = odd == 'Favour' ? await Question.updateOne({ _id: _id }, { $inc: { Volume: bid, Favour: bid } }, { new: true }) : await Question.updateOne({ _id: _id }, { $inc: { Volume: bid, Against: bid } }, { new: true });
                 if (updatedq) {

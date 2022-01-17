@@ -5,6 +5,7 @@ import QuestionGroup from '../components/QuestionGroup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OnBoard from '../components/OnBoard'
+// import HomeSection from '../components/Home';
 
 export default function Home({ carouselList }) {
   const [onBoard, setOnBoard] = useState(false)
@@ -24,7 +25,7 @@ export default function Home({ carouselList }) {
   useEffect(() => {
     const data = JSON.parse(window.localStorage.getItem('neuron-newUser'));
     if (data === true) {
-      toast("🦄 Wow, You've won 1000 Neuron coins! 🥳", {
+      toast("🦄 Wow, You've won 200 Neuron coins! 🥳", {
         position: "top-center",
         autoClose: 100000,
         hideProgressBar: false,
@@ -52,6 +53,7 @@ export default function Home({ carouselList }) {
           <link rel="icon" href="/favicon.png" />
         </Head>
         <Header carouselList={carouselList} />
+        {/* <HomeSection /> */}
         <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
         <QuestionGroup questions={questions?.newest} category={"New Topics"} />
       </div>

@@ -58,11 +58,11 @@ function Navbar() {
         }
     }
 
-    useEffect(() => {
-        if (session) {
-            checkDailyVisit()
-        }
-    }, [session])
+    // useEffect(() => {
+    //     if (session) {
+    //         checkDailyVisit()
+    //     }
+    // }, [session])
 
 
     return (
