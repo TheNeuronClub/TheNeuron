@@ -5,7 +5,7 @@ const questionSchema = new mongoose.Schema({
         type: String,
     },
     userId: {
-        type: String,
+        type: mongoose.ObjectId,
         required: true,
     },
     category: {
@@ -29,17 +29,17 @@ const questionSchema = new mongoose.Schema({
     },
     Favour: {
         type: Number,
-        default:0
+        default: 0
     },
     Against: {
         type: Number,
-        default:0
+        default: 0
     },
     qstatus: {
         type: String,
     },
     options: {
-        type: Array
+        type: Object
     },
     reference: {
         type: String

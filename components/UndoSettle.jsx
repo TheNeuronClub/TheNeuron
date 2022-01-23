@@ -48,7 +48,7 @@ export const UndoSettle = ({ queId, finalResult, setIsUndoSettle, setQue }) => {
                             onChange={(e) => setReason(e.target.value)} ref={otherRef} name="reason" />
                         <div onClick={() => otherRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-red hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-max mx-4 ${reason == 'other' && 'btn-red text-white'} cursor-pointer`}>Other Reason</div>
                     </div>
-                <h1 className="text-gray-50 text-lg lg:text-xl font-medium">Mention Reason for Undo Settlement</h1>
+                <h1 className="text-gray-50 text-lg lg:text-xl font-medium mt-2">Mention Reason for Undo Settlement</h1>
                     <textarea className="blur-gray rounded border border-gray-300 leading-normal resize-none w-full h-20 py-2 px-3 placeholder-gray-100 text-gray-50 focus:outline-none focus:bg-transparent sm:min-w-[300px]" name="message" value={message} placeholder='Reason, to be recieved by the users' minLength="1" required onChange={(e) => setMessage(e.target.value)}></textarea>
                     <div className="flex items-center justify-around mt-6">
                         <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose text-gray-50 border border-gray-50 hover:bg-gray-50 hover:text-gray-800 shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => setIsUndoSettle(false)}>{'Cancel'}</button>

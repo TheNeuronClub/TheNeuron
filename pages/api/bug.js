@@ -16,7 +16,7 @@ const dataUri = req => dUri.format(`.${req.file.originalname.split('.').pop()}`,
 handler.post(async (req, res) => {
     if (req.file) {
         const file = dataUri(req).content;
-        const result = await uploader.upload(file)
+        const result = await uploader.upload(file,{folder: 'neuronBugs'})
         if (result) {
             const image_url = result.url
             const bugReportCreated = new Bug({ ...req.body, image_url });

@@ -82,7 +82,7 @@ function Navbar() {
                     </div>
                 </Link>
                 <div className="flex items-center">
-                    <ul className="flex hidden md:block space-x-5 pr-6 font-medium text-lg">
+                    <ul className="flex hidden md:block space-x-5 pr-6 font-medium text-lg 2xl:text-xl">
                         <Link href="/question/">Explore</Link>
                         {session?.type === 'admin' && <Link href="/create_question">Create Question</Link>}
                         <Link href="/how_it_works">How it Works</Link>

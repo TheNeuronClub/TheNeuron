@@ -16,7 +16,7 @@ const dataUri = req => dUri.format(`.${req.file.originalname.split('.').pop()}`,
 handler.post(async (req, res) => {
     if (req.file) {
         const file = dataUri(req).content;
-        const result = await uploader.upload(file)
+        const result = await uploader.upload(file, { folder: 'carousel' })
         if (result) {
             const imgSrc = result.secure_url
             const carouselData = new Header({ ...req.body, imgSrc });

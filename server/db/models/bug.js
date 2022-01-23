@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const bugSchema = new mongoose.Schema({
     userId: {
-        type: String
+        type: mongoose.ObjectId
     },
     issue : {
         type: String,

@@ -20,7 +20,7 @@ function Question({ question }) {
     }
     const session = userSession()
     const dispatch = useDispatch()
-    const [bidModal, setBidModal] = useState({ state: false, odd: null })
+    const [bidModal, setBidModal] = useState({ state: false, odd: null, optionId: null })
 
     const amount = useSelector(balance)
     const [isBidPlaced, setIsBidPlaced] = useState(false)
@@ -30,6 +30,7 @@ function Question({ question }) {
     const [bidLimit, setBidLimit] = useState(false)
     const [bid, setBid] = useState(50)
     const [que, setQue] = useState(question)
+
     const handleBet = async () => {
         if (session && bidModal?.odd) {
             setIsSending(true)
@@ -40,13 +41,13 @@ function Question({ question }) {
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ bid, _id, userId: session?._id, question, image_url, category, odd: bidModal?.odd, settlementClosing })
+                    body: JSON.stringify({ bid, _id, userId: session?._id, question, image_url, category, optionId: bidModal?.optionId, odd: bidModal?.odd, settlementClosing })
                 })
                 console.log(res.status)
                 const response = await res.json();
                 if (res.status == 201 || res.status == 203) {
                     dispatch(updateBalance(amount - response?.reductionAmount))
-                    setBidModal({ state: false, odd: null })
+                    setBidModal({ state: false, odd: null, optionId: null })
                     setIsBidPlaced(true)
                 }
             }
@@ -80,18 +81,23 @@ function Question({ question }) {
                 </div>
                 <div className="py-5 font-medium h-full">
                     <h1 className="text-lg text-center mb-4 cursor-pointer line-clamp-3 h-[88px]" onClick={handleClick}>{question.question}</h1>
-                   {question?.qstatus ==='closed' || new Date(question?.bidClosing) < new Date(new Date().toISOString())
-                   ? <h1 className="text-lg text-center font-medium text-yellow-300">Bidding Closed</h1>
-                   : <div className="flex justify-around items-center text-lg">
-                        <div className="flex flex-col items-center justify-center">
-                            <button className="font-semibold btn-blue rounded-3xl py-2 px-6 mb-2" onClick={() => session ? setBidModal({ state: true, odd: 'Favour' }) : setIsLoggedIn(true)}>Yes</button>
-                            <h1 className="font-normal text-center leading-none">{question?.Favour > 0 ? Math.round((question?.Favour * 100 / question.Volume)) : 0}%<br />says yes</h1>
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <button className="font-semibold btn-orange rounded-3xl py-2 px-6 mb-2" onClick={() => session ? setBidModal({ state: true, odd: 'Against' }) : setIsLoggedIn(true)}>No</button>
-                            <h1 className="font-normal text-center leading-none">{question?.Against > 0 ? Math.round((question?.Against * 100 / question.Volume)) : 0}%<br />says no</h1>
-                        </div>
-                    </div>}
+                    {question?.qstatus === 'closed' || new Date(question?.bidClosing) < new Date(new Date().toISOString())
+                        ? <h1 className="text-lg text-center font-medium text-yellow-300">Bidding Closed</h1>
+                        : <div className="flex justify-around items-center text-lg">
+                            {question?.options?.length > 0 && question?.options?.map((option, i) => <div className="flex flex-col items-center justify-center">
+                                <button className={`font-semibold ${i == 0 ? 'btn-blue' : 'btn-orange'} rounded-3xl py-2 px-6 mb-2 capitalize`} onClick={() => session ? setBidModal({ state: true, odd: option.name, optionId: option.optionId }) : setIsLoggedIn(true)}>{option.name}</button>
+                                <h1 className="font-normal text-center leading-none">{option.value > 0 ? Math.round((option.value * 100 / question.Volume)) : 0}%<br />says {option.name}</h1>
+                            </div>)}
+
+                            {/* <div className="flex flex-col items-center justify-center">
+                                <button className="font-semibold btn-blue rounded-3xl py-2 px-6 mb-2" onClick={() => session ? setBidModal({ state: true, odd: 'Favour' }) : setIsLoggedIn(true)}>Yes</button>
+                                <h1 className="font-normal text-center leading-none">{question?.Favour > 0 ? Math.round((question?.Favour * 100 / question.Volume)) : 0}%<br />says yes</h1>
+                            </div>
+                            <div className="flex flex-col items-center justify-center">
+                                <button className="font-semibold btn-orange rounded-3xl py-2 px-6 mb-2" onClick={() => session ? setBidModal({ state: true, odd: 'Against' }) : setIsLoggedIn(true)}>No</button>
+                                <h1 className="font-normal text-center leading-none">{question?.Against > 0 ? Math.round((question?.Against * 100 / question.Volume)) : 0}%<br />says no</h1>
+                            </div> */}
+                        </div>}
                 </div>
             </motion.div>
 
@@ -111,10 +117,10 @@ function Question({ question }) {
                             <input type="number" min="1" minLength="1" maxLength="10000" max="10000" value={bid} onChange={checkBid} className="border border-gray-800 font-semibold text-blue-400 text-center text-xl lg:text-2xl rounded focus:outline-none" />
                             <PlusIcon className="w-7 h-7 p-1 font-semibold bg-gray-50 text-gray-800 rounded-full cursor-pointer shadow-lg hover:scale-[1.03] active:scale-[0.99]" onClick={() => { bid < 9951 && setBid(+bid + +50); setLowBalance(false); setBidLimit(false) }} />
                         </div>
-                        <h1 className="font-medium text-gray-50 text-xl lg:text-2xl flex items-center justify-center flex-wrap">You're placing a bid of &nbsp;<span className="text-blue-400 inline-flex items-center"><Coin width="4" height="4" />{bid}</span>&nbsp;in <span className="text-blue-400 capitalize">{bidModal?.odd}</span> </h1>
+                        <h1 className="font-medium text-gray-50 text-xl lg:text-2xl flex items-center justify-center flex-wrap">You're placing a bid of &nbsp;<span className="text-blue-400 inline-flex items-center"><Coin width="4" height="4" />{bid}</span>&nbsp;in&nbsp;<span className="text-blue-400 capitalize">{bidModal?.odd}</span> </h1>
                     </div>
                     <div className="flex items-center justify-around mt-6">
-                        <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose text-gray-50 border border-gray-50 hover:bg-gray-50 hover:text-gray-800 shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" disabled={isSending} onClick={() => setBidModal({ state: false, odd: null })}>{'Cancel'}</button>
+                        <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose text-gray-50 border border-gray-50 hover:bg-gray-50 hover:text-gray-800 shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" disabled={isSending} onClick={() => setBidModal({ state: false, odd: null, optionId: null })}>{'Cancel'}</button>
                         <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose btn-blue text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={handleBet} disabled={isSending}>{isSending ? 'Wait..' : 'Place Bid'}</button>
                     </div>
                 </div>

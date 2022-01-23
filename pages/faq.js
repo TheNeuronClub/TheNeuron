@@ -5,7 +5,7 @@ function faq() {
     const accordionData = [
         {
             title: 'What is the Neuron Club?',
-            content: `Neuron Club is an application designed for those who are proud to have an opinion. This is a financial exchange for users to trade on opinions regarding the outcome of events of interest`
+            content: `The Neuron Coin is our in-game currency, used for making transactions on the platform. Neuron Coin is pegged to US Dollar and 1 USD is equivalent to 100 Neuron Coins`
         },
         {
             title: `How does Neuron Club work?`,
@@ -26,11 +26,19 @@ function faq() {
         },
         {
             title: `What is the signup offer?`,
-            content: `When you join, we gift you 1000 coins worth $10 as a welcome bonus. You can use these coins on TheNeuron.club to invest in questions. You can check your coin balance on top of the page.`
+            content: `When you join, we gift you 200 coins worth $2 as a welcome bonus. You can use these coins on TheNeuron.club to invest in questions. You can check your coin balance on top of the page.`
         },
         {
             title: `What are neuron.club points?`,
             content: ` Neuron.club points is currency which you can use on Neuron.club to invest. 100 coins are equivalent of 1$`
+        },
+        {
+            title: `How to submit a question`,
+            content: `Glad to hear of your interest ! Have a great topic /question to add - share with us and you can earn a share of investment pool on your question. Please Go to the contact us page, and share your question with us. We will be in touch `
+        },
+        {
+            title: `Who can submit a question`,
+            content: ` Everyone is welcome to submit a new question. If you are someone who is ahead of the trends and can shape opinions, write to us expressing your interest and suggested questions to add `
         },
         {
             title: `How can I convert coins to money?`,
@@ -41,9 +49,9 @@ function faq() {
             content: `We will soon begin supporting addition of coins to the wallet. Currently, you can earn more coins by logging in daily, and doing additional transactions.`
         },
         {
-            title: `How can I earn more coins?`,
-            content: `Firstly, you can earn more coins when you predict correctly. Secondly, we continue to provide you additional coins for certain activities -`,
-            desc: [`You earn 100 coins every day you visit TheNeuron.club`, `You earn 200 coins when you do your first investment on any question`, `You earn 500 coins every time you invest in at least 3 questions in a week`]
+            title: `How do i withdraw money?`,
+            content: `Simply fill the withdrawal request form with your details. Withdrawals are processed within 2 working days.`,
+            desc: [`97% requests are fulfilled within 24 hours`]
         },
 
     ];

@@ -6,7 +6,7 @@ const queComment = new mongoose.Schema({
         required: true
     },
     userId: {
-        type: String,
+        type: mongoose.ObjectId,
         required: true
     },
     name : {

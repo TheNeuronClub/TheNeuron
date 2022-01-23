@@ -43,7 +43,7 @@ export const ConfirmBox = ({ queId, finalResult, setConfirm, setIsSettle, setQue
     )
 }
 
-function Settlement({ isSettle, setIsSettle, queId, setQue }) {
+function Settlement({ isSettle, setIsSettle, que, setQue }) {
     const [result, setResult] = useState('')
     const [confirm, setConfirm] = useState(false)
 
@@ -60,8 +60,10 @@ function Settlement({ isSettle, setIsSettle, queId, setQue }) {
                         Please Choose one of the option for settlement
                     </h1>
                     <div className="w-full text-center">
-                        <button onClick={() => setResult('Favour')} className={`px-4 py-2 leading-loose text-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${result == 'Favour' && 'btn-blue text-white'} cursor-pointer`}>Yes</button>
-                        <button onClick={() => setResult('Against')} className={`px-4 py-2 leading-loose text-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${result == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</button>
+                        {que?.options?.map(item => 
+                        <button onClick={() => setResult(`${item.name}`)} className={`px-4 py-2 leading-loose text-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${result == item.name && 'btn-blue text-white'} cursor-pointer`}>{item.name}</button>
+                            )}
+                        {/* <button onClick={() => setResult('Against')} className={`px-4 py-2 leading-loose text-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${result == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</button> */}
                     </div>
                     <div className="flex items-center justify-around mt-10">
                         <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose text-gray-50 border border-gray-50 hover:bg-gray-50 hover:text-gray-800 shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => setIsSettle(false)}>{'Cancel'}</button>
@@ -71,7 +73,7 @@ function Settlement({ isSettle, setIsSettle, queId, setQue }) {
             </motion.div>}
 
             {
-                confirm && <ConfirmBox queId={queId} finalResult={result} setConfirm={setConfirm} setIsSettle={setIsSettle} setQue={setQue} />
+                confirm && <ConfirmBox queId={que?._id} finalResult={result} setConfirm={setConfirm} setIsSettle={setIsSettle} setQue={setQue} />
             }
         </>
     )

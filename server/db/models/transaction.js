@@ -2,10 +2,10 @@ import mongoose from 'mongoose';
 
 const transactionSchema = new mongoose.Schema({
     userId: {
-        type: String
+        type: mongoose.ObjectId
     },
     questionId: {
-        type: String
+        type: mongoose.ObjectId
     },
     amount: {
         type: Number
@@ -30,7 +30,7 @@ const transactionSchema = new mongoose.Schema({
         type: String
     },
     settlementClosing: {
-        type: String
+        type: Date
     }
 }, { timestamps: true })
 

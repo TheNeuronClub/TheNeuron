@@ -35,12 +35,8 @@ function QuestionDetail({ questionData }) {
     const [lowBalance, setLowBalance] = useState(false)
     const [bidLimit, setBidLimit] = useState(false)
     const [bid, setBid] = useState(50)
-    const [bidData, setBidData] = useState({
-        Volume: questionData?.Volume,
-        Favour: questionData?.Favour,
-        Against: questionData?.Against,
-    })
-    const [odd, setOdd] = useState('Favour')
+    const [options, setOptions] = useState(questionData?.options[0])
+    const [odd, setOdd] = useState(options.name)
     const [isShare, setIsShare] = useState(false)
     const [isSending, setIsSending] = useState(false)
     const [que, setQue] = useState(questionData);
@@ -59,7 +55,7 @@ function QuestionDetail({ questionData }) {
             if (res.status == 200) {
                 const response = await res.json();
                 setUserInfo(response)
-            }else{
+            } else {
                 setUserInfo(null)
             }
         }
@@ -68,22 +64,19 @@ function QuestionDetail({ questionData }) {
         getUserInfo();
     }, [])
 
-    let { Volume, Favour, Against } = bidData
+    let { Volume } = que || questionData
     const handleBet = async () => {
         if (session) {
             setIsActive(false)
             setIsSending(true)
             if (amount > 0 && amount >= bid) {
-                Volume = Volume + bid
-                odd == 'Favour' ? Favour = Favour + bid : Against = Against + bid;
-
                 const { _id, question, category, settlementClosing, image_url } = que
                 const res = await fetch(`/api/transaction/question`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ bid, _id, userId: session?._id, question, image_url, category, odd, settlementClosing })
+                    body: JSON.stringify({ bid, _id, userId: session?._id, question, image_url, category, odd, optionId: options.optionId, settlementClosing })
                 })
                 console.log(res.status)
                 const response = await res.json();
@@ -91,11 +84,6 @@ function QuestionDetail({ questionData }) {
                     dispatch(updateBalance(amount - response?.reductionAmount))
                     setIsBidPlaced(true)
                     setQue(response?._doc)
-                    setBidData({
-                        Volume: response?._doc?.Volume,
-                        Favour: response?._doc?.Favour,
-                        Against: response?._doc?.Against
-                    })
                     if (res.status === 203) {
                         toast("You've won 200 Neuron coins for this transaction! 🥳", {
                             position: "top-center",
@@ -194,8 +182,7 @@ function QuestionDetail({ questionData }) {
                                         <h2 className="text-lg md:text-xl text-yellow-300 capitalize">{que?.category}</h2>
                                         <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium my-2">{que.question}</h1>
                                         <h2 className="flex justify-center lg:justify-start items-center divide-x-2 text-lg md:text-xl my-4">
-                                            <p className="pr-5 text-yellow-300">{Volume > 0 ? Math.round((Against * 100 / Volume)) : 0}% say no</p>
-                                            <p className="pl-5 text-green-300">{Volume > 0 ? Math.round((Favour * 100 / Volume)) : 0}% say yes</p>
+                                            {que?.options?.length > 0 && que?.options?.map((option, i) => <p className={`${i == 0 ? 'pr-5 text-yellow-300' : 'pl-5 text-green-300'}`}>{Volume > 0 ? Math.round((option.value * 100 / Volume)) : 0}% say {option.name}</p>)}
                                         </h2>
                                         <div className="flex flex-wrap-reverse items-center justify-center lg:justify-start">
                                             {que?.qstatus === 'verified' ?
@@ -270,14 +257,23 @@ function QuestionDetail({ questionData }) {
                                             exit="out"
                                             variants={pageZoom}
                                             transition={pageTransition} className="bet__container flex flex-col items-center justify-center p-5 blur-black rounded-md">
-                                            <div className="flex w-full items-center justify-around">
-                                                <input type="radio" value="Favour" id="Favour" className="hidden"
+                                            <div className="flex flex-wrap w-full items-center justify-around gap-4">
+                                                {que.options.map((option, i) =>
+                                                    <input className='hidden' type="radio" name="odd" id={`${option.name}`} value={option.name} onChange={(e) => { setOdd(e.target.value); setOptions(option) }} />
+                                                )}
+                                                {que.options.map((option, i) =>
+                                                    <label for={`${option.name}`} class={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] ${odd == option.name && 'btn-blue text-white'} cursor-pointer`}>
+                                                        <span>{option.name}</span>
+                                                    </label>
+                                                )}
+
+                                                {/* <input type="radio" value="Favour" id="Favour" className="hidden"
                                                     onChange={(e) => setOdd(e.target.value)} ref={yesRef} name="odd" />
                                                 <div onClick={() => yesRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Favour' && 'btn-blue text-white'} cursor-pointer`}>Yes</div>
 
                                                 <input type="radio" value="Against" id="Against" className="hidden"
                                                     onChange={(e) => setOdd(e.target.value)} ref={noRef} name="odd" />
-                                                <div onClick={() => noRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</div>
+                                                <div onClick={() => noRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</div> */}
                                             </div>
                                             <div className="my-4 flex flex-col items-center">
                                                 <h1 className="font-medium">Amount to Bid : <span className="text-blue-300 inline-flex items-center"><Coin width="4" height="4" />{bid}</span> </h1>
@@ -296,14 +292,14 @@ function QuestionDetail({ questionData }) {
                                             <table>
                                                 <tbody>
                                                     <tr>
-                                                        <td>% Bet {`in ${odd}`}</td>
-                                                        <td>{Volume > 0 ? (odd == 'Favour') ? Math.round((Favour * 100 / Volume)) : Math.round((Against * 100 / Volume)) : 0}%</td>
+                                                        <td>% Bid {`in ${odd}`}</td>
+                                                        <td>{Volume > 0 ? Math.round(options.value * 100 / Volume) : 0}%</td>
                                                     </tr>
                                                     <tr>
                                                         <td>Amount {`in ${odd}`}</td>
                                                         <td className="inline-flex items-center">
                                                             <div className="flex items-center">
-                                                                <Coin width="4" height="4" />{odd == 'Favour' ? Favour : Against}
+                                                                <Coin width="4" height="4" />{options.value}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -311,7 +307,7 @@ function QuestionDetail({ questionData }) {
                                                         <td>Likely earnings</td>
                                                         <td className="inline-flex items-center">
                                                             <div className="flex items-center">
-                                                                <Coin width="4" height="4" />{Volume > 0 ? (odd == 'Favour') ? ((bid) * Volume / (Favour + bid)).toFixed(2) : ((bid) * Volume / (Against + bid)).toFixed(2) : bid}
+                                                                <Coin width="4" height="4" />{Volume > 0 ? ((bid) * Volume / (options.value + bid)).toFixed(2) : bid}
                                                             </div>
                                                         </td>
                                                     </tr>
@@ -339,14 +335,22 @@ function QuestionDetail({ questionData }) {
                             variants={pageZoom}
                             transition={pageTransition} className="flex flex-col items-center justify-center p-5 py-7 sm:p-7 md:p-10 blur-blue rounded-md absolute top-1/2 left-1/2 !transform !-translate-x-1/2 !-translate-y-1/2 !z-50">
                             <XIcon className="w-10 h-10 p-1 absolute -top-4 -right-4 bg-white cursor-pointer rounded-full text-gray-700" onClick={() => setBidPlaceModal(false)} />
-                            <div className="flex w-full items-center justify-around">
-                                <input type="radio" value="Favour" id="Favour" className="hidden"
+                            <div className="flex flex-wrap w-full items-center justify-around gap-4">
+                                {que.options.map((option, i) =>
+                                    <input className='hidden' type="radio" name="odd" id={`${option.name}`} value={option.name} onChange={(e) => { setOdd(e.target.value); setOptions(option) }} />
+                                )}
+                                {que.options.map((option, i) =>
+                                    <label for={`${option.name}`} class={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] ${odd == option.name && 'btn-blue text-white'} cursor-pointer`}>
+                                        <span>{option.name}</span>
+                                    </label>
+                                )}
+                                {/* <input type="radio" value="Favour" id="Favour" className="hidden"
                                     onChange={(e) => setOdd(e.target.value)} ref={yesRef} name="odd" />
                                 <div onClick={() => yesRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Favour' && 'btn-blue text-white'} cursor-pointer`}>Yes</div>
 
                                 <input type="radio" value="Against" id="Against" className="hidden"
                                     onChange={(e) => setOdd(e.target.value)} ref={noRef} name="odd" />
-                                <div onClick={() => noRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</div>
+                                <div onClick={() => noRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</div> */}
                             </div>
                             <div className="my-4 flex flex-col items-center">
                                 <h1 className="font-medium">Amount to Bid : <span className="text-blue-300 inline-flex items-center"><Coin width="4" height="4" />{bid}</span> </h1>
@@ -366,13 +370,13 @@ function QuestionDetail({ questionData }) {
                                 <tbody>
                                     <tr>
                                         <td>% Bet {`in ${odd}`}</td>
-                                        <td>{Volume > 0 ? (odd == 'Favour') ? Math.round((Favour * 100 / Volume)) : Math.round((Against * 100 / Volume)) : 0}%</td>
+                                        <td>{Volume > 0 ? Math.round((options.value * 100 / Volume)) : 0}%</td>
                                     </tr>
                                     <tr>
                                         <td>Amount {`in ${odd}`}</td>
                                         <td className="inline-flex items-center">
                                             <div className="flex items-center">
-                                                <Coin width="4" height="4" />{odd == 'Favour' ? Favour : Against}
+                                                <Coin width="4" height="4" />{options.value}
                                             </div>
                                         </td>
                                     </tr>
@@ -380,7 +384,7 @@ function QuestionDetail({ questionData }) {
                                         <td>Likely earnings</td>
                                         <td className="inline-flex items-center">
                                             <div className="flex items-center">
-                                                <Coin width="4" height="4" />{Volume > 0 ? (odd == 'Favour') ? ((bid) * Volume / (Favour + bid)).toFixed(2) : ((bid) * Volume / (Against + bid)).toFixed(2) : bid}
+                                                <Coin width="4" height="4" />{Volume > 0 ? ((bid) * Volume / (options.value + bid)).toFixed(2) : bid}
                                             </div>
                                         </td>
                                     </tr>
@@ -457,7 +461,7 @@ function QuestionDetail({ questionData }) {
 
             </div>
             {isUndoSettle && <UndoSettle setIsUndoSettle={setIsUndoSettle} finalResult={que?.result} queId={que?._id} setQue={setQue} />}
-            {isSettle && <Settlement isSettle={isSettle} setIsSettle={setIsSettle} queId={que?._id} setQue={setQue} />}
+            {isSettle && <Settlement isSettle={isSettle} setIsSettle={setIsSettle} que={que} setQue={setQue} />}
             {isActive && <motion.div initial="initial"
                 animate="in"
                 exit="out"

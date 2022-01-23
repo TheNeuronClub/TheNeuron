@@ -6,13 +6,27 @@
     font-family: 'Barlow', sans-serif;
     /* user-select: none; */
 }
+body{
+    background-image: radial-gradient( circle farthest-corner at 84% 100%,  rgba(173,0,171,1) 0%, rgba(15,51,92,1) 90% );
+}
 
 #__next {
-    overflow-x: hidden;
     max-width: 1900px;
     margin: auto;
     filter: saturate(1.25);
-    background-image: radial-gradient(circle, #0c6764, #005e66, #005466, #004a63, #003f5e, #003e5c, #003c5b, #003b59, #00425b, #00495a, #004f57, #005553);
+    background-image: radial-gradient( circle farthest-corner at 84% 100%,  rgba(173,0,171,1) 0%, rgba(15,51,92,1) 90% );
+    /* background-image: linear-gradient(to bottom right, #0f0c29, #000046); */
+    /* background-image: radial-gradient( circle farthest-corner at 84% 100%,  rgba(173,0,171,1) 0%, rgba(15,51,92,1) 90% ); */
+}
+
+*::-webkit-scrollbar{
+    display: none
+}
+iframe::-webkit-scrollbar{
+    display: none
+}
+.testimonial::-webkit-scrollbar{
+    display: none
 }
 .carousel__scroll::-webkit-scrollbar{
     display: none
@@ -129,7 +143,7 @@ body::-webkit-scrollbar{
 }
 
 .blur-white{
-    background: rgba( 255, 255, 255, 0.3 );
+    background: rgba( 255, 255, 255, 0.3 ); 
 box-shadow: 5px 5px 32px 0 rgba( 31, 38, 135, 0.2 );
 backdrop-filter: blur( 10px );
 -webkit-backdrop-filter: blur( 10px );
@@ -172,11 +186,15 @@ backdrop-filter: blur( 4px );
 border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
-.gradient-dark{
+/* .gradient-dark{
     background-image: radial-gradient(circle, #0c6764, #005e66, #005466, #004a63, #003f5e, #003e5c, #003c5b, #003b59, #00425b, #00495a, #004f57, #005553);
     background-size: 150% 150%;
     animation: movingGradient 10s linear infinite alternate;
+} */
+.gradient-dark{
+    background-image: radial-gradient( circle farthest-corner at 84% 100%,  rgba(173,0,171,1) 0%, rgba(15,51,92,1) 90% );
 }
+
 
 @keyframes movingGradient{
     from { background-position: 0 0; }
@@ -667,7 +685,6 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
           transform: rotate(360deg);
       }
   }
-
 
 input[type="number"] {
     -webkit-appearance: textfield;
