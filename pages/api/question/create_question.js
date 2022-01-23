@@ -20,7 +20,7 @@ function getRandom(min, max) {
 
 handler.post(async (req, res) => {
     if (req.file) {
-        const bids = { Favour: getRandom(50, 100), Against: getRandom(50, 100) }
+        const bids = { Favour: getRandom(5, 10), Against: getRandom(5, 10) }
         const file = dataUri(req).content;
         const result = await uploader.upload(file)
         if (result) {
