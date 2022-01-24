@@ -63,30 +63,30 @@ const faq = [
 const values = [
     {
         id: 1,
-        imgSrc: "https://res.cloudinary.com/theneuron/image/upload/v1642946293/Values/easy.jpg",
+        imgSrc: "/images/values/easy.png",
         heading: "Easy",
         desc: "Easily make predictions through our intuitive interface"
 
     },
     {
         id: 2,
-        imgSrc: "https://res.cloudinary.com/theneuron/image/upload/v1642946953/Values/secure.jpg",
-        heading: "Secure",
-        desc: "Your deposits are securely maintained in Coinbase wallet"
+        imgSrc: "/images/values/fun.png",
+        heading: "Fun",
+        desc: "Compete against fans and even run your own contests with us"
 
     },
     {
         id: 3,
-        imgSrc: "https://res.cloudinary.com/theneuron/image/upload/v1642946255/Values/unique.jpg",
+        imgSrc: "/images/values/unique.png",
         heading: "Unique",
         desc: "One of a kind prediction platform focused on entertainment events"
 
     },
     {
         id: 4,
-        imgSrc: "https://res.cloudinary.com/theneuron/image/upload/v1643003552/Values/fun.jpg",
-        heading: "Fun",
-        desc: "Compete against fans and even run your own contests"
+        imgSrc: "/images/values/secure.png",
+        heading: "Secure",
+        desc: "Your deposits are securely maintained in Coinbase wallet"
 
     },
 ]
@@ -157,13 +157,11 @@ export default function Home({ carouselList }) {
                 </div>
 
 
-                <div className='p-5 py-10 flex items-center justify-evenly flex-wrap gap-10 lg:gap-y-20'>
-                    {values?.map(item => <div key={item.id} className={`relative shadow-xl w-[350px] h-[350px] sm:w-[450px] sm:h-[450px] lg:w-[400px] lg:h-[400px] xl:w-[450px] xl:h-[450px] 2xl:w-[550px] 2xl:h-[550px] blur-black rounded-xl`} key={item.id}>
-                        <Image src={item?.imgSrc} layout="fill" className="w-full h-full object-cover rounded-md" objectFit="cover" placeholder="blur" blurDataURL={item?.imgSrc} alt="" />
-                        <div className="carousel__scroll absolute left-0 overflow-x-hidden bottom-0 w-full text-white p-5 sm:px-7 xl:px-10 z-10 blur-black rounded-br-lg rounded-bl-lg">
-                            <h1 className="font-semibold capitalize text-4xl sm:text-5xl">{item.heading}</h1>
-                            <p className='text-lg lg:text-xl line-clamp-2 font-medium my-2 2xl:mt-3 max-w-lg'>{item.desc}</p>
-                        </div>
+                <div className='p-5 flex items-center justify-evenly max-w-5xl mx-auto flex-wrap gap-12 lg:gap-y-16'>
+                    {values?.map(item => <div key={item.id} className='blur-blue rounded-xl p-8 text-white max-w-xs flex flex-col items-center justify-center'>
+                        <img src={item.imgSrc} className='w-32 h-32 sm:w-36 sm:h-36 md:w-36 md:h-36 p-2' alt="" />
+                        <h1 className='text-3xl font-semibold mb-2 mt-4'>{item.heading}</h1>
+                        <p className='text-lg md:text-xl text-center text-gray-200'>{item.desc}</p>
                     </div>)}
                 </div>
 
