@@ -2,7 +2,7 @@ import mongoose from 'mongoose';
 
 const queComment = new mongoose.Schema({
     queId: {
-        type: String,
+        type: mongoose.ObjectId,
         required: true
     },
     userId: {
