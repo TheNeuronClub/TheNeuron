@@ -62,8 +62,8 @@ function CreateQ({ session, categories }) {
         if (e) {
             e.preventDefault();
         }
-        if (options?.length != 2) window.alert('Minium 2 Options Required for Creating Question')
-        if (qImage?.size < 1000000 && qImage.size > 10 && options?.length == 2) {
+        if (options?.length < 2) window.alert('Minium 2 Options Required for Creating Question')
+        if (qImage?.size < 1000000 && qImage.size > 10 && options?.length >= 2) {
             setIsSending(true);
             const formData = new FormData();
             formData.append("image", qImage);
@@ -144,9 +144,9 @@ function CreateQ({ session, categories }) {
                             {(qImage?.size > 1000000) && <p className="text-red-500 text-sm">Maximum image upload size is 1MB </p>}
                         </div>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="Question Options" className="block mb-1 text-white font-medium">Question Options<span className="mx-1 text-red-500">*</span><span className='text-gray-200 text-xs font-normal'>only 2 option allowed</span></label>
-                            <div className='flex items-center space-x-2 flex-wrap'>
-                                {options?.length < 2 && <><input type="text" value={option} onChange={(e) => setOption(e.target.value)} name="option" className=" py-2 px-4 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" />
+                            <label htmlFor="Question Options" className="block mb-1 text-white font-medium">Question Options<span className="mx-1 text-red-500">*</span><span className='text-gray-200 text-xs font-normal'>min 2 and max 2 option allowed</span></label>
+                            <div className='flex items-center space-x-2 flex-wrap max-w-[300px]'>
+                                {options?.length < 4 && <><input type="text" value={option} onChange={(e) => setOption(e.target.value)} name="option" className=" py-2 px-4 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" />
                                     <div className="btn-blue rounded-full p-2">
                                         <PlusIcon className="w-5 h-5 sm:w-7 sm:h-7 text-gray-100 cursor-pointer" onClick={() => {
                                             if (option?.length > 1) {

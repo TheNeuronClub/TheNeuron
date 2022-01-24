@@ -13,7 +13,7 @@ const userContact = new mongoose.Schema({
         type: String,
         required: true
     },
-})
+}, { timestamps: true })
 
 const Contact = mongoose.models.Contact || mongoose.model("Contact", userContact);
 

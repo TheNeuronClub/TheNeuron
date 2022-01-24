@@ -26,7 +26,7 @@ function faq() {
         },
         {
             title: `What is the signup offer?`,
-            content: `When you join, we gift you 200 coins worth $2 as a welcome bonus. You can use these coins on TheNeuron.club to invest in questions. You can check your coin balance on top of the page.`
+            content: `When you join, you receive 200 as a welcome bonus. You can use these coins to start investing in the questions ar TheNeuron.club, without needing any credit card. You can check your coin balance on top of the page.`
         },
         {
             title: `What are neuron.club points?`,

@@ -10,7 +10,7 @@ const headerSchema = new mongoose.Schema({
     imgSrc: {
         type: String
     }
-})
+}, { timestamps: true })
 
 const Header = mongoose.models.Header || mongoose.model("Header", headerSchema);
 

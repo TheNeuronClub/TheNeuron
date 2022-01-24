@@ -17,7 +17,7 @@ const bugSchema = new mongoose.Schema({
     image_url: {
         type: String
     }
-})
+}, { timestamps: true })
 
 const Bug = mongoose.models.Bug || mongoose.model("Bug", bugSchema);
 
