@@ -53,7 +53,7 @@ function report_bug() {
     return (
         <>
             <Head>
-                <title>The Neuron | Report a Bug</title>
+                <title>The Neuron Club | Report a Bug</title>
             </Head>
             <div className="relative py-10">
 

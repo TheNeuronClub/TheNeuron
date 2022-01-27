@@ -1,14 +1,14 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import { useState, useEffect } from 'react'
 import Header from '../components/Header'
-import QuestionGroup from '../components/QuestionGroup'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import OnBoard from '../components/OnBoard'
 import Image from 'next/image'
-import { userSession } from '../lib/user-session/index'
-import { useRouter } from 'next/router';
 import Accordion from '../components/Accordion'
+import Question from '../components/Question';
+import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
 
 
 const bids = [
@@ -40,23 +40,6 @@ const faq = [
     {
         title: `How is the winning payout decided?`,
         content: `The winner’s payout is proportional to the amount invested in the question. All the trades are combined to create a question prize pool. Once the question has been decided, the question pool is distributed amongst those with a correct prediction, in proportion to the amount invested`,
-    },
-    {
-        title: `How is Neuron different from a gambling or betting platform?`,
-        content: `There are several fundamental differences between trading on a prediction market vs a gambling platform:`,
-        desc: [`On the Neuron platform, you are competing against other players who have a different opinion than you on the events of interest. However, on a gambling platform, you are competing against the booker (sports betting website). So betting websites are incentivized to tweak the odds against you while The Neuron club team remains a neutral market observer and doesn’t take a stake on any side`, `Trading on the Neuron platform is a game of skill. In a game of skill, you can increase your odds of winning by doing research, strategizing, and selectively picking the questions. However, on a betting platform, luck plays a very important role in deciding the winner and anyone can make a bet and get lucky.`, `In a game of skill, players are seen to get better with time as they learn more about the strategies to maximize your winning. However, in a gambling platform, players do not necessarily get better with time`]
-    },
-    {
-        title: `How is Neuron different from a stock trading platform?`,
-        content: `Our vision for TheNeruon.club is to develop it along the lines of a stock trading platform and offer users similar functionalities. The Neuron platform allows users to trade on the outcome of events beyond the business domain, thus offering a much wider scope of services`
-    }, ,
-    {
-        title: `What is a Neuron coin?`,
-        content: `Neuron.club points is currency which you can use on Neuron.club to invest. 100 coins are equivalent of 1$`
-    },
-    {
-        title: `How can I convert coins to money?`,
-        content: `We will soon begin supporting converting coins to money. Meanwhile, please continue to bet and earn more coins`
     }
 ]
 
@@ -92,14 +75,8 @@ const values = [
 ]
 
 export default function Home({ carouselList }) {
-    const session = userSession();
-    const router = useRouter();
     const [onBoard, setOnBoard] = useState(false)
     const [questions, setQuestions] = useState([])
-    const [data, setData] = useState();
-    useEffect(() => {
-        fetch('https://testimonialapi.toolcarton.com/api').then(res => res.json()).then(data => setData(data)).catch(e => console.log(e))
-    }, [])
 
     async function getQue() {
         const ques = await fetch(`${process.env.host}/api/question/ques`).then((res) => res.json());
@@ -137,12 +114,12 @@ export default function Home({ carouselList }) {
     return (
         <>
             {onBoard && <OnBoard onSelect={closeOnboard} />}
-            <div className="max_w_3xl pb-10 space-y-20">
+            <div className="max_w_3xl pb-10 space-y-24">
                 <Header carouselList={carouselList} />
 
                 <div className='text-white py-10'>
                     <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center mb-5 font-semibold '>How it Works ?</h1>
-                    <p className='text-lg xl:text-xl 2xl:text-2xl text-center max-w-5xl mx-auto px-5 pb-10'>Join TheNeuron.club to make predictions about your favourite entertainment topics and win with every correct prediction</p>
+                    <p className='text-lg xl:text-xl 2xl:text-2xl text-center max-w-5xl mx-auto px-5 pb-10 text-gray-100'>Join TheNeuron.club to make predictions about your favourite entertainment topics and win with every correct prediction</p>
                     <div className='flex flex-wrap py-5 justify-evenly items-stretch gap-10'>
                         {bids.map(item =>
                             <div key={item.no} className='max-w-[300px] 2xl:max-w-[350px] min-w-[250px] p-8 rounded-md shadow-lg blur-blue opacity-90 rotate-[-1deg] hover:opacity-100 hover:rotate-[0deg] transition-all duration-200 ease-out' >
@@ -157,27 +134,69 @@ export default function Home({ carouselList }) {
                 </div>
 
 
-                <div className='p-5 flex items-center justify-evenly max-w-5xl mx-auto flex-wrap gap-12 lg:gap-y-16'>
-                    {values?.map(item => <div key={item.id} className='blur-blue rounded-xl p-8 text-white max-w-xs flex flex-col items-center justify-center'>
-                        <img src={item.imgSrc} className='w-32 h-32 sm:w-36 sm:h-36 md:w-36 md:h-36 p-2' alt="" />
-                        <h1 className='text-3xl font-semibold mb-2 mt-4'>{item.heading}</h1>
-                        <p className='text-lg md:text-xl text-center text-gray-200'>{item.desc}</p>
-                    </div>)}
+                <div className='py-5 xl:py-10'>
+                    <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center mb-5 font-semibold text-white capitalize'>What we offer ?</h1>
+                    <p className='text-lg xl:text-xl 2xl:text-2xl text-center max-w-5xl mx-auto px-5 pb-10 text-gray-100'>An unparalleled experience to immerse and interact with other fans</p>
+
+                    <div className='p-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 place-items-center items-center justify-evenly md:max-w-4xl xl:max-w-7xl mx-auto flex-wrap gap-12 lg:gap-y-16'>
+                        {values?.map(item => <div key={item.id} className='blur-blue rounded-xl p-8 text-white max-w-xs flex flex-col items-center justify-center'>
+                            <img src={item.imgSrc} className='w-32 h-32 sm:w-36 sm:h-36 md:w-36 md:h-36 xl:w-28 xl:h-28 p-2' alt="" />
+                            <h1 className='text-3xl font-semibold mb-2 mt-4'>{item.heading}</h1>
+                            <p className='text-lg md:text-xl text-center text-gray-200'>{item.desc}</p>
+                        </div>)}
+                    </div>
                 </div>
 
-                <QuestionGroup questions={questions?.trending} category={"Trending Topics"} />
+                <div className='max-w-7xl mx-auto p-5'>
+                    <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center my-5 font-semibold text-white'>Trending Topics</h1>
+                    <div className="p-10 flex items-center justify-evenly gap-10 flex-wrap">
+                        {
+                            questions?.trending?.length > 0 ?
+                                <>
+                                    {questions?.trending?.map((item, i) => (
+                                        <Question question={item} key={i} />
+                                    ))}
+                                </>
+                                :
+                                <>
+                                    {
+                                        [0, 1, 2].map(item => (
+                                            <div key={item} className="max-w-xs min-w-[300px] p-5 shadow-lg relative blur-black animate-pulse rounded-lg">
+                                                <div className="w-full h-48 rounded-lg bg-gray-500 bg-opacity-70"></div>
+                                                <div className="py-5 h-full">
+                                                    <h1 className="mb-4 h-[80px] bg-gray-600 bg-opacity-50"></h1>
+                                                    <div className="h-16 w-full bg-gray-700 bg-opacity-60">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))
+                                    }
+                                </>
+                        }
+                    </div>
 
-                <div className='p-5'>
-                    <h1 className='text-4xl sm:text-5xl text-white text-center mb-10 font-semibold '>Frequently Asked Questions</h1>
-                    <div className=' mx-auto max-w-7xl'>
+                    <Link href='/question/'>
+                        <button className="btn-blue mt-5 cursor-pointer px-6 py-3 text-xl font-semibold rounded-full mx-auto flex items-center min-w-max">View All <ArrowNarrowRightIcon className='h-7 ml-2 hover:scale-x-125 hover:transform origin-left transition-sm' /></button>
+                    </Link>
+                </div>
+
+
+
+                <div className='p-5 xl:py-10'>
+                    <h1 className='text-4xl sm:text-5xl xl:text-6xl text-white text-center mb-10 font-semibold '>Frequently Asked Questions</h1>
+                    <div className=' mx-auto max-w-7xl py-2'>
                         {faq.map((item, i) => (
                             <Accordion key={i} title={item.title} content={item.content} desc={item?.desc} />
                         ))}
                     </div>
+                    <Link href='/faq'>
+                        <button className="btn-blue mt-5 cursor-pointer px-6 py-3 text-xl font-semibold rounded-full mx-auto flex items-center min-w-max">View All <ArrowNarrowRightIcon className='h-7 ml-2 hover:scale-x-125 hover:transform origin-left transition-sm' /></button>
+                    </Link>
                 </div>
 
+
                 <Head>
-                    <title>The Neuron</title>
+                    <title>The Neuron Club | Predict Future and Win Rewards</title>
                     <link rel="icon" href="/favicon.png" />
                 </Head>
             </div>

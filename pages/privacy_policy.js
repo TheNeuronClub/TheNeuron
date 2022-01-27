@@ -4,7 +4,7 @@ function privacy_policy() {
     return (
         <>
             <Head>
-                <title>The Neuron | Privacy Policy</title>
+                <title>The Neuron Club | Privacy Policy</title>
             </Head>
             <div className="policy max-w-4xl 2xl:max-w-5xl blur-white mx-auto p-10 my-10">
                 <h4 className="text-3xl lg:text-4xl font-semibold text-white text-center mb-2"> Privacy Policy </h4>

@@ -29,30 +29,36 @@ function MyApp({ Component, pageProps }) {
     const handleRouteChange = (url) => {
       ga.pageview(url)
     }
-    //When the component is mounted, subscribe to router changes
-    //and log those page views
-    router.events.on('routeChangeComplete', handleRouteChange)
 
-    // If the component is unmounted, unsubscribe
-    // from the event with the `off` method
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
-    }
-  }, [router.events])
-  
-  return (
-    <AnimatePresence exitBeforeEnter>
-      <AnimateSharedLayout>
-        <AuthProvider session={pageProps.session}>
-          <Provider store={store}>
-            <Layout>
-              <Component {...pageProps} />
-            </Layout>
-          </Provider>
-        </AuthProvider>
-      </AnimateSharedLayout>
-    </AnimatePresence>
-  )
+    //When the component is mounted, subscribe to router changes
+  //and log those page views
+  router.events.on('routeChangeComplete', handleRouteChange)
+  Router.events.on('routeChangeComplete', () => {
+    document.getElementById('mainWindow').scroll({
+      top: 0,
+    });
+  });
+
+  // If the component is unmounted, unsubscribe
+  // from the event with the `off` method
+  return () => {
+    router.events.off('routeChangeComplete', handleRouteChange)
+  }
+}, [router.events])
+
+return (
+  <AnimatePresence exitBeforeEnter>
+    <AnimateSharedLayout>
+      <AuthProvider session={pageProps.session}>
+        <Provider store={store}>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </Provider>
+      </AuthProvider>
+    </AnimateSharedLayout>
+  </AnimatePresence>
+)
 }
 
 export default MyApp

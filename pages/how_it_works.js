@@ -59,7 +59,7 @@ function how_it_works() {
     return (
         <>
             <Head>
-                <title>The Neuron | How it Works</title>
+                <title>The Neuron Club | How it Works</title>
             </Head>
             <div className="py-20 relative">
                 <h1 className="text-5xl font-bold text-center text-white">Get Started with {active === 'bid' ? 'Bid' : 'Coins'}</h1>

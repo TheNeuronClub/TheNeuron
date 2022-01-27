@@ -181,9 +181,6 @@ function QuestionDetail({ questionData }) {
                                         }} className="text-white max-w-xl sm:p-5 xl:p-0 mt-5 lg:mt-0 text-center lg:text-left">
                                         <h2 className="text-lg md:text-xl text-yellow-300 capitalize">{que?.category}</h2>
                                         <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium my-2 mb-6">{que.question}</h1>
-                                        {/* <h2 className="flex justify-center flex-wrap lg:justify-start items-center divide-x-2 text-lg md:text-xl my-4">
-                                            {que?.options?.length > 0 && que?.options?.map((option, i) => <p className={`${i == 0 || i==2 ? 'pr-5 text-yellow-300' : 'pl-5 text-green-300'}`}>{Volume > 0 ? Math.round((option.value * 100 / Volume)) : 0}% say {option.name}</p>)}
-                                        </h2> */}
                                         <div className="flex flex-wrap-reverse items-center justify-center lg:justify-start">
                                             {que?.qstatus === 'verified' ?
                                                 <>

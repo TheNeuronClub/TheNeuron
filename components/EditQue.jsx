@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import moment from 'moment'
 import { motion } from 'framer-motion';
 import { modules, formats, pageTransition, pageZoom } from '../util'
@@ -20,9 +20,22 @@ const EditQue = (props) => {
     const [desc, setDesc] = useState(que?.desc)
     const [isQueEdit, setIsQueEdit] = useState(props.from === 'queDetail')
     const [isUpdating, setIsUpdating] = useState(false)
+    const [goLiveDate, setGoLiveDate] = useState(new Date(que?.goLive))
     const [bidClosingDate, setBidClosingDate] = useState(new Date(que?.bidClosing))
     const [settlementClosingDate, setSettlementClosingDate] = useState(new Date(que?.settlementClosing))
     const [categories, setCategories] = useState(null)
+
+    useEffect(() => {
+        if (new Date(goLiveDate) > new Date(bidClosingDate)) {
+            setBidClosingDate(addDays(goLiveDate, 1))
+        }
+    }, [goLiveDate])
+
+    useEffect(() => {
+        if (new Date(settlementClosingDate) < new Date(bidClosingDate)) {
+            setSettlementClosingDate(addDays(bidClosingDate, 1))
+        }
+    }, [bidClosingDate])
 
     const getUser = async () => {
         if (que?.userId?.length === 24 || que?.userId?.length === 12) {
@@ -65,19 +78,65 @@ const EditQue = (props) => {
         setUpdatedQue({ ...updatedQue, [e.target.name]: e.target.value });
     }
 
+    const [image, setImage] = useState();
+    const [preview, setPreview] = useState(null);
+    const fileInputRef = useRef();
+
+    useEffect(() => {
+        if (image) {
+            const reader = new FileReader();
+            reader.onload = () => {
+                setPreview(reader.result)
+            }
+            reader.readAsDataURL(image)
+        } else {
+            setPreview(null)
+        }
+    }, [image])
+
+    // const updateQuestion = async () => {
+    //     setIsUpdating(true)
+    //     const { _id, question, category, reference } = updatedQue;
+    //     const res = await fetch(`/api/question/update_que`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({ _id, desc, reference, question, category, goLive: goLiveDate, bidClosing: bidClosingDate, settlementClosing: settlementClosingDate })
+    //     })
+    //     console.log(res.status)
+    //     const response = await res.json();
+    //     if (res.status == 200) {
+    //         setIsQueEdit(false);
+    //         setQue(response)
+    //         if (props.from === 'queDetail') {
+    //             props.updateQues(response)
+    //             props.setIsQue(null)
+    //         }
+    //     }
+    //     setIsUpdating(false);
+    // }
+
     const updateQuestion = async () => {
         setIsUpdating(true)
         const { _id, question, category, reference } = updatedQue;
-        const res = await fetch(`/api/question/update_que`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({ _id, desc, reference, question, category, bidClosing: bidClosingDate, settlementClosing: settlementClosingDate })
+        const formData = new FormData();
+        formData.append("image", image);
+        formData.append("question", question);
+        formData.append("userId", que?.userId);
+        formData.append("category", category);
+        formData.append("goLive", goLiveDate.toISOString());
+        formData.append("bidClosing", bidClosingDate.toISOString());
+        formData.append("settlementClosing", settlementClosingDate.toISOString());
+        formData.append("desc", desc);
+        formData.append("reference", reference);
+        const res = await fetch(`/api/question/create_question?_id=${_id}`, {
+            method: 'PATCH',
+            body: formData
         })
-        console.log(res.status)
         const response = await res.json();
-        if (res.status == 200) {
+        console.log(res.status)
+        if (res.status == 201) {
             setIsQueEdit(false);
             setQue(response)
             if (props.from === 'queDetail') {
@@ -100,7 +159,27 @@ const EditQue = (props) => {
                 variants={pageZoom}
                 transition={pageTransition} className="details__div w-full max-w-5xl blur-gray rounded-lg py-5">
                 <div className="w-full max-w-5xl mx-auto text-xl font-medium p-5 px-10 sm:flex sm:space-x-4 items-center text-gray-50 relative">
-                    <img src={que?.image_url || `/images/que/${que?.category?.toLowerCase()}.jfif`} alt="" className="w-12 h-12 border border-white shadow-lg hover:scale-105 transition-md object-cover rounded-full" />
+                    {
+                        isQueEdit ?
+                            <>
+                                <input type="file" name="image" className="hidden" ref={fileInputRef} accept="image/*" onChange={(e) => {
+                                    const file = e.target.files[0];
+                                    if (file && file.type.substring(0, 5) === 'image') {
+                                        setImage(file)
+                                    } else if (!file) {
+                                    }
+                                    else {
+                                        window.alert('Only Image allowed')
+                                    }
+                                }} />
+                                <div className='blur-blue text-sm rounded-xl p-1 inline-block text-center cursor-pointer' onClick={() => (fileInputRef.current.click())} >
+                                    {preview ? <img className='w-12 h-12 border border-white shadow-lg hover:scale-105 transition-md object-cover rounded-full' src={preview} alt='' /> : <>Change <br /> Image</>}
+                                </div>
+                            </>
+                            :
+                            <img src={que?.image_url || `/images/que/${que?.category?.toLowerCase()}.jfif`} alt="" className="w-12 h-12 border border-white shadow-lg hover:scale-105 transition-md object-cover rounded-full" />
+                    }
+
                     <div className="my-3 sm:my-0 flex-1">
                         {isQueEdit ? <input
                             placeholder="Question"
@@ -142,7 +221,9 @@ const EditQue = (props) => {
                     </div>
                     <div>
                         <h1>Open Date &amp; Time</h1>
-                        <h2 className="font-normal">{que?.goLive && moment(que?.goLive).format('lll')}</h2>
+                        {isQueEdit ? <DatePicker className="inline-block w-52 h-12 px-4 mb-2 transition duration-200 text-gray-900 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" selected={goLiveDate} dateFormat="MM/dd/yyyy hh:mm" minDate={new Date()} showTimeSelect timeFormat="HH:mm" withPortal onChange={(date) => setGoLiveDate(date)} placeholderText="Go Live date and time" />
+                            : <h2 className="font-normal">{que?.goLive && moment(que?.goLive).format('lll')}</h2>
+                        }
                     </div>
                     <div>
                         <h1>Closing Date &amp; Time</h1>

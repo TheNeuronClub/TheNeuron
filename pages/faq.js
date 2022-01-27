@@ -4,10 +4,6 @@ import Accordion from "../components/Accordion";
 function faq() {
     const accordionData = [
         {
-            title: 'What is the Neuron Club?',
-            content: `The Neuron Coin is our in-game currency, used for making transactions on the platform. Neuron Coin is pegged to US Dollar and 1 USD is equivalent to 100 Neuron Coins`
-        },
-        {
             title: `How does Neuron Club work?`,
             content: `Neuron Club provides a trading platform where users can trade on the outcome of events. Based on your opinion, you can choose to bet on how a specific event will turn out to be. Once the question is frozen for trading, no more trades are allowed. Thereafter, when the question is decided based on an independent source, the trading pool is distributed amongst those who predicted the correct outcome`
         },
@@ -26,11 +22,7 @@ function faq() {
         },
         {
             title: `What is the signup offer?`,
-            content: `When you join, you receive 200 as a welcome bonus. You can use these coins to start investing in the questions ar TheNeuron.club, without needing any credit card. You can check your coin balance on top of the page.`
-        },
-        {
-            title: `What are neuron.club points?`,
-            content: ` Neuron.club points is currency which you can use on Neuron.club to invest. 100 coins are equivalent of 1$`
+            content: `When you join, you receive 200 neuron coins as a welcome bonus. You can use these coins to start investing in the questions ar TheNeuron.club, without needing any credit card. You can check your coin balance on top of the page.`
         },
         {
             title: `How to submit a question`,
@@ -39,6 +31,10 @@ function faq() {
         {
             title: `Who can submit a question`,
             content: ` Everyone is welcome to submit a new question. If you are someone who is ahead of the trends and can shape opinions, write to us expressing your interest and suggested questions to add `
+        },
+        {
+            title: 'What is the Neuron Coin?',
+            content: `The Neuron Coin is our in-game currency, used for making transactions on the platform. Neuron Coin is pegged to US Dollar and 1 USD is equivalent to 100 Neuron Coins`
         },
         {
             title: `How can I convert coins to money?`,
@@ -50,15 +46,14 @@ function faq() {
         },
         {
             title: `How do i withdraw money?`,
-            content: `Simply fill the withdrawal request form with your details. Withdrawals are processed within 2 working days.`,
-            desc: [`97% requests are fulfilled within 24 hours`]
+            content: `Simply fill the withdrawal request form with your details. Withdrawals are processed within 2 working days. 97% requests are fulfilled within 24 hours`,
         },
 
     ];
     return (
         <>
             <Head>
-                <title>The Neuron | FAQs</title>
+                <title>The Neuron Club | FAQs</title>
             </Head>
             <div className="pb-20 pt-10">
                 <h1 className="text-4xl md:text-5xl font-bold text-gray-50 text-center mt-10">Frequently Asked Questions</h1>

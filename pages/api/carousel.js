@@ -39,7 +39,7 @@ handler.patch(async (req, res) => {
         const file = dataUri(req).content;
         const result = await uploader.upload(file, { folder: "carousel" }, function (error, result) { console.log(result, error); })
         if (result) {
-            const imgSrc = result.url
+            const imgSrc = result.secure_url
             const carouselData = await Header.findByIdAndUpdate({ _id: req.query._id }, { ...req.body, imgSrc }, { new: true });
             const saveData = await carouselData.save();
             if (!saveData) {

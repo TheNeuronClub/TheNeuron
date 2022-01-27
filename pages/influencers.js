@@ -30,7 +30,7 @@ function influencers() {
     return (
         <>
             <Head>
-                <title>The Neuron | Influencers</title>
+                <title>The Neuron Club | Influencers</title>
             </Head>
             <div className="py-20 relative">
                 <h1 className="text-4xl md:text-5xl font-bold text-center text-white">The Neuron Coach</h1>

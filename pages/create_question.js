@@ -17,7 +17,7 @@ function create_question({ categories }) {
     return (
         <>
             <Head>
-                <title>The Neuron | Create Question</title>
+                <title>The Neuron Club | Create Question</title>
             </Head>
             <CreateQ session={session} categories={categories} />
         </>

@@ -35,8 +35,8 @@ const ques = async (req, res) => {
             res.status(200).send(expiring)
         }
         else {
-            const trending = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ Volume: -1 }).limit(6);
-            const newest = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ _id: -1 }).limit(6);
+            const trending = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ Volume: -1 }).limit(3);
+            const newest = await Question.find({ goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) }, qstatus: 'verified' }).sort({ _id: -1 }).limit(3);
             res.status(200).send({ trending, newest })
         }
     } catch (error) {
@@ -55,8 +55,8 @@ const queDetail = async (req, res) => {
 }
 
 const update_que = async (req, res) => {
-    const { _id, bidClosing, settlementClosing, desc, qstatus, question, category, reference } = req.body
-    const updatedq = await Question.findByIdAndUpdate({ _id: _id }, { bidClosing, settlementClosing, desc, qstatus, question, category, reference }, { new: true });
+    const { _id, goLive, bidClosing, settlementClosing, desc, qstatus, question, category, reference } = req.body
+    const updatedq = await Question.findByIdAndUpdate({ _id: _id }, { goLive, bidClosing, settlementClosing, desc, qstatus, question, category, reference }, { new: true });
     if (updatedq) {
         const updatetq = await Transaction.updateMany({ questionId: _id }, { qstatus }, { new: true });
         res.status(200).send(updatedq)

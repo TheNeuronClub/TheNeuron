@@ -44,7 +44,7 @@ function contact() {
   return (
     <>
       <Head>
-        <title>The Neuron | Contact</title>
+        <title>The Neuron Club | Contact</title>
       </Head>
       <div className="relative">
           <div className="relative px-4 py-16 mx-auto overflow-hidden sm:max-w-xl md:max-w-full lg:max-w-screen-xl md:px-24 lg:px-8 lg:py-20">

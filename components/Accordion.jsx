@@ -5,8 +5,8 @@ import { fadeOut, pageTransition } from '../util'
 function Accordion({ title, content, desc }) {
     const [isActive, setIsActive] = useState(false)
     return (
-        <div className={`max-w-xl md:max-w-2xl blur-white lg:max-w-3xl mb-5 md:mb-8 cursor-pointer mx-auto rounded-lg gradient-shadow`}>
-            <div className="text-white font-semibold px-5 py-2 text-lg space-x-4 flex items-center justify-between" onClick={() => setIsActive(!isActive)}>
+        <div className={`max-w-xl md:max-w-2xl lg:max-w-3xl mb-5 md:mb-8 cursor-pointer mx-auto rounded-lg gradient-shadow`}>
+            <div className="text-white blur-blue font-semibold px-5 py-2 text-lg space-x-4 flex items-center justify-between" onClick={() => setIsActive(!isActive)}>
                 <h1>{title}</h1>
                 {
                     isActive ?

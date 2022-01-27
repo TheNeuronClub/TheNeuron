@@ -1,9 +1,11 @@
+import Head from 'next/head'
 import CarouselSetting from "../components/CarouselSetting";
 import QCategorySetting from "../components/QCategorySetting";
 
 function setting({ carouselList, category }) {
     return (
         <>
+            <Head><title>The Neuron Club | Setting</title></Head>
             <div className="w-full min-h-screen p-5 md:p-10 relative">
                 <QCategorySetting category={category} />
                 <CarouselSetting carouselList={carouselList} />

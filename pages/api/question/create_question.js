@@ -42,6 +42,36 @@ handler.post(async (req, res) => {
         }
     }
 })
+
+
+handler.patch(async (req, res) => {
+    if (req.file) {
+        const file = dataUri(req).content;
+        const result = await uploader.upload(file, { folder: "question" })
+        if (result) {
+            const imgSrc = result.secure_url
+            const queData = await Question.findByIdAndUpdate({ _id: req.query._id }, { ...req.body, image_url: imgSrc }, { new: true });
+            const saveData = await queData.save();
+            if (!saveData) {
+                res.status(400).send({ msg: 'Error' });
+            }
+            else {
+                res.status(201).send(saveData)
+            }
+        }
+    }
+    else {
+        const queData = await Question.findByIdAndUpdate({ _id: req.query._id }, { ...req.body }, { new: true });
+        const saveData = await queData.save();
+        if (!saveData) {
+            res.status(400).send({ msg: 'Error' });
+        }
+        else {
+            res.status(201).send(saveData)
+        }
+    }
+})
+
 export const config = {
     api: {
         bodyParser: false

@@ -79,7 +79,7 @@ function Question({ question }) {
                 <div className="relative w-[280px] h-48 object-cover rounded-lg cursor-pointer z-10" onClick={handleClick}>
                     <Image src={question?.image_url || `/images/que/${question.category}.jfif`} layout="fill" objectFit="cover" className="w-full h-full object-cover rounded-lg cursor-pointer" placeholder="blur" blurDataURL={question?.image_url || `/images/que/${question.category}.jfif`} alt="" />
                 </div>
-                <div className="py-5 font-medium text-center h-full">
+                <div className="py-5 font-medium text-center h-full max-h-[190px]">
                     <h1 className="text-lg text-center mb-4 cursor-pointer line-clamp-3 h-[88px]" onClick={handleClick}>{question.question}</h1>
                     {question?.qstatus === 'closed' || new Date(question?.bidClosing) < new Date(new Date().toISOString())
                         ? <h1 className="text-lg text-center font-medium text-yellow-300">Bidding Closed</h1>
