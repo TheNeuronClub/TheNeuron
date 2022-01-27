@@ -16,7 +16,7 @@ function verify({ verified }) {
     return (
         <>
             <Head>
-                <title>The Neuron | Verify</title>
+                <title>The Neuron Club | Verify</title>
             </Head>
             <div className="py-10">
                 <motion.div initial="initial"

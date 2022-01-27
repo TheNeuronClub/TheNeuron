@@ -21,7 +21,7 @@ function verification({ settled, unSettled }) {
 
     return (
         <><Head>
-            <title>Past Questions</title>
+            <title>The Neuron Club | Past Questions</title>
         </Head>
             {session &&
                 <>

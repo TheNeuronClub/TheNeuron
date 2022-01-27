@@ -35,6 +35,9 @@ function verification({ data }) {
 
     return (
         <>
+        <Head>
+            <title>The Neuron Club | Question Verification</title>
+        </Head>
             {session &&
                 <div className="py-10">
                     {isQue && <EditQue queData={isQue} setIsQue={setIsQue} updateQues={updateQues} from="queVerification" />}

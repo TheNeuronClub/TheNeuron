@@ -70,7 +70,7 @@ function index({ categories }) {
     return (
         <>
             <Head>
-                <title>The Neuron | Questions</title>
+                <title>The Neuron Club | Questions</title>
             </Head>
             <motion.div initial="initial"
                 animate="in"

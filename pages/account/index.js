@@ -14,7 +14,7 @@ function index() {
 
     return (
         <div className="pb-10">
-            <Head> <title>The Neuron | Profile</title> </Head>
+            <Head> <title>The Neuron Club | Profile</title> </Head>
             {session &&
                 <>
                     <Profile />

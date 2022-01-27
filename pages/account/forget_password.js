@@ -40,7 +40,7 @@ function forget_password() {
     return (
         <>
             <Head>
-                <title>The Neuron | Forget Password</title>
+                <title>The Neuron Club | Forget Password</title>
             </Head>
             <div className="w-full min-h-[500px] pt-32 pb-10">
                 <motion.div initial="initial"

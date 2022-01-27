@@ -84,7 +84,7 @@ function login() {
         <>
             <div className="min-h-screen w-full">
                 <Head>
-                    <title>TheNeuron | Login</title>
+                    <title>TheNeuron Club | Login</title>
                 </Head>
                 <div className="md:flex items-center relative min-h-screen gradient-dark">
                     <div className="min-h-[300px] p-7 w-full flex flex-col items-center justify-end md:justify-center">

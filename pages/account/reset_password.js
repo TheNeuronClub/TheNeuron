@@ -57,7 +57,7 @@ function reset_password({ _id, code }) {
     return (
         <>
             <Head>
-                <title>The Neuron | Reset Password</title>
+                <title>The Neuron Club | Reset Password</title>
                 <link rel="icon" href="/favicon.png" />
             </Head>
             <div className="w-full min-h-[500px] py-10">

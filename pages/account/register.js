@@ -89,7 +89,7 @@ function register({ referral_code }) {
         <>
             <div className="min-h-screen w-full">
                 <Head>
-                    <title>TheNeuron | Register</title>
+                    <title>TheNeuron Club | Register</title>
                 </Head>
                 <div className="md:flex items-center relative min-h-screen">
                     {isEmail && <div className="fixed inset-0 w-full grid place-items-center blur-white z-40" onClick={() => setIsEmail(false)}><Modal state={isEmail} text="The account already exists, please sign-in instead" link={'/account/login'} /> </div>}

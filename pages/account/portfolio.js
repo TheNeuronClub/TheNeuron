@@ -47,7 +47,7 @@ function portfolio() {
 
     return (
         <div className="py-10 xl:px-10 w-full min-h-screen">
-            <Head> <title>The Neuron | Portfolio</title> </Head>
+            <Head> <title>The Neuron Club | Portfolio</title> </Head>
             {userData ?
                 <>
                     <div className="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-4 gap-4 mx-auto text-right max-w-7xl">
