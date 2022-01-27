@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import { userSession } from '../../lib/user-session';
 import { useRouter } from 'next/router'
 import dynamic from 'next/dynamic'
+import Head from 'next/head';
 
 const EditQue = dynamic(() => import('../../components/EditQue') , {
     ssr: false,
