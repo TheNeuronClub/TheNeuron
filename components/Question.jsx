@@ -76,15 +76,21 @@ function Question({ question }) {
                 variants={pageZoom}
                 transition={pageTransition} className="text-white max-w-xs p-5 shadow-lg relative blur-black rounded-lg">
                 <h1 className="absolute top-0 right-0 py-1 px-2 blur-blue rounded-tr-lg rounded-bl-lg z-20">{closingTime?.includes('ago') ? `closed ${closingTime}` : `closing ${closingTime}`}</h1>
-                <div className="relative w-[280px] h-48 object-cover rounded-lg cursor-pointer z-10" onClick={handleClick}>
-                    <Image src={question?.image_url || `/images/que/${question.category}.jfif`} layout="fill" objectFit="cover" className="w-full h-full object-cover rounded-lg cursor-pointer" placeholder="blur" blurDataURL={question?.image_url || `/images/que/${question.category}.jfif`} alt="" />
-                </div>
+                <a href={`/question/${question._id}`}>
+                    <div className="relative w-[280px] h-48 object-cover rounded-lg cursor-pointer z-10">
+                        <Image src={question?.image_url || `/images/que/${question.category}.jfif`} layout="fill" objectFit="cover" className="w-full h-full object-cover rounded-lg cursor-pointer" placeholder="blur" blurDataURL={question?.image_url || `/images/que/${question.category}.jfif`} alt="" />
+                    </div>
+                </a>
                 <div className="py-5 font-medium text-center h-full max-h-[190px]">
-                    <h1 className="text-lg text-center mb-4 cursor-pointer line-clamp-3 h-[88px]" onClick={handleClick}>{question.question}</h1>
+                    <a href={`/question/${question._id}`}>
+                        <h1 className="text-lg text-center mb-4 cursor-pointer line-clamp-3 h-[88px]">{question.question}</h1>
+                    </a>
                     {question?.qstatus === 'closed' || new Date(question?.bidClosing) < new Date(new Date().toISOString())
                         ? <h1 className="text-lg text-center font-medium text-yellow-300">Bidding Closed</h1>
                         :
-                        <button className={`font-semibold ${!isLoggedIn ? 'btn-blue' : 'btn-orange'} rounded-3xl py-2 px-6 mb-2 capitalize`} onClick={() => session ? handleClick() : setIsLoggedIn(true)}>{!isLoggedIn ? 'Place a Bid' : 'Login'}</button>
+                        <a href={`/question/${question._id}`}>
+                            <button className={`font-semibold ${!isLoggedIn ? 'btn-blue' : 'btn-orange'} rounded-3xl py-2 px-6 mb-2 capitalize`} onClick={() => session ? handleClick() : setIsLoggedIn(true)}>{!isLoggedIn ? 'Place a Bid' : 'Login'}</button>
+                        </a>
                     }
                 </div>
             </motion.div>

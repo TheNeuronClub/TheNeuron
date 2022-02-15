@@ -1,8 +1,8 @@
 import moment from 'moment'
-
 import User from '../db/models/user'
 import Question from '../db/models/question'
 import Transaction from '../db/models/transaction'
+import sendEMail from "../../lib/Mail/sendMail";
 
 const question = async (req, res) => {
     const { question, _id, category, odd, bid, userId, optionId, settlementClosing, image_url } = req.body
@@ -23,8 +23,8 @@ const question = async (req, res) => {
                 const up = await Question.findOne({ _id: _id, 'options.optionId': optionId });
                 const updatedq = await Question.updateOne({ _id: _id, 'options.optionId': optionId }, { $inc: { "options.$[ele].value": +bid, Volume: +bid } }, { arrayFilters: [{ 'ele.optionId': optionId }] });
                 // if (updatedq) {
-                    const updatedQuestion = await Question.findOne({ _id: _id });
-                    thirdTransaction ? res.status(203).send({ ...updatedQuestion, reductionAmount }) : res.status(201).send({ ...updatedQuestion, reductionAmount })
+                const updatedQuestion = await Question.findOne({ _id: _id });
+                thirdTransaction ? res.status(203).send({ ...updatedQuestion, reductionAmount }) : res.status(201).send({ ...updatedQuestion, reductionAmount })
                 // }
                 // else {
                 //     res.status(400).send({ mg: "error" })
@@ -51,11 +51,17 @@ const settleQue = async (req, res) => {
         const transList = await Transaction.find({ questionId: _id }, { userId: 1, amount: 1, odd: 1, createdAt: 1 });
         const option = options.filter(item => item.name == result)?.[0]
         const winAmount = option?.value / Volume;
+        let userData;
         await Promise.all(transList.map(async (element) => {
             (element.odd === result) ?
-                await User.updateOne({ _id: element.userId }, { $inc: { balance: element.amount * winAmount, earning: element.amount * winAmount }, $push: { notification: `Congratulations, You've won ${element.amount * winAmount} coins on ${moment(element?.createdAt).format('ll')} by bidding question` } }, { new: true })
+                userData = await User.findOneAndUpdate({ _id: element.userId }, { $inc: { balance: element.amount * winAmount, earning: element.amount * winAmount }, $push: { notification: `Congratulations, You've won ${element.amount * winAmount} coins on ${moment(element?.createdAt).format('ll')} by bidding question` } }, { new: true })
                 :
-                await User.updateOne({ _id: element.userId }, { $push: { notification: `You've lose ${element.amount} coins on ${moment(element?.createdAt).format('ll')} by bidding question. Better luck next time` } }, { new: true })
+                userData = await User.findOneAndUpdate({ _id: element.userId }, { $push: { notification: `You've lose ${element.amount} coins on ${moment(element?.createdAt).format('ll')} by bidding question. Better luck next time` } }, { new: true });
+
+            const link = `${element.question}`;
+            const data = { subject: `Settlement of question`, text: link, email: userData.email, html: `The Question "${element.question}" has been settled, check your portfolio for more info here <a href="${process.env.host}/question/${element.questionId}">View Portfolio</a>` };
+            const result = await sendEMail(data);
+            console.log(result);
         }))
         res.status(200).send(ques);
     } catch (error) {
@@ -74,10 +80,17 @@ const undoSettlement = async (req, res) => {
         // const trans = await Transaction.deleteMany({ questionId: _id });
         const option = options.filter(item => item.name == result)?.[0]
         const winAmount = option?.value / Volume;
+        let userData;
         await Promise.all(transList.map(async (element) => {
             (element.odd === result)
-                ? await User.updateOne({ _id: element.userId }, { $inc: { balance: 0 - (element.amount * winAmount) + element.amount, earning: 0 - (element.amount * winAmount) }, $push: { notification: `we've undo the settlement due to ${message}` } }, { new: true })
-                : await User.updateOne({ _id: element.userId }, { $inc: { balance: element.amount }, $push: { notification: message || 'Settlement has been reverted due to some reason' } }, { new: true })
+                ? userData = await User.updateOne({ _id: element.userId }, { $inc: { balance: 0 - (element.amount * winAmount) + element.amount, earning: 0 - (element.amount * winAmount) }, $push: { notification: `we've undo the settlement due to ${message}` } }, { new: true })
+                : userData = await User.updateOne({ _id: element.userId }, { $inc: { balance: element.amount }, $push: { notification: message || 'Settlement has been reverted due to some reason' } }, { new: true })
+
+            const link = `${element.question}`;
+            const data = { subject: `Undo Question Settlement`, text: link, email: userData.email, html: `The Question "${element.question}" has been un-settled due to ${message}` };
+            const result = await sendEMail(data);
+            console.log(result);
+
         }))
         res.status(200).send(ques);
     } catch (error) {

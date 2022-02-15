@@ -181,6 +181,9 @@ function QuestionDetail({ questionData }) {
                                         }} className="text-white max-w-xl sm:p-5 xl:p-0 mt-5 lg:mt-0 text-center lg:text-left">
                                         <h2 className="text-lg md:text-xl text-yellow-300 capitalize">{que?.category}</h2>
                                         <h1 className="text-2xl sm:text-3xl md:text-4xl font-medium my-2 mb-6">{que.question}</h1>
+                                        {/* <h2 className="flex justify-center flex-wrap lg:justify-start items-center divide-x-2 text-lg md:text-xl my-4">
+                                            {que?.options?.length > 0 && que?.options?.map((option, i) => <p className={`${i == 0 || i==2 ? 'pr-5 text-yellow-300' : 'pl-5 text-green-300'}`}>{Volume > 0 ? Math.round((option.value * 100 / Volume)) : 0}% say {option.name}</p>)}
+                                        </h2> */}
                                         <div className="flex flex-wrap-reverse items-center justify-center lg:justify-start">
                                             {que?.qstatus === 'verified' ?
                                                 <>
@@ -334,6 +337,13 @@ function QuestionDetail({ questionData }) {
                                         <span>{option.name}</span>
                                     </label>
                                 )}
+                                {/* <input type="radio" value="Favour" id="Favour" className="hidden"
+                                    onChange={(e) => setOdd(e.target.value)} ref={yesRef} name="odd" />
+                                <div onClick={() => yesRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Favour' && 'btn-blue text-white'} cursor-pointer`}>Yes</div>
+
+                                <input type="radio" value="Against" id="Against" className="hidden"
+                                    onChange={(e) => setOdd(e.target.value)} ref={noRef} name="odd" />
+                                <div onClick={() => noRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</div> */}
                             </div>
                             <div className="my-4 flex flex-col items-center">
                                 <h1 className="font-medium">Amount to Bid : <span className="text-blue-300 inline-flex items-center"><Coin width="4" height="4" />{bid}</span> </h1>
