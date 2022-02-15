@@ -1,3 +1,4 @@
+import Head from 'next/head';
 import Router from 'next/router';
 import { useState, useEffect } from 'react'
 import Accordion from '../components/Accordion';
@@ -5,6 +6,8 @@ import Modal from '../components/Modal';
 import { balance, updateBalance } from '../slices/userBalance'
 import { useDispatch, useSelector } from 'react-redux'
 import { userSession } from '../lib/user-session';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const accordionData = [
     {
@@ -52,10 +55,19 @@ const accordionData = [
 
 ];
 
-const cryptoApi = [{ id: "Qwsogvtv82FCd", name: 'Bitcoin (BTC)', symbol: 'BTC' }, { id: "razxDUgYGNAdQ", name: 'Ethereum (ETH)', symbol: '(ETH)' }, { id: "HIVsRcGKkPFtW", name: 'Tether USD (USDT)', symbol: 'USDT' }, { id: "aKzUVe4Hh_CON", name: 'USDC', symbol: 'USDC' }, { id: "a91GCGd_u96cF", name: 'Dogecoin (DOGE)', symbol: 'DOGE' }]
+const cryptoApi = [
+    { id: "Qwsogvtv82FCd", name: 'Bitcoin (BTC)', symbol: 'BTC' },
+    { id: "razxDUgYGNAdQ", name: 'Ethereum (ETH)', symbol: '(ETH)' },
+    { id: "aKzUVe4Hh_CON", name: 'USD Coin', symbol: 'USDC' },
+    { id: "a91GCGd_u96cF", name: 'Dogecoin (DOGE)', symbol: 'DOGE' },
+    { id: "D7B1x_ks7WhV5", name: 'Litecoin (LTC)', symbol: 'LTC' },
+    { id: "MoTuySvg7", name: 'Dai (Dai)', symbol: '(Dai)' },
+    { id: "ZlZpzOJo43mIo", name: 'Bitcoin Cash (BCH)', symbol: '(BCH)' },
+]
 
 function withdraw() {
     const amount = useSelector(balance);
+    console.log(amount)
     const dispatch = useDispatch();
     const session = userSession()
     useEffect(() => {
@@ -102,47 +114,60 @@ function withdraw() {
             e.preventDefault(0);
         }
         setIsSending(true);
-        if (data) {
-            const res = await fetch(`/api/payment/withdrawCoins`, {
-                method: 'POST',
-                body: JSON.stringify({
-                    ...data,
-                    userId: userInfo?._id,
-                    name: userInfo?.name,
-                    image_url: userInfo?.image_url,
-                    email: userInfo?.email,
-                    balance: amount,
-                    isVerified: userInfo?.isVerified,
-                    country: userInfo?.country,
-                    crypto: crypto?.name,
-                    type: userInfo?.type,
+        if (amount < data?.coins) {
+            return toast("Oops! Insuffiecient balance", {
+                position: "top-center",
+                autoClose: 10000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: false,
+                draggable: true,
+                progress: undefined,
+            });
+        }
+        else {
+            if (data) {
+                const res = await fetch(`/api/payment/withdrawCoins`, {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        ...data,
+                        userId: userInfo?._id,
+                        name: userInfo?.name,
+                        image_url: userInfo?.image_url,
+                        email: userInfo?.email,
+                        balance: amount,
+                        isVerified: userInfo?.isVerified,
+                        country: userInfo?.country,
+                        crypto: crypto?.name,
+                        type: userInfo?.type,
+                        cryptoValue: ((data?.coins / 100) * currencyValue).toFixed(10)
+                    })
                 })
-            })
-            if (res.status == 200) {
-                const response = await res.json();
-                setIsSent(response?.message)
-                dispatch(updateBalance(response?.newBalance))
-                setData({
-                    ...data,
-                    balance: response?.newBalance,
-                    coins: '',
-                    wallet: ''
-                })
-                setCrypto();
+                if (res.status == 200) {
+                    const response = await res.json();
+                    setIsSent(response?.message)
+                    dispatch(updateBalance(response?.newBalance))
+                    setData({
+                        ...data,
+                        balance: response?.newBalance,
+                        coins: '',
+                        wallet: ''
+                    })
+                    setCrypto();
 
-            } else if (res.status == 403) {
-                window.alert('Fill all the fields')
-            }
-            else {
-                setIsSent("Error in Sending the Request")
+                } else if (res.status == 403) {
+                    window.alert('Fill all the fields')
+                }
+                else {
+                    setIsSent("Error in Sending the Request")
+                }
             }
         }
         setIsSending(false)
     }
 
-    useEffect(() => {
-        if (currency && data?.coins) {
-            fetch(`https://coinranking1.p.rapidapi.com/coin/yhjMzLPhuIDl/price?referenceCurrencyUuid=${currency}`, {
+    const fetchCurrencyValue = () => {
+        fetch(`https://coinranking1.p.rapidapi.com/coin/yhjMzLPhuIDl/price?referenceCurrencyUuid=${currency}`, {
                 "method": "GET",
                 "headers": {
                     "x-rapidapi-host": "coinranking1.p.rapidapi.com",
@@ -155,11 +180,21 @@ function withdraw() {
                 .catch(err => {
                     console.error("Cannot get Crypto data");
                 });
+    }
+
+    useEffect(() => {
+        if (currency && data?.coins) {
+            const timer = setTimeout(() => {
+                fetchCurrencyValue()
+            }, 30000);
+            return () => clearTimeout(timer);
         }
     }, [currency, data?.coins])
 
     return (
         <>
+                <Head><title>The Neuron Club | Withdraw Coins</title></Head>
+
             {session &&
                 <div className='text-white text-center p-5 min-h[500px]'>
                     <div className='py-10'>
@@ -172,7 +207,7 @@ function withdraw() {
                             <label htmlFor="coins" className="inline-block mb-1 text-white font-medium">Coins<span className="mx-1 text-red-500">*</span></label>
                             <input
                                 placeholder="Coins to Withdraw"
-                                min={50}
+                                min={1000}
                                 type="number"
                                 required
                                 name="coins"
@@ -224,6 +259,7 @@ function withdraw() {
                     </div>
                 </div>
             }
+            <ToastContainer style={{ textAlign: "center", zIndex: '49' }} />
             {isSent && <div onClick={() => setIsSent(null)}><Modal state={Boolean(isSent)} text={isSent} /> </div>}
         </>
     )

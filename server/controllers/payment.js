@@ -1,6 +1,10 @@
 import Withdraw from "../db/models/withdraw";
 import User from "../db/models/user";
 import sendEMail from "../../lib/Mail/sendMail";
+const { Client, resources } = require('coinbase-commerce-node');
+Client.init(process.env.COINBASE_API_KEY);
+const { Charge } = resources;
+
 
 const withdrawCoins = async (req, res) => {
     try {
@@ -75,6 +79,10 @@ const withdrawCoins = async (req, res) => {
                                     <td>${saveRequest?.crypto}</td>
                                 </tr>
                                 <tr class="py-2 px-5">
+                                    <td class="font-medium px-2">Currency Type:</td>
+                                    <td>${saveRequest?.cryptoValue}</td>
+                                </tr>
+                                <tr class="py-2 px-5">
                                     <td class="font-medium px-2">Wallet Address:</td>
                                     <td>${saveRequest?.wallet}</td>
                                 </tr>
@@ -104,6 +112,34 @@ const withdrawCoins = async (req, res) => {
 }
 
 
+const addCoins = async (req, res) => {
+    const { amount, currency, userId, name, email } = JSON.parse(req.body);
+    var chargeData = {
+        name: 'The Neuron Club',
+        description: 'The Neuron Club (TNC) is an online gaming platform that allows users to predict global events across categories and win rewards',
+        logo_url: `${process.env.HOST}/favicon.png`,
+        local_price: {
+            amount,
+            currency
+        },
+        pricing_type: 'fixed_price',
+        metadata: {
+            userId,
+            name,
+            email,
+            amount,
+            currency
+        }
+    }
+    try {
+        const chg = await Charge.create(chargeData)
+        // console.log(chg);
+        res.status(201).send(chg)
+    } catch (error) {
+        console.log(error)
+        res.status(400).send('Unable to create charge')
+    }
+}
 
 
-export { withdrawCoins }
+export { withdrawCoins, addCoins }
