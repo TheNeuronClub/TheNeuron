@@ -67,7 +67,6 @@ const cryptoApi = [
 
 function withdraw() {
     const amount = useSelector(balance);
-    console.log(amount)
     const dispatch = useDispatch();
     const session = userSession()
     useEffect(() => {
@@ -168,18 +167,19 @@ function withdraw() {
 
     const fetchCurrencyValue = () => {
         fetch(`https://coinranking1.p.rapidapi.com/coin/yhjMzLPhuIDl/price?referenceCurrencyUuid=${currency}`, {
-                "method": "GET",
-                "headers": {
-                    "x-rapidapi-host": "coinranking1.p.rapidapi.com",
-                    "x-rapidapi-key": "5c40381fc0msh7880c0810bb8aa0p134a9ajsne3214a4398a4"
-                }
-            }).then(response => response.json())
-                .then(response => {
-                    setCurrencyValue(+response?.data?.price)
-                })
-                .catch(err => {
-                    console.error("Cannot get Crypto data");
-                });
+            "method": "GET",
+            "headers": {
+                "x-rapidapi-host": "coinranking1.p.rapidapi.com",
+                "x-rapidapi-key": "5c40381fc0msh7880c0810bb8aa0p134a9ajsne3214a4398a4"
+            }
+        }).then(response => response.json())
+            .then(response => {
+                console.log(response?.data?.price)
+                setCurrencyValue(+response?.data?.price)
+            })
+            .catch(err => {
+                console.error("Cannot get Crypto data");
+            });
     }
 
     useEffect(() => {
@@ -187,17 +187,18 @@ function withdraw() {
             const timer = setTimeout(() => {
                 fetchCurrencyValue()
             }, 30000);
+            fetchCurrencyValue()
             return () => clearTimeout(timer);
         }
     }, [currency, data?.coins])
 
     return (
         <>
-                <Head><title>The Neuron Club | Withdraw Coins</title></Head>
+            <Head><title>The Neuron Club | Withdraw Coins</title></Head>
 
             {session &&
                 <div className='text-white text-center p-5 min-h[500px]'>
-                    <div className='py-10'>
+                    <div className='py-10 text-center'>
                         <h1 className='text-4xl sm:text-5xl xl:text-6xl text-white mb-2 font-semibold'>Withdraw Neuron Coins</h1>
                         <p className='text-lg xl:text-xl 2xl:text-2xl text-gray-200 max-w-3xl mx-auto my-2'>Please fill up the request form to withdraw money</p>
                     </div>
@@ -233,7 +234,8 @@ function withdraw() {
                         </div>
 
                         {currencyValue && currency && data?.coins && <div className="mb-1 sm:mb-2">
-                            {<h1 className='text-xl ml-2 font-semibold'>{((data?.coins / 100) * currencyValue).toFixed(10)}&nbsp;{crypto?.symbol}</h1>}
+                            {<h1 className='text-xl text-white ml-2 font-semibold'>{((data?.coins / 100) * currencyValue).toFixed(10)}&nbsp;{crypto?.symbol}</h1>}
+                            <p className='text-white text-sm 2xl:text-base'>Bitcoin price at the time of form submission is the price that will be considered for this transaction</p>
                         </div>}
 
                         <div className="mb-1 sm:mb-2">
@@ -248,6 +250,10 @@ function withdraw() {
                                 className="flex-grow w-full font-medium h-12 px-4 mb-2 max-w-xs md:max-w-sm transition duration-200 text-gray-800 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
                             />
                         </div>
+                        <div className="flex items-center space-x-2 my-2">
+                            <input className="w-4 h-4 flex-shrink-0" required style={{ accentColor: 'yellow' }} type="checkbox" />
+                            <p className="text-white">I have double checked the withdrawal bitcoin address is correct. I understand that bitcoin transactions by their nature can not be reverted</p>
+                        </div>
                         <button type='submit' className='btn-primary mt-4 capitalize mx-auto w-full min-w-max' disabled={isSending}>{isSending ? 'Wait...' : 'Send the Request'}</button>
                     </form>
 
@@ -259,8 +265,8 @@ function withdraw() {
                     </div>
                 </div>
             }
-            <ToastContainer style={{ textAlign: "center", zIndex: '49' }} />
             {isSent && <div onClick={() => setIsSent(null)}><Modal state={Boolean(isSent)} text={isSent} /> </div>}
+            <ToastContainer style={{ textAlign: "center", zIndex: '49' }} />
         </>
     )
 }

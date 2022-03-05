@@ -16,15 +16,15 @@ export default async (req, res) => {
         console.log(response);
 
         if (event.type === 'charge:confirmed') {
-            const { userId, name, email, amount, currency } = event.data.metadata;
-            const requestPay = new Deposit({ userId, name, email, amount, currency });
+            const { userId, name, email, amount, currency, coins } = event.data.metadata;
+            const requestPay = new Deposit({ userId, name, email, amount, currency, coins });
             const saveRequest = await requestPay.save();
             if (saveRequest) {
                 const link = `${saveRequest?.name} Deposit the ${saveRequest?.amount} ${saveRequest?.currency}`;
-                const data = { subject: `Payment Successful at The Neuron Club`, text: link, email: saveRequest?.email, html: `You've succesfully deposited ${saveRequest?.amount} ${saveRequest?.currency} at The Neuron Club, ${amount * 100} neuron coins are added to your account` };
+                const data = { subject: `Payment Successful at The Neuron Club`, text: link, email: saveRequest?.email, html: `You've succesfully deposited ${saveRequest?.amount} ${saveRequest?.currency} at The Neuron Club, ${coins} neuron coins are added to your account` };
                 const result = await sendEMail(data);
                 console.log(result);
-                const user = await User.findByIdAndUpdate({ _id: userId }, { $inc: { balance: amount * 100 }, $push: { notification: `Your Payment was successful, ${amount * 100} neuron coins are been added to your account` } });
+                const user = await User.findByIdAndUpdate({ _id: userId }, { $inc: { balance: coins }, $push: { notification: `Your Payment was successful, ${coins} neuron coins are been added to your account` } });
                 res.status(200).send({ msg: 'payment recieved and user data is updated' })
             }
         }

@@ -34,6 +34,9 @@ const withdrawSchema = new mongoose.Schema({
     crypto: {
         type: String
     },
+    cryptoValue: {
+        type: Number
+    },
     wallet: {
         type: String,
         required: true

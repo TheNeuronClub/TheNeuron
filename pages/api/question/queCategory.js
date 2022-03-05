@@ -6,7 +6,7 @@ const handler = nextConnect()
 
 handler.post(async (req, res) => {
     try {
-        const newCategory = new QueCategory({ category: req.body });
+        const newCategory = new QueCategory({ category: req.body, order: Date.now() });
         const saveCategory = await newCategory.save();
         if (!saveCategory) {
             res.status(400).send({ msg: 'Error' });
@@ -34,11 +34,33 @@ handler.get(async (req, res) => {
     }
 })
 
+handler.patch(async (req, res) => {
+    const data = JSON.parse(req.body)
+    if (data._id) {
+        await QueCategory.findOneAndUpdate({ _id: data._id }, { hidden: data.hidden })
+        res.status(200).send({ msg: 'updatde' })
+    }
+    else {
+        try {
+            data?.map(async (item) => {
+                try {
+                    await QueCategory.findOneAndUpdate({ _id: item._id }, { order: item.order })
+                } catch (error) {
+                    console.log(error)
+                }
+            })
+            res.status(200).send({ msg: 'updatde' })
+        } catch (error) {
+            console.log(error)
+            res.status(400).send({ msg: 'Error' });
+        }
+    }
+})
+
 handler.delete(async (req, res) => {
     try {
         const delCategory = await QueCategory.findByIdAndDelete({ _id: req.query._id })
         delCategory ? res.status(200).send({ msg: "category deleted" }) : res.status(400).send({ msg: 'unable to remove category' });
-
     } catch (error) {
         console.log(error)
         res.status(400).send({ msg: 'unable to remove' })

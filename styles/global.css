@@ -23,6 +23,9 @@ body{
     display: none
 } */
 
+.scroll-hidden::-webkit-scrollbar{
+    display: none
+}
 iframe::-webkit-scrollbar{
     display: none
 }
@@ -747,9 +750,53 @@ input[type=number]::-webkit-outer-spin-button {
     border-radius: 10px
 }
 
+.blog__desc p{
+    font-weight: 1.5rem;
+    font-size: 1.15rem;
+    line-height: 1.75rem;
+    margin: 1rem 0;
+}
+.blog__desc h1,
+.blog__desc h2,
+.blog__desc h3,
+.blog__desc h4,
+.blog__desc h5,
+.blog__desc h6{
+    font-weight: 1.875rem;
+    margin: 1rem 0;
+}
+.blog__desc h3, .blog__desc h4{
+    font-size: 1.15rem;
+    line-height: 1.75rem;
+}
+.blog__desc h2{
+    font-size: 1.5rem;
+    line-height: 2rem;
+}
+.blog__desc h1{
+    font-size: 1.875rem;
+    line-height: 2.25rem;
+}
 @media(max-width: 640px) {
     .carousel-item {
         height: 36rem;
+    }
+    .blog__desc p{
+        font-weight: 1.5rem;
+        font-size: 1.05rem;
+        line-height: 1.65rem;
+    }
+    .blog__desc h3, .blog__desc h4{
+        font-size: 1.05rem;
+        line-height: 1.55rem;
+    }
+    .blog__desc h2{
+        font-size: 1.3rem;
+        line-height: 1.85rem;
+    }
+    .blog__desc h1{
+        font-size: 1.625rem;
+        line-height: 2rem;
     }
 
 }

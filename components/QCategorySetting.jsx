@@ -2,11 +2,26 @@ import { PlusIcon, XIcon } from "@heroicons/react/solid"
 import { RefreshIcon } from "@heroicons/react/outline"
 import { useState } from 'react'
 
-const QCategory = ({ text, onSelect }) => {
+const QCategory = ({ text, onSelect, handleDrag, handleDrop }) => {
+    const [hide, setHide] = useState(text?.hidden)
+    const hideCategory = async () => {
+        const res = await fetch(`/api/question/queCategory`, {
+            method: 'PATCH',
+            body: JSON.stringify({ _id: text._id, hidden: !hide })
+        })
+        if (res.status == 200) {
+            setHide(!hide);
+        }
+    }
     return (
         <>
-            <div className="flex items-center text-gray-900 font-medium bg-white shadow-lg rounded-3xl p-2">
-                <h1 className="text-sm md:text-base lg:text-lg capitalize px-2">{text.category}</h1>
+            <div draggable={true}
+                id={text?._id}
+                onDragOver={(ev) => ev.preventDefault()}
+                onDragStart={handleDrag}
+                onDrop={handleDrop}
+                className="flex items-center text-gray-900 font-medium bg-white shadow-lg rounded-3xl p-2" style={{ cursor: 'grab' }}>
+                <h1 onClick={hideCategory} className={`text-sm md:text-base lg:text-lg capitalize hover:line-through px-2 ${hide && 'line-through'}`}>{text.category}</h1>
                 <XIcon className="h-4 w-4 text-gray-500 hover:text-red-400 cursor-pointer" onClick={() => onSelect(text._id)} />
             </div>
         </>
@@ -29,10 +44,8 @@ function QCategorySetting({ category }) {
         console.log(res.status)
         if (res.status === 201) {
             const response = await res.json();
-            console.log(response)
             setItem('')
             setIsSending(false)
-            console.log('category data : ', categoryData)
             categoryData?.length > 0 ? setCategoryData([...categoryData, response]) : setCategoryData([...response])
         }
         setIsSending(false)
@@ -56,6 +69,37 @@ function QCategorySetting({ category }) {
         }
     }
 
+    const [dragId, setDragId] = useState();
+    const arrangeCategory = async () => {
+        const res = await fetch(`/api/question/queCategory`, {
+            method: 'PATCH',
+            body: JSON.stringify(categoryData)
+        })
+        console.log(res.status)
+    }
+
+    const handleDrag = (ev) => {
+        setDragId(ev.currentTarget.id);
+    };
+    const handleDrop = async (ev) => {
+        const dragBox = categoryData.find((box) => box._id == dragId);
+        const dropBox = categoryData.find((box) => box._id == ev.currentTarget.id);
+        const dragBoxOrder = dragBox.order;
+        const dropBoxOrder = dropBox.order;
+
+        const newCatState = categoryData.map((box) => {
+            if (box._id == dragId) {
+                box.order = dropBoxOrder;
+            }
+            if (box._id == ev.currentTarget.id) {
+                box.order = dragBoxOrder;
+            }
+            return box;
+        });
+        setCategoryData(newCatState);
+        await arrangeCategory()
+    };
+
     return (
         <div className="mb-10">
             <h1 className="text-3xl font-semibold py-2 sm:px-5 text-white">Question Categories </h1>
@@ -70,7 +114,7 @@ function QCategorySetting({ category }) {
             {categoryData?.length > 0 ?
                 <>
                     <div className="flex flex-wrap items-center gap-x-4 lg:gap-6 gap-y-4 lg:gap-y-6 sm:px-5">
-                        {categoryData.map(text => <QCategory key={text._id} text={text} onSelect={delCategory} />)}
+                        {categoryData.sort((a, b) => a.order - b.order).map(text => <QCategory key={text._id} text={text} onSelect={delCategory} handleDrag={handleDrag} handleDrop={handleDrop} />)}
                     </div>
                 </>
                 :

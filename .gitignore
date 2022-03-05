@@ -15,6 +15,7 @@
 # production
 /build
 
+theneuronclub/node_modules
 # misc
 .DS_Store
 *.pem

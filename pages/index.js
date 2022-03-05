@@ -8,6 +8,7 @@ import OnBoard from '../components/OnBoard'
 import Image from 'next/image'
 import Accordion from '../components/Accordion'
 import Question from '../components/Question';
+import Blogs from '../components/Blogs';
 import { ArrowNarrowRightIcon } from '@heroicons/react/solid'
 
 
@@ -85,6 +86,7 @@ export default function Home({ carouselList }) {
         }
 
     }
+
     useEffect(() => {
         getQue()
     }, [])
@@ -133,7 +135,6 @@ export default function Home({ carouselList }) {
                     </div>
                 </div>
 
-
                 <div className='py-5 xl:py-10'>
                     <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center mb-5 font-semibold text-white capitalize'>What we offer ?</h1>
                     <p className='text-lg xl:text-xl 2xl:text-2xl text-center max-w-5xl mx-auto px-5 pb-10 text-gray-100'>An unparalleled experience to immerse and interact with other fans</p>
@@ -180,8 +181,6 @@ export default function Home({ carouselList }) {
                     </Link>
                 </div>
 
-
-
                 <div className='p-5 xl:py-10'>
                     <h1 className='text-4xl sm:text-5xl xl:text-6xl text-white text-center mb-10 font-semibold '>Frequently Asked Questions</h1>
                     <div className=' mx-auto max-w-7xl py-2'>
@@ -194,6 +193,7 @@ export default function Home({ carouselList }) {
                     </Link>
                 </div>
 
+                <Blogs home />
 
                 <Head>
                     <title>The Neuron Club | Predict Future and Win Rewards</title>
