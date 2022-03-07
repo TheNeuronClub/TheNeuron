@@ -117,7 +117,7 @@ function Navbar() {
                 exit="out"
                 variants={fadeOut}
                 transition={pageTransition} className='w-full text-center capitalize max_w_3xl bg-[#08ffd6] cursor-pointer text-gray-700 hover:text-black h-10 py-1 grid place-items-center font-medium text-base xl:text-lg'>
-                <Link href="/contest">Play Contest on your favourite question & Win Rewards</Link>
+                <Link href="/contest">Ace the Oscars Contest Live now! Click here to get started for chance to win exciting rewards</Link>
             </motion.div>}
 
             {isActive &&
