@@ -89,7 +89,7 @@ function Navbar() {
                         <Link href="/question/">Explore</Link>
                         {session?.type === 'admin' && <Link href="/create_question">Create Question</Link>}
                         <Link href="/how_it_works">How it Works</Link>
-                        <Link href="/transfer">Add Coins</Link>
+                        {session && <Link href="/transfer">Add Coins</Link>}
 
                         {!session &&
                             <>
@@ -112,9 +112,13 @@ function Navbar() {
                     <MenuAlt1Icon className="w-10 h-10 ml-3 cursor-pointer md:hidden active:scale-95 transition-sm" onClick={() => setIsActive(true)} />
                 </div>
             </motion.div>
-            {router.pathname == '/' && <div className='w-full text-center capitalize max_w_3xl bg-[#08ffd6] cursor-pointer text-gray-700 hover:text-black h-10 py-1 grid place-items-center font-medium text-base xl:text-lg'>
+            {router.pathname == '/' && <motion.div initial="initial"
+                animate="in"
+                exit="out"
+                variants={fadeOut}
+                transition={pageTransition} className='w-full text-center capitalize max_w_3xl bg-[#08ffd6] cursor-pointer text-gray-700 hover:text-black h-10 py-1 grid place-items-center font-medium text-base xl:text-lg'>
                 <Link href="/contest">Play Contest on your favourite question & Win Rewards</Link>
-            </div>}
+            </motion.div>}
 
             {isActive &&
                 <motion.div initial="initial"

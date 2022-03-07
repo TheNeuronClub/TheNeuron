@@ -30,7 +30,7 @@ export default function Blogs({ home }) {
         <>
             <div className='max-w-7xl mx-auto p-5 xl:py-10'>
                 <h1 className='text-4xl sm:text-5xl xl:text-6xl text-white text-center mb-10 font-semibold '>Latest Blogs</h1>
-                <div className='grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-6 p-2 py-5'>
+                <div className='grid place-items-center grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10 p-2 py-5'>
                     {posts?.map(post => <Link key={post._id} href={`/blog/${post.slug.current}`}>
                         <div className='group cursor-pointer border rounded-lg overflow-hidden blur-blue'>
                             <img className='h-60 w-full object-cover group-hover:scale-105 transition-transform duration-200 ease-in-out' src={urlFor(post.mainImage)?.url()} alt="" />
