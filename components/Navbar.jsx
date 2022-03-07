@@ -89,6 +89,8 @@ function Navbar() {
                         <Link href="/question/">Explore</Link>
                         {session?.type === 'admin' && <Link href="/create_question">Create Question</Link>}
                         <Link href="/how_it_works">How it Works</Link>
+                        <Link href="/transfer">Add Coins</Link>
+
                         {!session &&
                             <>
                                 <Link href="/faq">FAQs</Link>
@@ -110,9 +112,9 @@ function Navbar() {
                     <MenuAlt1Icon className="w-10 h-10 ml-3 cursor-pointer md:hidden active:scale-95 transition-sm" onClick={() => setIsActive(true)} />
                 </div>
             </motion.div>
-           {/* {router.pathname == '/' && <div className='w-full text-center max_w_3xl blur-blue hover:text-yellow-300 cursor-pointer text-white h-10 py-1 grid place-items-center text-sm md:text-base xl:text-lg'>
+            {router.pathname == '/' && <div className='w-full text-center max_w_3xl bg-[#08ffd6] cursor-pointer text-gray-700 hover:text-black h-10 py-1 grid place-items-center font-medium text-base xl:text-lg'>
                 <Link href="/contest">Your text to grab user's attention for contest 🎊🎁</Link>
-            </div>} */}
+            </div>}
 
             {isActive &&
                 <motion.div initial="initial"

@@ -2,6 +2,7 @@
 import connectDB from '../../server/db/mongodb';
 import Question from '../../server/db/models/question';
 import Transaction from '../../server/db/models/transaction';
+import QueCategory from '../../server/db/models/queCategory'
 
 const update = async (req, res) => {
     try {

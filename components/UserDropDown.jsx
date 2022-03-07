@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { ChevronDownIcon, ChevronUpIcon, CogIcon, CubeIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, ViewGridIcon, ViewListIcon, XIcon } from "@heroicons/react/solid"
+import { ChevronDownIcon, ChevronUpIcon, CogIcon, CubeIcon, CurrencyDollarIcon, LogoutIcon, ShareIcon, UserIcon, UsersIcon, ViewGridIcon, ViewListIcon, XIcon } from "@heroicons/react/solid"
 import Router from 'next/router'
 import { FacebookIcon, FacebookShareButton, LinkedinIcon, LinkedinShareButton, PinterestIcon, PinterestShareButton, RedditIcon, RedditShareButton, TelegramIcon, TelegramShareButton, TwitterIcon, TwitterShareButton, WhatsappIcon, WhatsappShareButton } from "react-share";
 import { useDispatch } from 'react-redux'
@@ -23,7 +23,7 @@ function UserDropDown({ session }) {
     useEffect(() => {
         const timer = setTimeout(() => {
             setIsActive(false)
-        }, 3000);
+        }, 7000);
         return () => clearTimeout(timer);
     }, [isActive]);
 
@@ -79,6 +79,9 @@ function UserDropDown({ session }) {
                         {/* {session?.referral_code &&
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => setIsShare(true)}><UsersIcon className="w-6 h-6 mr-1 text-gray-700" />Refer: {session?.referral_code}</li>
                         } */}
+                        {session &&
+                            <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/transfer')}><img className='w-6 h-6 mr-1 ' src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/50/000000/external-coin-payment-and-finance-tanah-basah-glyph-tanah-basah.png"/>Add Coins</li>
+                        }
                         {session?.type === 'admin' &&
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/question/verification')}><CubeIcon className="w-6 h-6 mr-1 text-gray-700" />Que's Verification</li>
                         }

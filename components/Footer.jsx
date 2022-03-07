@@ -59,7 +59,6 @@ function Footer() {
                         <ul className="flex flex-col text-lg font-medium py-2">
                             <Link href="/">Home</Link>
                             <Link href="/question/">Explore</Link>
-                            <Link href="/blogs/">Blogs</Link>
                         </ul>
 
                     </div>
