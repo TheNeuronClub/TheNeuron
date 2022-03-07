@@ -112,8 +112,8 @@ function Navbar() {
                     <MenuAlt1Icon className="w-10 h-10 ml-3 cursor-pointer md:hidden active:scale-95 transition-sm" onClick={() => setIsActive(true)} />
                 </div>
             </motion.div>
-            {router.pathname == '/' && <div className='w-full text-center max_w_3xl bg-[#08ffd6] cursor-pointer text-gray-700 hover:text-black h-10 py-1 grid place-items-center font-medium text-base xl:text-lg'>
-                <Link href="/contest">Your text to grab user's attention for contest 🎊🎁</Link>
+            {router.pathname == '/' && <div className='w-full text-center capitalize max_w_3xl bg-[#08ffd6] cursor-pointer text-gray-700 hover:text-black h-10 py-1 grid place-items-center font-medium text-base xl:text-lg'>
+                <Link href="/contest">Play Contest on your favourite question & Win Rewards</Link>
             </div>}
 
             {isActive &&
