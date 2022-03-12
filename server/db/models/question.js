@@ -11,6 +11,9 @@ const questionSchema = new mongoose.Schema({
     category: {
         type: String,
     },
+    tags: {
+        type: Array
+    },
     bidClosing: {
         type: Date,
     },

@@ -25,6 +25,10 @@ const EditQue = (props) => {
     const [settlementClosingDate, setSettlementClosingDate] = useState(new Date(que?.settlementClosing))
     const [categories, setCategories] = useState(null)
 
+    const [tags, setTags] = useState(que?.tags || []);
+    const [category, setCategory] = useState(que?.category)
+
+
     useEffect(() => {
         if (new Date(goLiveDate) > new Date(bidClosingDate)) {
             setBidClosingDate(addDays(goLiveDate, 1))
@@ -74,9 +78,31 @@ const EditQue = (props) => {
         setIsVerify(false)
     }
 
+    useEffect(() => {
+        if (tags?.length > 0) {
+            setCategory(tags[0])
+        }
+    }, [tags])
+
     const handleChange = (e) => {
         setUpdatedQue({ ...updatedQue, [e.target.name]: e.target.value });
     }
+    const handleTags = (e) => {
+        e.preventDefault();
+        let value = e.target.value;
+        if (!category) {
+            setCategory(value);
+        }
+        else if (category != value && value) {
+            if (tags.length === 0) {
+                setTags([value])
+            }
+            else if (tags.length > 0 && !tags?.includes(value)) {
+                setTags([...tags, value])
+            }
+        }
+    }
+
 
     const [image, setImage] = useState();
     const [preview, setPreview] = useState(null);
@@ -94,37 +120,16 @@ const EditQue = (props) => {
         }
     }, [image])
 
-    // const updateQuestion = async () => {
-    //     setIsUpdating(true)
-    //     const { _id, question, category, reference } = updatedQue;
-    //     const res = await fetch(`/api/question/update_que`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ _id, desc, reference, question, category, goLive: goLiveDate, bidClosing: bidClosingDate, settlementClosing: settlementClosingDate })
-    //     })
-    //     console.log(res.status)
-    //     const response = await res.json();
-    //     if (res.status == 200) {
-    //         setIsQueEdit(false);
-    //         setQue(response)
-    //         if (props.from === 'queDetail') {
-    //             props.updateQues(response)
-    //             props.setIsQue(null)
-    //         }
-    //     }
-    //     setIsUpdating(false);
-    // }
 
     const updateQuestion = async () => {
         setIsUpdating(true)
-        const { _id, question, category, reference } = updatedQue;
+        const { _id, question, reference } = updatedQue;
         const formData = new FormData();
         formData.append("image", image);
         formData.append("question", question);
         formData.append("userId", que?.userId);
         formData.append("category", category);
+        formData.append("tags", JSON.stringify([... new Set(tags, category)]));
         formData.append("goLive", goLiveDate.toISOString());
         formData.append("bidClosing", bidClosingDate.toISOString());
         formData.append("settlementClosing", settlementClosingDate.toISOString());
@@ -138,13 +143,24 @@ const EditQue = (props) => {
         console.log(res.status)
         if (res.status == 201) {
             setIsQueEdit(false);
-            setQue(response)
+            setQue(response);
             if (props.from === 'queDetail') {
                 props.updateQues(response)
                 props.setIsQue(null)
             }
         }
         setIsUpdating(false);
+    }
+    const delTag = async (item) => {
+        const index = tags.findIndex((data) => data == item)
+        if (index >= 0) {
+            tags.splice(index, 1)
+            if (category == item)
+                setCategory('')
+        } else {
+            console.warn(`Can't remove category`)
+        }
+        setTags([...tags]);
     }
 
     function DESC() {
@@ -153,7 +169,7 @@ const EditQue = (props) => {
     return (
         <div className="fixed top-0 left-0 grid place-items-center blur-black w-full h-screen p-1 z-50">
             <XIcon className="bg-white text-gray-700 w-12 h-12 cursor-pointer rounded-full p-1 absolute top-5 right-6 z-[55] gradient-shadow" onClick={() => props.setIsQue(null)} />
-            <motion.div initial="initial"
+            <motion.form initial="initial"
                 animate="in"
                 exit="out"
                 variants={pageZoom}
@@ -192,18 +208,24 @@ const EditQue = (props) => {
                         /> : <h1 className="flex-1"> {que?.question} </h1>
                         }
                         {isQueEdit ?
-                            <select
-                                placeholder="category"
-                                type="text"
-                                name="category"
-                                required
-                                value={updatedQue?.category}
-                                onChange={handleChange}
-                                className="flex-grow w-full h-10 max-w-max capitalize px-4 mb-2 text-lg transition duration-200 bg-white text-gray-800 border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
-                            >
-                                <option value="" disabled>Choose a category</option>
-                                {categories?.map(item => <option key={item._id} value={item.category} className="capitalize">{item.category}</option>)}
-                            </select>
+                            <>
+                                <select
+                                    placeholder="category"
+                                    type="text"
+                                    name="category"
+                                    required
+                                    value={category}
+                                    onChange={handleTags}
+                                    className="flex-grow w-full h-10 max-w-max capitalize px-4 mb-2 text-lg transition duration-200 bg-white text-gray-800 border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
+                                >
+                                    <option value="" disabled selected>Choose one or more category</option>
+                                    {categories?.map(item => <option key={item._id} value={item.category} className="capitalize">{item.category}</option>)}
+                                </select>
+                                <div className='flex flex-wrap items-center gap-2 max-w-xl'>
+                                    {category?.length > 0 && <p className='text-white m-1 blur-blue py-1 px-3 rounded-3xl text-lg font-medium min-w-max flex items-center'>{category}<XIcon className='w-4 h-4 ml-1 cursor-pointer text-gray-100' onClick={() => setCategory('')} /></p>}
+                                    {tags?.length > 0 && tags.map(item => item != category && item?.length > 1 && <p key={item} className='text-white m-1 blur-blue py-1 px-3 rounded-3xl text-lg font-medium min-w-max flex items-center'>{item}<XIcon className='w-4 h-4 ml-1 cursor-pointer text-gray-100' onClick={() => delTag(item)} /></p>)}
+                                </div>
+                            </>
                             : <h2 className="flex-1 text-sm text-gray-100 capitalize"> {que?.category} </h2>}
                     </div>
                     {props.from === 'queVerification' && <> <button className="px-4 py-1 mx-auto leading-loose btn-blue text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => updateStatus({ qstatus: 'verified' })}>{isVerify ? 'Wait...' : 'Set Verified'}</button>
@@ -281,13 +303,13 @@ const EditQue = (props) => {
                 }
 
                 <> {isQueEdit ? <div className="px-5 pb-10">
-                    <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 btn-blue text-white cursor-pointer`} onClick={updateQuestion}>{isUpdating ? 'Wait...' : 'Update'}</button>
+                    <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 btn-blue text-white cursor-pointer`} type="submit" onClick={updateQuestion}>{isUpdating ? 'Wait...' : 'Update'}</button>
                     <button className={`px-4 py-2 leading-loose text-gray-50 border border-white hover:text-gray-800 hover:bg-gray-50 hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 cursor-pointer`} onClick={() => { setIsQueEdit(false); if (props.from === 'queDetail') { props.setIsQue(null) } }}>Cancel</button>
                 </div> :
                     <button className={`px-4 py-2 leading-loose shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 btn-blue text-white cursor-pointer`} onClick={() => setIsQueEdit(true)}>Edit Question</button>
                 }
                 </>
-            </motion.div >
+            </motion.form >
         </div >
     )
 }

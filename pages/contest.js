@@ -1,4 +1,5 @@
 import { useRouter } from 'next/router'
+import Head from 'next/head'
 import React from 'react'
 import QuestionList from '../components/QuestionList'
 import { userSession } from '../lib/user-session'
@@ -8,8 +9,11 @@ function contest({ contestList }) {
     const session = userSession()
     return (
         <>
+        <Head>
+        <title>Contest | Oscars</title>
+        </Head>
             <div>
-                <img className='h-96 w-full rounded max-w-7xl object-contain mx-auto m-5 cursor-pointer' src={session ? contestList[1]?.imgSrc : contestList[0]?.imgSrc} alt="" onClick={() => router.push('/tnc')} />
+                <img className='w-full rounded max-w-7xl object-contain mx-auto m-5 cursor-pointer' src={session ? contestList[1]?.imgSrc : contestList[0]?.imgSrc || 'https://res.cloudinary.com/theneuron/image/upload/v1646032057/contest/d7j8cxtw6bphbyz63vhe.jpg'} alt="" onClick={() => router.push('/tnc/contest')} />
             </div>
             <QuestionList category={router.query?.category || 'oscars'} contest />
         </>

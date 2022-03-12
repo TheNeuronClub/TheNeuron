@@ -84,11 +84,11 @@ const filter = async (req, res) => {
     }
 
     if (sort == 'closed') {
-        category && category.length > 2 ? (filter = { category, qstatus: 'closed' }) : (filter = { qstatus: 'closed' });
+        category && category.length > 2 ? (filter = { tags: category, qstatus: 'closed' }) : (filter = { qstatus: 'closed' });
         sorting = { updatedAt: -1 };
     }
     else {
-        category && category.length > 2 ? (filter = { category, qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } })
+        category && category.length > 2 ? (filter = { tags: category, qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } }) : (filter = { qstatus, goLive: { $lte: new Date(new Date().toISOString()) }, bidClosing: { $gte: new Date(new Date().toISOString()) } })
     }
 
     try {

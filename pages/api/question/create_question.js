@@ -19,11 +19,11 @@ const getTotal = obj => Object.values(obj).reduce((a, b) => a + b);
 handler.post(async (req, res) => {
     if (req.file) {
         const file = dataUri(req).content;
-        const result = await uploader.upload(file, { folder: 'question'})
+        const result = await uploader.upload(file, { folder: 'question' })
         if (result) {
             const image_url = result.secure_url
             try {
-                const questionCreated = new Question({ ...req.body, options: JSON.parse(req.body.options), image_url });
+                const questionCreated = new Question({ ...req.body, tags: JSON.parse(req.body.tags), options: JSON.parse(req.body.options), image_url });
                 const saveQuestion = await questionCreated.save();
                 if (!saveQuestion) {
                     console.log('unable to add question')
@@ -45,12 +45,13 @@ handler.post(async (req, res) => {
 
 
 handler.patch(async (req, res) => {
+    console.log(req.body)
     if (req.file) {
         const file = dataUri(req).content;
         const result = await uploader.upload(file, { folder: "question" })
         if (result) {
             const imgSrc = result.secure_url
-            const queData = await Question.findByIdAndUpdate({ _id: req.query._id }, { ...req.body, image_url: imgSrc }, { new: true });
+            const queData = await Question.findByIdAndUpdate({ _id: req.query._id }, { ...req.body, tags: JSON.parse(req.body.tags), image_url: imgSrc }, { new: true });
             const saveData = await queData.save();
             if (!saveData) {
                 res.status(400).send({ msg: 'Error' });
@@ -61,7 +62,7 @@ handler.patch(async (req, res) => {
         }
     }
     else {
-        const queData = await Question.findByIdAndUpdate({ _id: req.query._id }, { ...req.body }, { new: true });
+        const queData = await Question.findByIdAndUpdate({ _id: req.query._id }, { ...req.body, tags: JSON.parse(req.body.tags) }, { new: true });
         const saveData = await queData.save();
         if (!saveData) {
             res.status(400).send({ msg: 'Error' });

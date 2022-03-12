@@ -28,6 +28,9 @@ function CreateQ({ session, categories }) {
     const [link, setLink] = useState('')
     const [options, setOptions] = useState([]);
     const [option, setOption] = useState('');
+    const [tags, setTags] = useState([]);
+    const [category, setCategory] = useState('')
+
     const [currentDate, setCurrentDate] = useState(new Date())
     const [goLiveDate, setGoLiveDate] = useState(currentDate)
     const [bidClosingDate, setBidClosingDate] = useState(addDays(goLiveDate, 1))
@@ -36,7 +39,6 @@ function CreateQ({ session, categories }) {
     const [data, setData] = useState({
         question: '',
         userId: session?._id,
-        category: '',
         bidClosing: '',
         goLive: '',
         // options: [{ name: 'Yes', value: getRandom(53, 98) }, { name: 'No', value: getRandom(53, 98) }],
@@ -57,6 +59,21 @@ function CreateQ({ session, categories }) {
         e.preventDefault();
         setData({ ...data, [e.target.name]: e.target.value })
     }
+    const handleTags = (e) => {
+        e.preventDefault();
+        let value = e.target.value;
+        if (!category) {
+            setCategory(value);
+        }
+        else if (category != value && value) {
+            if (tags.length === 0) {
+                setTags([value])
+            }
+            else if (tags.length > 0 && !tags?.includes(value)) {
+                setTags([...tags, value])
+            }
+        }
+    }
 
     const handleSubmit = async (e) => {
         if (e) {
@@ -69,7 +86,8 @@ function CreateQ({ session, categories }) {
             formData.append("image", qImage);
             formData.append("question", data.question);
             formData.append("userId", data.userId);
-            formData.append("category", data.category);
+            formData.append("category", category);
+            formData.append("tags", JSON.stringify([... new Set(tags, category)]));
             formData.append("goLive", goLiveDate.toISOString());
             formData.append("bidClosing", bidClosingDate.toISOString());
             formData.append("settlementClosing", settlementClosingDate.toISOString());
@@ -90,11 +108,12 @@ function CreateQ({ session, categories }) {
                 setData({
                     ...data,
                     question: '',
-                    category: '',
                     bidClosing: '',
                     goLive: '',
                     settlementClosing: '',
                 })
+                setCategory('')
+                setTags([])
                 setQImage('');
                 setLink('');
                 setDesc('');
@@ -111,6 +130,16 @@ function CreateQ({ session, categories }) {
             console.warn(`Can't remove option`)
         }
         setOptions([...options]);
+    }
+
+    const delTag = async (item) => {
+        const index = tags.findIndex((data) => data == item)
+        if (index >= 0) {
+            tags.splice(index, 1)
+        } else {
+            console.warn(`Can't remove category`)
+        }
+        setTags([...tags]);
     }
 
     return (
@@ -144,7 +173,7 @@ function CreateQ({ session, categories }) {
                             {(qImage?.size > 1000000) && <p className="text-red-500 text-sm">Maximum image upload size is 1MB </p>}
                         </div>
                         <div className="mb-1 sm:mb-2">
-                            <label htmlFor="Question Options" className="block mb-1 text-white font-medium">Question Options<span className="mx-1 text-red-500">*</span><span className='text-gray-200 text-xs font-normal'>min 2 and max 2 option allowed</span></label>
+                            <label htmlFor="Question Options" className="block mb-1 text-white font-medium">Question Options<span className="mx-1 text-red-500">*</span><span className='text-gray-200 text-xs font-normal'>min 2 and max 5 option allowed</span></label>
                             <div className='flex items-center space-x-2 flex-wrap max-w-[300px]'>
                                 {options?.length < 5 && <><input type="text" value={option} onChange={(e) => setOption(e.target.value)} name="option" className=" py-2 px-4 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline" />
                                     <div className="btn-blue rounded-full p-2">
@@ -166,12 +195,16 @@ function CreateQ({ session, categories }) {
                                 name="category"
                                 required
                                 value={data.category}
-                                onChange={handleChange}
-                                className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm appearance-none focus:outline-none focus:shadow-outline"
+                                onChange={handleTags}
+                                className="flex-grow w-full h-12 px-4 mb-2 transition duration-200 bg-white border border-gray-300 rounded shadow-sm capitalize appearance-none focus:outline-none focus:shadow-outline"
                             >
-                                <option value="" disabled>Choose a category</option>
+                                <option value="" disabled selected>Choose one or more category</option>
                                 {categories?.map(item => <option key={item._id} value={item.category} className="capitalize">{item.category}</option>)}
                             </select>
+                            <div className='flex flex-wrap items-center gap-2'>
+                                {category?.length > 0 && <p className='text-white m-1 blur-blue py-1 px-3 rounded-3xl text-lg font-medium min-w-max flex items-center'>{category}<XIcon className='w-4 h-4 ml-1 cursor-pointer text-gray-100' onClick={() => setCategory('')} /></p>}
+                                {tags?.length > 0 && tags.map(item => item != category && item?.length > 1 && <p key={item} className='text-white m-1 blur-blue py-1 px-3 rounded-3xl text-lg font-medium min-w-max flex items-center'>{item}<XIcon className='w-4 h-4 ml-1 cursor-pointer text-gray-100' onClick={() => delTag(item)} /></p>)}
+                            </div>
                         </div>
                         <div className="mb-1 sm:mb-2">
                             <label htmlFor="goLive" className="inline-block mb-1 text-white font-medium">Go Live Date &amp; Time<span className="mx-1 text-red-500">*</span></label>
