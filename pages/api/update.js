@@ -53,17 +53,17 @@ const update = async (req, res) => {
 
         // }))
 
-        const qu = await Transaction.aggregate([
-            { $match: { category: 'oscars', createdAt: { $gt: new Date('2022-03-12'), $lt: new Date('2022-03-28') } } },
-            {
-                $group:
-                {
-                    _id: { userId: "$userId" },
-                    totalAmount: { $sum: "$amount" },
-                    count: { $sum: 1 },
-                }
-            }
-        ])
+        // const qu = await Transaction.aggregate([
+        //     { $match: { category: 'oscars', createdAt: { $gt: new Date('2022-03-12'), $lt: new Date('2022-03-28') } } },
+        //     {
+        //         $group:
+        //         {
+        //             _id: { userId: "$userId" },
+        //             totalAmount: { $sum: "$amount" },
+        //             count: { $sum: 1 },
+        //         }
+        //     }
+        // ])
         res.status(201).send('updated')
     }
     catch (error) {

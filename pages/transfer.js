@@ -10,7 +10,7 @@ function transfer() {
     const router = useRouter()
     const session = userSession()
     useEffect(() => {
-        if (session) {
+        if (!session) {
             router.push('/')
         }
     }, [session])
