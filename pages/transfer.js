@@ -10,13 +10,14 @@ function transfer() {
     const router = useRouter()
     const session = userSession()
     useEffect(() => {
-        if (!session) {
+        if (session) {
             router.push('/')
         }
     }, [session])
     const [coins, setCoins] = useState(100);
     const [charge, setCharge] = useState(null);
     const [paymentSuccess, setPaymentSuccess] = useState(false);
+    const [isAvailable, setIsAvailable] = useState(false);
 
 
     const createCharge = async () => {
@@ -24,6 +25,10 @@ function transfer() {
             method: 'POST',
             body: JSON.stringify({ amount: coins / 100, coins: coins, currency: 'USD', userId: session?._id, name: session?.name, email: session?.email })
         })
+        console.log(res.status)
+        if (res.status === 400) {
+            setIsAvailable(true)
+        }
         const data = await res.json()
         // console.log(data.metadata)
         setCharge(data)
@@ -32,7 +37,6 @@ function transfer() {
         setCharge(null)
         createCharge();
     }, [coins])
-
 
     return (
         <>
@@ -63,7 +67,7 @@ function transfer() {
                 <button className='btn-primary mt-4 capitalize' onClick={() => router.push('/withdraw')}>Withdraw Coins</button>
             </div>
             {paymentSuccess && <div onClick={() => setPaymentSuccess(false)} ><Modal state={paymentSuccess} text="Payment Successful!" /> </div>}
-
+            {isAvailable && <div onClick={() => setIsAvailable(false)} ><Modal state={isAvailable} text="Service is closed for temporary period!" /> </div>}
         </>
     )
 }
