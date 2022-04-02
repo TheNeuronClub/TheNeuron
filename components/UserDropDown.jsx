@@ -79,9 +79,9 @@ function UserDropDown({ session }) {
                         {/* {session?.referral_code &&
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => setIsShare(true)}><UsersIcon className="w-6 h-6 mr-1 text-gray-700" />Refer: {session?.referral_code}</li>
                         } */}
-                        {session &&
+                        {/* {session &&
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/transfer')}><img className='w-6 h-6 mr-1 ' src="https://img.icons8.com/external-tanah-basah-glyph-tanah-basah/50/000000/external-coin-payment-and-finance-tanah-basah-glyph-tanah-basah.png"/>Add Coins</li>
-                        }
+                        } */}
                         {session?.type === 'admin' &&
                             <li className="hover:text-gray-900 cursor-pointer transition-sm flex items-center" onClick={() => Router.push('/question/verification')}><CubeIcon className="w-6 h-6 mr-1 text-gray-700" />Que's Verification</li>
                         }

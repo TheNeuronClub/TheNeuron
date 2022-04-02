@@ -90,7 +90,7 @@ function Navbar() {
                         <Link href="/contest">Oscars 2022</Link>
                         <Link href="/how_it_works">How It Works</Link>
                         {session?.type === 'admin' && <Link href="/create_question">Create Question</Link>}
-                        {session && <Link href="/transfer">Add Coins</Link>}
+                        {/* {session && <Link href="/transfer">Add Coins</Link>} */}
 
                         {!session &&
                             <>
@@ -113,13 +113,13 @@ function Navbar() {
                     <MenuAlt1Icon className="w-10 h-10 ml-3 cursor-pointer md:hidden active:scale-95 transition-sm" onClick={() => setIsActive(true)} />
                 </div>
             </motion.div>
-            {router.pathname == '/' && <motion.div initial="initial"
+            {/* {router.pathname == '/' && <motion.div initial="initial"
                 animate="in"
                 exit="out"
                 variants={fadeOut}
                 transition={pageTransition} className='w-full text-center capitalize max_w_3xl bg-[#08ffd6] cursor-pointer text-gray-700 hover:text-black py-1 grid place-items-center font-semibold text-base xl:text-lg'>
                 <Link href="/contest">Ace the Oscars Contest Live now! Click here to get started for chance to win rewards upto INR 12,000</Link>
-            </motion.div>}
+            </motion.div>} */}
 
             {isActive &&
                 <motion.div initial="initial"
