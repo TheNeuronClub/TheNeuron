@@ -226,7 +226,7 @@ const EditQue = (props) => {
                                     {tags?.length > 0 && tags.map(item => item != category && item?.length > 1 && <p key={item} className='text-white m-1 blur-blue py-1 px-3 rounded-3xl text-lg font-medium min-w-max flex items-center'>{item}<XIcon className='w-4 h-4 ml-1 cursor-pointer text-gray-100' onClick={() => delTag(item)} /></p>)}
                                 </div>
                             </>
-                            : <h2 className="flex-1 text-sm text-gray-100 capitalize"> {que?.category} </h2>}
+                            : <h2 className="flex-1 text-sm text-gray-100 capitalize"> {que?.tags?.map(item => `${item},`)} </h2>}
                     </div>
                     {props.from === 'queVerification' && <> <button className="px-4 py-1 mx-auto leading-loose btn-blue text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => updateStatus({ qstatus: 'verified' })}>{isVerify ? 'Wait...' : 'Set Verified'}</button>
                         <button className="px-4 py-1 mx-auto leading-loose bg-red-500 text-white shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] ml-4 sm:ml-0" onClick={() => updateStatus({ qstatus: 'invalid' })} >{isInValid ? 'Wait...' : 'Set Invalid'}</button> </>}
