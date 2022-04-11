@@ -23,8 +23,8 @@ function Notification({ notifications }) {
                     {
                         notifications?.length > 0 && notifications.reverse()?.map((message, i) =>
                             <motion.div variants={item} key={i} className="rounded-md flex justify-between items-center border border-gray-200 text-gray-700 px-4 py-2 text-sm my-2 bg-white">
-                                <h1>{message}</h1>
-                                {message.includes('won') ?
+                                <h1 className="break-words">{message}</h1>
+                                {message.includes('won') || message.includes('win') ?
                                     <EmojiHappyIcon className="w-8 h-5 text-yellow-400 cursor-pointer ml-3" />
                                     :
                                     message.includes('lose') && <ThumbUpIcon className="w-8 h-5 text-pink-400 cursor-pointer ml-3" />
