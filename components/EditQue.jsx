@@ -129,7 +129,7 @@ const EditQue = (props) => {
         formData.append("question", question);
         formData.append("userId", que?.userId);
         formData.append("category", category);
-        formData.append("tags", JSON.stringify([... new Set(tags, category)]));
+        formData.append("tags", JSON.stringify([... new Set([...tags, category])]));
         formData.append("goLive", goLiveDate.toISOString());
         formData.append("bidClosing", bidClosingDate.toISOString());
         formData.append("settlementClosing", settlementClosingDate.toISOString());
@@ -296,7 +296,7 @@ const EditQue = (props) => {
                             {que?.reference &&
                                 <div className="px-5 pb-5">
                                     <h1 className="text-2xl font-semibold text-white my-2">Source of Settlement</h1>
-                                    <a href={que?.reference} className="my-2 text-blue-500 block text-lg" target="_blank" noreferer="true">{que?.reference}</a>
+                                    <a href={que?.reference} className="my-2 text-blue-500 block text-lg break-all" target="_blank" noreferer="true">{que?.reference}</a>
                                 </div>
                             }
                         </>

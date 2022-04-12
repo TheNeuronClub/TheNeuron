@@ -5,7 +5,7 @@ import DatePicker from "react-datepicker";
 import addDays from 'date-fns/addDays'
 import { motion } from 'framer-motion'
 import { formats, modules, pageTransition, pageZoom } from '../util'
-import { RefreshIcon, XIcon } from '@heroicons/react/solid';
+import { XIcon } from '@heroicons/react/solid';
 import { PlusIcon } from '@heroicons/react/outline';
 const QuillNoSSRWrapper = dynamic(() => import('react-quill'), {
     ssr: false,
@@ -74,7 +74,6 @@ function CreateQ({ session, categories }) {
             }
         }
     }
-
     const handleSubmit = async (e) => {
         if (e) {
             e.preventDefault();
@@ -87,7 +86,7 @@ function CreateQ({ session, categories }) {
             formData.append("question", data.question);
             formData.append("userId", data.userId);
             formData.append("category", category);
-            formData.append("tags", JSON.stringify([... new Set(tags, category)]));
+            formData.append("tags", JSON.stringify([... new Set([...tags, category])]));
             formData.append("goLive", goLiveDate.toISOString());
             formData.append("bidClosing", bidClosingDate.toISOString());
             formData.append("settlementClosing", settlementClosingDate.toISOString());
