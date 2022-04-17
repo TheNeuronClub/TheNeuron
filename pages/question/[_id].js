@@ -259,10 +259,8 @@ function QuestionDetail({ questionData }) {
                                             transition={pageTransition} className="bet__container flex flex-col items-center justify-center p-5 blur-black rounded-md">
                                             <div className="flex flex-wrap w-full items-center justify-around gap-4 max-w-[300px]">
                                                 {que.options.map((option, i) =>
-                                                    <input key={option.name} className='hidden' type="radio" name="odd" id={`${option.name}`} value={option.name} onChange={(e) => { setOdd(e.target.value); setOptions(option) }} />
-                                                )}
-                                                {que.options.map((option, i) =>
                                                     <label key={`${option.name}`} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] ${odd == option.name && 'btn-blue text-white'} cursor-pointer`}>
+                                                        <input className='hidden' type="radio" name="odd" id={`${option.name}`} value={option.name} onChange={(e) => { setOdd(e.target.value); setOptions(option) }} />
                                                         <span>{option.name}</span>
                                                     </label>
                                                 )}
@@ -330,20 +328,11 @@ function QuestionDetail({ questionData }) {
                             <XIcon className="w-10 h-10 p-1 absolute -top-4 -right-4 bg-white cursor-pointer rounded-full text-gray-700" onClick={() => setBidPlaceModal(false)} />
                             <div className="flex flex-wrap w-full items-center justify-around gap-4 max-w-[300px]">
                                 {que.options.map((option, i) =>
-                                    <input key={option.name} className='hidden' type="radio" name="odd" id={`${option.name}`} value={option.name} onChange={(e) => { setOdd(e.target.value); setOptions(option) }} />
-                                )}
-                                {que.options.map((option, i) =>
                                     <label key={`${option.name}`} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] ${odd == option.name && 'btn-blue text-white'} cursor-pointer`}>
+                                        <input className='hidden' type="radio" name="odd" id={`${option.name}`} value={option.name} onChange={(e) => { setOdd(e.target.value); setOptions(option) }} />
                                         <span>{option.name}</span>
                                     </label>
                                 )}
-                                {/* <input type="radio" value="Favour" id="Favour" className="hidden"
-                                    onChange={(e) => setOdd(e.target.value)} ref={yesRef} name="odd" />
-                                <div onClick={() => yesRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Favour' && 'btn-blue text-white'} cursor-pointer`}>Yes</div>
-
-                                <input type="radio" value="Against" id="Against" className="hidden"
-                                    onChange={(e) => setOdd(e.target.value)} ref={noRef} name="odd" />
-                                <div onClick={() => noRef.current.click()} className={`px-6 py-1 inline-block text-center leading-loose blur-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${odd == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</div> */}
                             </div>
                             <div className="my-4 flex flex-col items-center">
                                 <h1 className="font-medium">Amount to Bid : <span className="text-blue-300 inline-flex items-center"><Coin width="4" height="4" />{bid}</span> </h1>
