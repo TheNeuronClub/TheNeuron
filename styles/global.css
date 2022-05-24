@@ -206,7 +206,7 @@ border: 1px solid rgba( 255, 255, 255, 0.18 );
 }
 
 .btn-header{
-    @apply px-5 py-2 bg-white text-xl text-gray-800 rounded-2xl font-semibold active:scale-95 transition-sm duration-150 ease-out ;
+    @apply px-6 py-2 lg:py-3 bg-white text-xl lg:text-2xl 2xl:text-3xl text-gray-800 rounded-2xl font-semibold active:scale-95 transition-sm duration-150 ease-out ;
 }
 
 .btn-white{

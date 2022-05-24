@@ -119,35 +119,6 @@ export default function Home({ carouselList }) {
             <div className="max_w_3xl pb-10 space-y-24">
                 <Header carouselList={carouselList} />
 
-                <div className='text-white py-10'>
-                    <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center mb-5 font-semibold '>How it Works ?</h1>
-                    <p className='text-lg xl:text-xl 2xl:text-2xl text-center max-w-5xl mx-auto px-5 pb-10 text-gray-100'>Join TheNeuron.club to make predictions about your favourite entertainment topics and win with every correct prediction</p>
-                    <div className='flex flex-wrap py-5 justify-evenly items-stretch gap-10'>
-                        {bids.map(item =>
-                            <div key={item.no} className='max-w-[300px] 2xl:max-w-[350px] min-w-[250px] p-8 rounded-md shadow-lg blur-blue opacity-90 rotate-[-1deg] hover:opacity-100 hover:rotate-[0deg] transition-all duration-200 ease-out' >
-                                <div className="relative mx-auto w-28 h-28 md:w-32 md:h-32 xl:w-36 xl:h-36 2xl:w-48 2xl:h-48">
-                                    <Image src={item.img} layout="fill" objectFit="fill" className="rounded-xl drop-shadow-xl" />
-                                </div>
-                                <h2 className='text-2xl lg:text-3xl 2xl:text-4xl font-semibold my-2 text-center'>{item.heading}</h2>
-                                <p className='text-lg lg:text-xl 2xl:text-2xl text-gray-300 text-center'>{item.desc}</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                <div className='py-5 xl:py-10'>
-                    <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center mb-5 font-semibold text-white capitalize'>What we offer ?</h1>
-                    <p className='text-lg xl:text-xl 2xl:text-2xl text-center max-w-5xl mx-auto px-5 pb-10 text-gray-100'>An unparalleled experience to immerse and interact with other fans</p>
-
-                    <div className='p-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 place-items-center items-center justify-evenly md:max-w-4xl xl:max-w-7xl mx-auto flex-wrap gap-12 lg:gap-y-16'>
-                        {values?.map(item => <div key={item.id} className='blur-blue rounded-xl p-8 text-white max-w-xs flex flex-col items-center justify-center'>
-                            <img src={item.imgSrc} className='w-32 h-32 sm:w-36 sm:h-36 md:w-36 md:h-36 xl:w-28 xl:h-28 p-2' alt="" />
-                            <h1 className='text-3xl font-semibold mb-2 mt-4'>{item.heading}</h1>
-                            <p className='text-lg md:text-xl text-center text-gray-200'>{item.desc}</p>
-                        </div>)}
-                    </div>
-                </div>
-
                 <div className='max-w-7xl mx-auto p-5'>
                     <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center my-5 font-semibold text-white'>Trending Topics</h1>
                     <div className="p-10 flex items-center justify-evenly gap-10 flex-wrap">
@@ -181,6 +152,37 @@ export default function Home({ carouselList }) {
                     </Link>
                 </div>
 
+                <Blogs home />
+
+                <div className='text-white py-10'>
+                    <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center mb-5 font-semibold '>How it Works ?</h1>
+                    <p className='text-lg xl:text-xl 2xl:text-2xl text-center max-w-5xl mx-auto px-5 pb-10 text-gray-100'>Join TheNeuron.club to make predictions about your favourite entertainment topics and win with every correct prediction</p>
+                    <div className='flex flex-wrap py-5 justify-evenly items-stretch gap-10'>
+                        {bids.map(item =>
+                            <div key={item.no} className='max-w-[300px] 2xl:max-w-[350px] min-w-[250px] p-8 rounded-md shadow-lg blur-blue opacity-90 rotate-[-1deg] hover:opacity-100 hover:rotate-[0deg] transition-all duration-200 ease-out' >
+                                <div className="relative mx-auto w-28 h-28 md:w-32 md:h-32 xl:w-36 xl:h-36 2xl:w-48 2xl:h-48">
+                                    <Image src={item.img} layout="fill" objectFit="fill" className="rounded-xl drop-shadow-xl" />
+                                </div>
+                                <h2 className='text-2xl lg:text-3xl 2xl:text-4xl font-semibold my-2 text-center'>{item.heading}</h2>
+                                <p className='text-lg lg:text-xl 2xl:text-2xl text-gray-300 text-center'>{item.desc}</p>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                <div className='py-5 xl:py-10'>
+                    <h1 className='text-4xl sm:text-5xl xl:text-6xl text-center mb-5 font-semibold text-white capitalize'>What we offer ?</h1>
+                    <p className='text-lg xl:text-xl 2xl:text-2xl text-center max-w-5xl mx-auto px-5 pb-10 text-gray-100'>An unparalleled experience to immerse and interact with other fans</p>
+
+                    <div className='p-5 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 place-items-center items-center justify-evenly md:max-w-4xl xl:max-w-7xl mx-auto flex-wrap gap-12 lg:gap-y-16'>
+                        {values?.map(item => <div key={item.id} className='blur-blue rounded-xl p-8 text-white max-w-xs flex flex-col items-center justify-center'>
+                            <img src={item.imgSrc} className='w-32 h-32 sm:w-36 sm:h-36 md:w-36 md:h-36 xl:w-28 xl:h-28 p-2' alt="" />
+                            <h1 className='text-3xl font-semibold mb-2 mt-4'>{item.heading}</h1>
+                            <p className='text-lg md:text-xl text-center text-gray-200'>{item.desc}</p>
+                        </div>)}
+                    </div>
+                </div>
+
                 <div className='p-5 xl:py-10'>
                     <h1 className='text-4xl sm:text-5xl xl:text-6xl text-white text-center mb-10 font-semibold '>Frequently Asked Questions</h1>
                     <div className=' mx-auto max-w-7xl py-2'>
@@ -192,8 +194,6 @@ export default function Home({ carouselList }) {
                         <button className="btn-blue mt-5 cursor-pointer px-6 py-3 text-xl font-semibold rounded-full mx-auto flex items-center min-w-max">View All <ArrowNarrowRightIcon className='h-7 ml-2 hover:scale-x-125 hover:transform origin-left transition-sm' /></button>
                     </Link>
                 </div>
-
-                <Blogs home />
 
                 <Head>
                     <title>The Neuron Club | Predict Future and Win Rewards</title>
