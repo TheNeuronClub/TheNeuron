@@ -46,7 +46,8 @@ function faq() {
         },
         {
             title: `How do i withdraw money?`,
-            content: `Simply fill the withdrawal request form with your details. Withdrawals are processed within 2 working days. 97% requests are fulfilled within 24 hours`,
+            content: `Our team is currently working on it, and you'll be able to begin withdrawing your coins soon!`,
+            // content: `Simply fill the withdrawal request form with your details. Withdrawals are processed within 2 working days. 97% requests are fulfilled within 24 hours`,
         },
 
     ];

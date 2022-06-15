@@ -41,6 +41,18 @@ const faq = [
     {
         title: `How is the winning payout decided?`,
         content: `The winner’s payout is proportional to the amount invested in the question. All the trades are combined to create a question prize pool. Once the question has been decided, the question pool is distributed amongst those with a correct prediction, in proportion to the amount invested`,
+    },
+    {
+        title: 'What do I get on signing up?',
+        content: 'When you join, you receive 200 neuron coins worth $2 as a welcome bonus. You can use these coins to start investing in the questions ar TheNeuron.club, without needing any credit card. You can check your coin balance on top of the page.'
+    },
+    {
+        title: 'How do I convert coins to money?',
+        content: 'We will soon begin supporting converting coins to money. Meanwhile, please continue to bet and earn more coins'
+    },
+    {
+        title: 'How can I add coins to my wallet?',
+        content: 'We will soon begin supporting addition of coins to the wallet. Currently, you can earn more coins by logging in daily, and doing additional transactions.'
     }
 ]
 

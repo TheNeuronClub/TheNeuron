@@ -87,7 +87,7 @@ function Navbar() {
                 <div className="flex items-center">
                     <ul className="flex hidden md:block space-x-5 pr-6 font-medium text-lg 2xl:text-xl">
                         <Link href="/question/">Explore</Link>
-                        <Link href="/contest">Oscars 2022</Link>
+                        {/* <Link href="/contest">Oscars 2022</Link> */}
                         <Link href="/how_it_works">How It Works</Link>
                         {session?.type === 'admin' && <Link href="/create_question">Create Question</Link>}
                         {/* {session && <Link href="/transfer">Add Coins</Link>} */}
