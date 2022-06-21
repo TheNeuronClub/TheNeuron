@@ -63,7 +63,6 @@ function Settlement({ isSettle, setIsSettle, que, setQue }) {
                         {que?.options?.map(item => 
                         <button onClick={() => setResult(`${item.name}`)} className={`px-4 py-2 leading-loose text-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${result == item.name && 'btn-blue text-white'} cursor-pointer`}>{item.name}</button>
                             )}
-                        {/* <button onClick={() => setResult('Against')} className={`px-4 py-2 leading-loose text-white hover:btn-blue hover:border-none shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px] mx-4 ${result == 'Against' && 'btn-blue text-white'} cursor-pointer`}>No</button> */}
                     </div>
                     <div className="flex items-center justify-around mt-10">
                         <button className="px-3 py-1 mt-2 mb-2 mx-auto leading-loose text-gray-50 border border-gray-50 hover:bg-gray-50 hover:text-gray-800 shadow text-lg rounded font-semibold active:scale-95 transition duration-150 ease-in-out focus:outline-none focus:border-none min-w-[100px]" onClick={() => setIsSettle(false)}>{'Cancel'}</button>
