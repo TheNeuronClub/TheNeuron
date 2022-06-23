@@ -46,8 +46,10 @@ function privacy_policy() {
                     This information may be stored by us in its internal systems such as Mailchimp and Google workspace and may be used by us to contact you, send you emails and provide you with information related to our services.
                 </p>
                 <p>
-
                     Each of our newsletter and emails will offer you the opportunity of opting out from receiving the newsletter or emails.
+                </p>
+                <p>
+                    You  have the right to ask us to delete your personal data. There may be exceptions to the right to erasure for specific legal reasons which, if applicable, we will set out for you in response to your request. In order to get your data deleted, you can reach out to us at <a className="text-yellow-300 hover:text-yellow-400">connect@theneuron.club</a>
                 </p>
 
                 <h1>

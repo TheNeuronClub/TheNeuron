@@ -44,7 +44,7 @@ const faq = [
     },
     {
         title: 'What do I get on signing up?',
-        content: 'When you join, you receive 200 neuron coins worth $2 as a welcome bonus. You can use these coins to start investing in the questions ar TheNeuron.club, without needing any credit card. You can check your coin balance on top of the page.'
+        content: 'When you join, you receive 1000 neuron coins worth £10 as a welcome bonus. You can use these coins to start investing in the questions ar TheNeuron.club, without needing any credit card. You can check your coin balance on top of the page.'
     },
     {
         title: 'How do I convert coins to money?',

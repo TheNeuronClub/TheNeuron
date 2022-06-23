@@ -23,7 +23,7 @@ const register = async (req, res) => {
                 if (userRegistered) {
                     if (referral_code) {
                         try {
-                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've won 50 neuron coins for refer user`, referred_user: userRegistered._id }, $inc: { balance: 50 } }, { new: true });
+                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've won 500 neuron coins for refer user`, referred_user: userRegistered._id }, $inc: { balance: 500 } }, { new: true });
                             if (refer) {
                                 const referredThrough = await User.findByIdAndUpdate({ _id: userRegistered._id }, { referred_through: `${referral_code}` }, { new: true });
                             }
@@ -72,7 +72,7 @@ const forgetPassword = async (req, res) => {
     const userFound = await User.findOne({ email: req.body })
     if (userFound) {
         const link = `${host}/account/reset_password?_id=${userFound._id}&code=${userFound.referral_code}`;
-        const data = { subject: `Reset Password request for TheNeuron.Club Account`, text: `Reset password`, email: userFound.email, html: `Click <a href="${link}" target="_blank">Here</a>  to reset password of your TheNeuron.Club account.` }
+        const data = { subject: `Reset Password request for TheNeuron.Club Account`, text: `Reset password`, email: userFound.email, html: `Click <a href="${link}" target="_blank">Here</a> to reset password of your TheNeuron.Club account.` }
         const result = await sendEMail(data);
         console.log(result)
         res.status(200).send({ msg: 'Reset password request' })
@@ -144,7 +144,7 @@ const login = async (req, res) => {
                     const userRegistered = await user.save();
                     if (userRegistered && referral_code) {
                         try {
-                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've earned 50 neuron coins for refer user`, referred_user: userRegistered._id }, $inc: { balance: 50 } }, { new: true });
+                            const refer = await User.findOneAndUpdate({ referral_code: referral_code }, { $push: { notification: `Congratulations, You've earned 500 neuron coins for refer user`, referred_user: userRegistered._id }, $inc: { balance: 500 } }, { new: true });
                             if (refer) {
                                 const referredThrough = await User.findByIdAndUpdate({ _id: userRegistered._id }, { referred_through: `${referral_code}` }, { new: true });
                             }

@@ -32,7 +32,7 @@ function how_it_works() {
             no: 1,
             img: "/images/works/c1.svg",
             heading: "Welcome Bonus",
-            desc: "When you join, get 200 Neuron Coins as a welcome bonus. You can check your coin balance on top of the Portfolio page"
+            desc: "When you join, get 1000 Neuron Coins as a welcome bonus. You can check your coin balance on top of the Portfolio page"
         },
         {
             no: 2,

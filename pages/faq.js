@@ -22,7 +22,11 @@ function faq() {
         },
         {
             title: `What is the signup offer?`,
-            content: `When you join, you receive 200 neuron coins as a welcome bonus. You can use these coins to start investing in the questions ar TheNeuron.club, without needing any credit card. You can check your coin balance on top of the page.`
+            content: `When you join, you receive 1000 neuron coins as a welcome bonus. You can use these coins to start investing in the questions ar TheNeuron.club, without needing any credit card. You can check your coin balance on top of the page.`
+        },
+        {
+            title: `What is the referral bonus offer?`,
+            content: `When you refer a friend, and your friend joins The Neuron Club, you receive 1000 neuron coins as a referral bonus. You can check your coin balance on top of the page.`
         },
         {
             title: `How to submit a question`,
@@ -34,7 +38,7 @@ function faq() {
         },
         {
             title: 'What is the Neuron Coin?',
-            content: `The Neuron Coin is our in-game currency, used for making transactions on the platform. Neuron Coin is pegged to US Dollar and 1 USD is equivalent to 100 Neuron Coins`
+            content: `The Neuron Coin is our in-game currency, used for making transactions on the platform. Neuron Coin is pegged to Pounds and 1 Pound is equivalent to 100 Neuron Coins`
         },
         {
             title: `How can I convert coins to money?`,
