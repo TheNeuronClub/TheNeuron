@@ -27,16 +27,16 @@ function Header({ carouselList }) {
                     exit="out"
                     variants={pageSlide}
                     transition={pageTransition} className="lg:w-1/2 xl:w-2/5 lg:pr-5 my-10 lg:my-0">
-                    <h1 className='text-[40px] font-bold leading-tight max-w-xl mx-auto lg:mx-0 lg:max-w-md sm:text-5xl md:text-6xl lg:text-7xl'>Predict future and win rewards!</h1>
-                    <p className="pt-6 pb-1 text-base sm:text-lg max-w-2xl lg:max-w-lg xl:max-w-xl md:text-xl">The Neuron Club (TNC) is an online gaming platform that allows users to predict global events across categories and win rewards.</p>
-                    {!session && <p className="pb-4 pt-1 text-base sm:text-lg max-w-2xl lg:max-w-lg xl:max-w-xl md:text-xl">Signup today to get free bonus worth £10!</p>}
+                    <h1 className='text-[40px] font-bold leading-tight max-w-xl mx-auto lg:mx-0 lg:max-w-lg sm:text-5xl md:text-6xl lg:text-[3.5rem]'>Bet on what happens in your favourite TV show!</h1>
+                    <p className="pt-6 pb-1 text-lg max-w-2xl lg:max-w-lg xl:max-w-xl md:text-xl">The Neuron Club is an online betting platform where you can place bets on events that may happen in your favourite TV shows.You take home winnings along with exciting other rewards.</p>
+                    {!session && <p className="pb-4 mt-6 font-semibold pt-1 text-2xl sm:text-2xl md:text-3xl max-w-2xl lg:max-w-lg lg:mt-8 xl:max-w-xl">Signup today and get free bonus worth £10!</p>}
                     {session ?
                         <Link href="/question/">
-                            <button className="btn-header mt-8 btn-blue">Play Now</button>
+                            <button className="btn-header mt-6 btn-blue">Play Now</button>
                         </Link>
                         :
                         <Link href="/account/register">
-                            <button className="btn-header mt-8 btn-blue">Sign Up</button>
+                            <button className="btn-header mt-6 btn-blue">Sign Up</button>
                         </Link>
                     }
                 </motion.div>
